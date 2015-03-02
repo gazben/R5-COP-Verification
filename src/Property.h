@@ -16,15 +16,15 @@ TODO:
 #define EVENT_C 0x4
 #define EVENT_D 0x8
 
-int stateRegister;
+unsigned long long int stateRegister;
 
 /* TEST FUNCTIONS */
-void addEvent(int event_code){
+void addEvent(unsigned long long int event_code){
   stateRegister = stateRegister | event_code;
 }
 
-void removeEvent(int event_code){
-  stateRegister = stateRegister & (INT_MAX ^ event_code);
+void removeEvent(unsigned long long int event_code){
+  stateRegister = stateRegister ^ event_code;
 }
 
 typedef enum OutputState{
