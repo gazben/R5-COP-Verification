@@ -1,31 +1,15 @@
-/*
-The property is made of contraints.
-*/
+#ifndef Property_h__
+#define Property_h__
 
-/*
-TODO:
-- build up a binary tree
--
-
-*/
 #include <limits.h>
 #include <stdlib.h>
+
+#include "StateRegister.h"
 
 #define EVENT_A 0x1
 #define EVENT_B 0x2
 #define EVENT_C 0x4
 #define EVENT_D 0x8
-
-unsigned long long int stateRegister;
-
-/* TEST FUNCTIONS */
-void addEvent(unsigned long long int event_code){
-  stateRegister = stateRegister | event_code;
-}
-
-void removeEvent(unsigned long long int event_code){
-  stateRegister = stateRegister ^ event_code;
-}
 
 typedef enum OutputState{
   TRUE, FALSE, UNKNOWN
@@ -70,7 +54,7 @@ typedef struct Property{
   evalFunctionType evalFunction;
 }Property;
 
-Property* createEmptyProperty(){
+Property* PROP_createEmptyProperty(){
   Property* newProperty = (Property*)malloc(sizeof(Property));
   newProperty->leftNode = NULL;
   newProperty->rightNode = NULL;
@@ -80,8 +64,8 @@ Property* createEmptyProperty(){
   return newProperty;
 }
 
-Property* addNewPropertyToRoot(int stateRegisterCopy, Property* rootproperty, evalFunctionType evalFunction){
-  Property* tempPropertyPtr = createEmptyProperty();
+Property* PROP_addNewPropertyToRoot(int stateRegisterCopy, Property* rootproperty, evalFunctionType evalFunction){
+  Property* tempPropertyPtr = PROP_createEmptyProperty();
   tempPropertyPtr->rootNode = rootproperty;
 
   tempPropertyPtr->stateRegisterCopy = stateRegisterCopy;
@@ -101,11 +85,12 @@ Property* addNewPropertyToRoot(int stateRegisterCopy, Property* rootproperty, ev
   return rootproperty;
 }
 
-void freePropertyTree(Property* root) {
+void PROP_freePropertyTree(Property* root) {
   if (root == NULL)
     return;
 
-  freePropertyTree(root->rightNode);
-  freePropertyTree(root->leftNode);
+  PROP_freePropertyTree(root->rightNode);
+  PROP_freePropertyTree(root->leftNode);
   free(root);
 }
+#endif // Property_h__
