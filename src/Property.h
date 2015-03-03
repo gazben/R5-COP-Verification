@@ -19,6 +19,9 @@ typedef enum OutputState{
 OutputState AND_3(OutputState a, OutputState b){
   return (a == FALSE | b == FALSE) ? FALSE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : TRUE;
 }
+OutputState NAND_3(OutputState a, OutputState b){
+  return (a == FALSE | b == FALSE) ? TRUE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : FALSE;
+}
 OutputState OR_3(OutputState a, OutputState b){
   return (a == TRUE | b == TRUE) ? TRUE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : FALSE;
 }
@@ -43,6 +46,17 @@ OutputState evalImpl_T(int stateRegisterCopy){
 }
 OutputState evalImpl_F(int stateRegisterCopy){
   return FALSE;
+}
+
+OutputState s0(int StateRegisterCopy, OutputState x1=UNKNOWN, OutputState x2=UNKNOWN){
+  return AND_3(NAND_3(getEvent(StateRegisterCopy,EVENT_A),
+    AND_3(NOT_3(getEvent(StateRegisterCopy,EVENT_B)),
+    NAND_3(getEvent(StateRegisterCopy,EVENT_C),x1))),NAND_3(TRUE,x2));
+}
+
+OutputState s1a(int StateRegisterCopy, OutputState x1=UNKNOWN, OutputState x2=UNKNOWN){
+  return NAND_3(NOT_3(getEvent(StateRegisterCopy,EVENT_B)),
+    NAND_3(getEvent(StateRegisterCopy,EVENT_C),x1));
 }
 
 typedef struct Property{

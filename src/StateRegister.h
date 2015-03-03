@@ -2,6 +2,7 @@
 #define StateRegister_h__
 
 #include <stdlib.h>
+#include "Property.h"
 
 unsigned long long int stateRegister;
 
@@ -12,6 +13,10 @@ void addEvent(unsigned long long int event_code){
 
 void removeEvent(unsigned long long int event_code){
   stateRegister = stateRegister ^ event_code;
+}
+
+OutputState getEvent(unsigned long long int StateRegisterCopy, unsigned long long int event_code){
+  return (stateRegisterCopy & event_code?TRUE:FALSE);
 }
 
 typedef struct StateRegisterState{
