@@ -14,11 +14,11 @@ int main(){
 
   /*TEST1*/
   Property* root = NULL;
-  root = addNewPropertyToRoot(stateRegister, root, evalImpl_U);
-  addNewPropertyToRoot(stateRegister, root, evalImpl_T);
-  addNewPropertyToRoot(stateRegister, root, evalImpl_F);
+  root = PROP_addNewPropertyToRoot(stateRegister, root, evalImpl_U);
+  PROP_addNewPropertyToRoot(stateRegister, root, evalImpl_T);
+  PROP_addNewPropertyToRoot(stateRegister, root, evalImpl_F);
 
-  freePropertyTree(root);
+  PROP_freePropertyTree(root);
 
   getchar();
   return 0;
