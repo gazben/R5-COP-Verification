@@ -15,8 +15,8 @@ void removeEvent(unsigned long long int event_code){
   stateRegister = stateRegister ^ event_code;
 }
 
-OutputState getEvent(unsigned long long int StateRegisterCopy, unsigned long long int event_code){
-  return (stateRegisterCopy & event_code?TRUE:FALSE);
+OutputState getEvent(unsigned long long int stateRegisterCopy, unsigned long long int event_code){
+  return (stateRegisterCopy & event_code) ? TRUE : FALSE;
 }
 
 typedef struct StateRegisterState{
@@ -36,10 +36,10 @@ StateRegisterState* SR_initStateRegisterState(unsigned long long int StateRegist
 
 StateRegisterState* SR_insertState(StateRegisterState* root, unsigned long long int StateRegisterCopy){
   if (root == NULL) {
-    StateRegisterState *uj = (StateRegisterState*)malloc(sizeof(StateRegisterState));
-    uj->leftNode = uj->rightNode = NULL;
-    uj->stateRegisterState = StateRegisterCopy;
-    return uj;
+    StateRegisterState *temp = (StateRegisterState*)malloc(sizeof(StateRegisterState));
+    temp->leftNode = temp->rightNode = NULL;
+    temp->stateRegisterState = StateRegisterCopy;
+    return temp;
   }
 
   if (StateRegisterCopy < root->stateRegisterState)

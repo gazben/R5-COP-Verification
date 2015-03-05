@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "Property.h"
+#include "StateRegister.h"
 
 int main(){
   stateRegister = 0;
