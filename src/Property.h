@@ -33,36 +33,48 @@ int isUnknown(OutputState a){
   return (a == UNKNOWN) ? 1 : 0;
 }
 
-typedef OutputState(*evalFunctionType)(unsigned long long int event_code);
+/* FUNCTION TYPE DEFINITIONS */
+typedef struct Property;
+typedef OutputState(*PROP_evalFunctionType)(unsigned long long int);
+typedef void(*PROP_constructDescendantNodeType)(Property*);
 
 /* TEST EVAL FUNCTIONS */
-OutputState evalImpl_U(unsigned long long int event_code){
+OutputState EVAL_Impl_U(unsigned long long int event_code){
   return UNKNOWN;
 }
-OutputState evalImpl_T(unsigned long long int event_code){
+OutputState EVAL_Impl_T(unsigned long long int event_code){
   return TRUE;
 }
-OutputState evalImpl_F(unsigned long long int event_code){
+OutputState EVAL_Impl_F(unsigned long long int event_code){
   return FALSE;
 }
 
-OutputState s0(int StateRegisterCopy, OutputState x1, OutputState x2){
+OutputState EVAL_s0(int StateRegisterCopy, OutputState x1, OutputState x2){
   return AND_3(NAND_3(getEvent(StateRegisterCopy, EVENT_A),
     AND_3(NOT_3(getEvent(StateRegisterCopy, EVENT_B)),
     NAND_3(getEvent(StateRegisterCopy, EVENT_C), x1))), NAND_3(TRUE, x2));
 }
 
-OutputState s1a(int StateRegisterCopy, OutputState x1, OutputState x2){
+OutputState EVAL_s1a(int StateRegisterCopy, OutputState x1, OutputState x2){
   return NAND_3(NOT_3(getEvent(StateRegisterCopy, EVENT_B)),
     NAND_3(getEvent(StateRegisterCopy, EVENT_C), x1));
 }
+
+/* CONSTRUCT FUNCTIONS */
+void PROP_constructDescImplicateBlock( Property* _this ){
+  _this->descendantNode = PROP_createEmptyProperty();
+  _this->descendantNode->evalFunction
+
+}
+
 
 typedef struct Property{
   struct Property* rootNode;
   struct Property* descendantNode;
 
-  unsigned long long int stateRegisterCopy;
-  evalFunctionType evalFunction;
+  StateRegisterState* stateRegisterPtr;
+  PROP_evalFunctionType evalFunction;
+  PROP_constructDescendantNodeType constructDescendantNode;
 }Property;
 
 Property* PROP_createEmptyProperty(){
@@ -70,15 +82,17 @@ Property* PROP_createEmptyProperty(){
   newProperty->descendantNode = NULL;
   newProperty->rootNode = NULL;
   newProperty->evalFunction = NULL;
+  newProperty->constructDescendantNode = NULL;
+  newProperty->stateRegisterPtr = NULL;
 
   return newProperty;
 }
 
-Property* PROP_addNewPropertyToRoot(unsigned long long int stateRegisterCopy, Property* rootproperty, evalFunctionType evalFunction){
+Property* PROP_addNewPropertyToRoot(unsigned long long int stateRegisterCopy, Property* rootproperty, PROP_evalFunctionType evalFunction){
   Property* tempPropertyPtr = PROP_createEmptyProperty();
   tempPropertyPtr->rootNode = rootproperty;
 
-  tempPropertyPtr->stateRegisterCopy = stateRegisterCopy;
+  tempPropertyPtr->stateRegisterPtr = stateRegisterCopy;
   tempPropertyPtr->evalFunction = evalFunction;
 
   if (rootproperty == NULL){
@@ -90,6 +104,18 @@ Property* PROP_addNewPropertyToRoot(unsigned long long int stateRegisterCopy, Pr
   }
 
   return rootproperty;
+}
+
+
+OutputState PROP_evaluateProperty(Property* root){
+  Property* temp;
+
+  for (temp = root;;temp = temp->descendantNode){
+    if (root->evalFunction(root->stateRegisterPtr->stateRegisterState) != UNKNOWN)
+      break;
+      //THIS IS NOT WORKING
+  }
+
 }
 
 void PROP_freePropertyTree(Property* root) {

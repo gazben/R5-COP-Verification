@@ -14,9 +14,9 @@ int main(){
 
   /*TEST1*/
   Property* root = NULL;
-  root = PROP_addNewPropertyToRoot(stateRegister, root, evalImpl_U);
-  PROP_addNewPropertyToRoot(stateRegister, root, evalImpl_T);
-  PROP_addNewPropertyToRoot(stateRegister, root, evalImpl_F);
+  root = PROP_addNewPropertyToRoot(stateRegister, root, EVAL_Impl_U);
+  PROP_addNewPropertyToRoot(stateRegister, root, EVAL_Impl_T);
+  PROP_addNewPropertyToRoot(stateRegister, root, EVAL_Impl_F);
 
   PROP_freePropertyTree(root);
 
