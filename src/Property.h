@@ -4,29 +4,78 @@
 #include <limits.h>
 #include <stdlib.h>
 
+#include <stdio.h>
+
 #define EVENT_A 0x1
 #define EVENT_B 0x2
 #define EVENT_C 0x4
 #define EVENT_D 0x8
 
 typedef enum OutputState{
-  TRUE, FALSE, UNKNOWN
+  TRUE, FALSE, UNKNOWN, DONTCARE
 }OutputState;
+
+char* OUTPUTSTATE_toString(OutputState state){
+  switch (state)
+  {
+  TRUE:
+    return "TRUE";
+  FALSE:
+    return "FALSE";
+  UNKNOWN:
+    return "UNKNOWN";
+  DONTCARE:
+    return "DONTCARE";
+  default:
+    return "ERROR Unknown state!";
+  }
+}
+
+typedef struct EvalResult{
+  OutputState leftResult;
+  OutputState rightResult;
+}EvalResult;
+
+void EVALRESULT_init(EvalResult* _this){
+  _this->leftResult = UNKNOWN;
+  _this->rightResult = UNKNOWN;
+}
 
 /* 3 state logic functions */
 OutputState AND_3(OutputState a, OutputState b){
+  if (a == DONTCARE || b == DONTCARE){
+    printf("ERROR unexpected DONTCARE state!");
+    return FALSE;
+  }
+
   return (a == FALSE | b == FALSE) ? FALSE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : TRUE;
 }
 OutputState NAND_3(OutputState a, OutputState b){
+  if (a == DONTCARE || b == DONTCARE){
+    printf("ERROR unexpected DONTCARE state!");
+    return FALSE;
+  }
   return (a == FALSE | b == FALSE) ? TRUE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : FALSE;
 }
 OutputState OR_3(OutputState a, OutputState b){
+  if (a == DONTCARE || b == DONTCARE){
+    printf("ERROR unexpected DONTCARE state!");
+    return FALSE;
+  }
   return (a == TRUE | b == TRUE) ? TRUE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : FALSE;
 }
 OutputState XOR_3(OutputState a, OutputState b){
+  if (a == DONTCARE || b == DONTCARE){
+    printf("ERROR unexpected DONTCARE state!");
+    return FALSE;
+  }
   return (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : (a == b) ? FALSE : TRUE;
 }
 OutputState NOT_3(OutputState a){
+  if (a == DONTCARE){
+    printf("ERROR unexpected DONTCARE state!");
+    return FALSE;
+  }
   return (a == UNKNOWN) ? UNKNOWN : (a == FALSE) ? TRUE : FALSE;
 }
 int isUnknown(OutputState a){
@@ -61,19 +110,22 @@ OutputState EVAL_s1a(int StateRegisterCopy, OutputState x1, OutputState x2){
 }
 
 /* CONSTRUCT FUNCTIONS */
-void PROP_constructDescImplicateBlock( Property* _this ){
+void PROP_constructDescImplicateBlock(Property* _this){
   _this->descendantNode = PROP_createEmptyProperty();
-  _this->descendantNode->evalFunction
-
+  //_this->descendantNode->evalFunction
 }
-
 
 typedef struct Property{
   struct Property* rootNode;
   struct Property* descendantNode;
 
   StateRegisterState* stateRegisterPtr;
-  PROP_evalFunctionType evalFunction;
+
+  PROP_evalFunctionType evalFunctionLeft;
+  PROP_evalFunctionType evalFunctionRight;
+
+  EvalResult evalResult;
+
   PROP_constructDescendantNodeType constructDescendantNode;
 }Property;
 
@@ -81,41 +133,78 @@ Property* PROP_createEmptyProperty(){
   Property* newProperty = (Property*)malloc(sizeof(Property));
   newProperty->descendantNode = NULL;
   newProperty->rootNode = NULL;
-  newProperty->evalFunction = NULL;
+  newProperty->evalFunctionLeft = NULL;
+  newProperty->evalFunctionRight = NULL;
   newProperty->constructDescendantNode = NULL;
   newProperty->stateRegisterPtr = NULL;
+  EVALRESULT_init(&newProperty->evalResult);
 
   return newProperty;
 }
 
-Property* PROP_addNewPropertyToRoot(unsigned long long int stateRegisterCopy, Property* rootproperty, PROP_evalFunctionType evalFunction){
-  Property* tempPropertyPtr = PROP_createEmptyProperty();
-  tempPropertyPtr->rootNode = rootproperty;
+void PROP_evaluateNode(Property* _this){
+  if (_this->evalResult.leftResult != DONTCARE)
+    _this->evalResult.leftResult = _this->evalFunctionLeft;
 
-  tempPropertyPtr->stateRegisterPtr = stateRegisterCopy;
-  tempPropertyPtr->evalFunction = evalFunction;
-
-  if (rootproperty == NULL){
-    rootproperty = tempPropertyPtr;
-    tempPropertyPtr->rootNode = NULL;
-  }
-  else if (rootproperty->descendantNode == NULL){
-    rootproperty->descendantNode = tempPropertyPtr;
-  }
-
-  return rootproperty;
+  if (_this->evalResult.rightResult != DONTCARE)
+    _this->evalResult.rightResult = _this->evalFunctionRight;
 }
 
+Property* PROP_addNewPropertyToRoot(unsigned long long int _stateRegisterCopy, Property* _rootproperty, PROP_evalFunctionType _evalFunctionLeft, PROP_evalFunctionType _evalFunctionRight){
+  Property* tempPropertyPtr = PROP_createEmptyProperty();
+  tempPropertyPtr->rootNode = _rootproperty;
 
-OutputState PROP_evaluateProperty(Property* root){
-  Property* temp;
+  tempPropertyPtr->stateRegisterPtr = _stateRegisterCopy;
 
-  for (temp = root;;temp = temp->descendantNode){
-    if (root->evalFunction(root->stateRegisterPtr->stateRegisterState) != UNKNOWN)
-      break;
-      //THIS IS NOT WORKING
+  tempPropertyPtr->evalFunctionLeft = _evalFunctionLeft;
+  tempPropertyPtr->evalFunctionRight = _evalFunctionRight;
+
+  if (_rootproperty == NULL){
+    _rootproperty = tempPropertyPtr;
+    tempPropertyPtr->rootNode = NULL;
+  }
+  else if (_rootproperty->descendantNode == NULL){
+    _rootproperty->descendantNode = tempPropertyPtr;
   }
 
+  return _rootproperty;
+}
+
+int PROP_evaluateProperty(Property* root){
+  Property* currentBlock = root;
+  OutputState result = UNKNOWN;
+
+  if (root == NULL){
+    return 0;
+  }
+
+  while (1){
+
+    //result is unknown we have to go deeper
+    if (result == UNKNOWN){
+      currentBlock->constructDescendantNode(currentBlock);
+
+      //DEBUG info
+      if (currentBlock->descendantNode == NULL){
+        printf("ERROR descendantNode is NULL!");
+        return UNKNOWN;
+      }
+
+      currentBlock = currentBlock->descendantNode;
+    }
+    //result is not unknown!
+    else{
+    }
+
+
+    result = AND_3(root->evalResult.leftResult, root->evalResult.rightResult);
+    if (result != UNKNOWN){
+      break;
+    }
+
+  }
+
+  return (result == TRUE) ? TRUE : FALSE;
 }
 
 void PROP_freePropertyTree(Property* root) {
