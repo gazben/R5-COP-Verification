@@ -6,10 +6,9 @@
 
 #include <stdio.h>
 
-#define EVENT_A 0x1
-#define EVENT_B 0x2
-#define EVENT_C 0x4
-#define EVENT_D 0x8
+#define EVENT_R 0x1
+#define EVENT_P 0x2
+#define EVENT_D 0x4
 
 typedef enum OutputState{
   TRUE, FALSE, UNKNOWN, DONTCARE
@@ -99,14 +98,17 @@ OutputState EVAL_Impl_F(unsigned long long int event_code){
 }
 
 OutputState EVAL_s0(int StateRegisterCopy, OutputState x1, OutputState x2){
-  return AND_3(NAND_3(getEvent(StateRegisterCopy, EVENT_A),
-    AND_3(NOT_3(getEvent(StateRegisterCopy, EVENT_B)),
-    NAND_3(getEvent(StateRegisterCopy, EVENT_C), x1))), NAND_3(TRUE, x2));
+  return AND_3(NAND_3(getEvent(StateRegisterCopy, EVENT_R),
+    AND_3(NOT_3(getEvent(StateRegisterCopy, EVENT_P)),
+    NAND_3(getEvent(StateRegisterCopy, EVENT_D), x1))), NAND_3(TRUE, x2));
 }
 
-OutputState EVAL_s1a(int StateRegisterCopy, OutputState x1, OutputState x2){
-  return NAND_3(NOT_3(getEvent(StateRegisterCopy, EVENT_B)),
-    NAND_3(getEvent(StateRegisterCopy, EVENT_C), x1));
+OutputState EVAL_s1_left(int StateRegisterCopy, OutputState x1, OutputState x2){
+  return NAND_3(NOT_3(getEvent(StateRegisterCopy, EVENT_P)),
+    NAND_3(getEvent(StateRegisterCopy, EVENT_D), x1));
+}
+
+OutputState EVAL_s1_right(int StateRegisterCopy, OutputState x1, OutputState x2){
 }
 
 /* CONSTRUCT FUNCTIONS */
@@ -179,29 +181,17 @@ int PROP_evaluateProperty(Property* root){
   }
 
   while (1){
-
-    //result is unknown we have to go deeper
-    if (result == UNKNOWN){
-      currentBlock->constructDescendantNode(currentBlock);
-
-      //DEBUG info
-      if (currentBlock->descendantNode == NULL){
-        printf("ERROR descendantNode is NULL!");
-        return UNKNOWN;
-      }
-
-      currentBlock = currentBlock->descendantNode;
-    }
-    //result is not unknown!
-    else{
-    }
-
+    /*
+          if (currentBlock->descendantNode == NULL){
+          printf("ERROR descendantNode is NULL!");
+          return UNKNOWN;
+          }
+          */
 
     result = AND_3(root->evalResult.leftResult, root->evalResult.rightResult);
     if (result != UNKNOWN){
       break;
     }
-
   }
 
   return (result == TRUE) ? TRUE : FALSE;
