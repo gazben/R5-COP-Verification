@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-#include "StateRegister.h"
+#include "EventHandler.h"
+#include "Events.h"
 
 int main(){
   stateRegister = 0;
@@ -13,13 +14,14 @@ int main(){
   printf("%d\n", stateRegister);  //2
 
   /*TEST1*/
+  /*
   Property* root = NULL;
   root = PROP_addNewPropertyToRoot(stateRegister, root, EVAL_Impl_U);
   PROP_addNewPropertyToRoot(stateRegister, root, EVAL_Impl_T);
   PROP_addNewPropertyToRoot(stateRegister, root, EVAL_Impl_F);
 
   PROP_freePropertyTree(root);
-
+  */
   getchar();
   return 0;
 }

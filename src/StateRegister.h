@@ -1,22 +1,16 @@
 #ifndef StateRegister_h__
 #define StateRegister_h__
 
+/* GLOBAL INCLUDES */
 #include <stdlib.h>
-#include "Property.h"
+
+/* LOCAL INCLUDES */
+
+/* INCLUDES END */
 
 unsigned long long int stateRegister;
-
-/* TEST FUNCTIONS */
-void addEvent(unsigned long long int event_code){
-  stateRegister = stateRegister | event_code;
-}
-
-void removeEvent(unsigned long long int event_code){
-  stateRegister = stateRegister ^ event_code;
-}
-
-OutputState getEvent(unsigned long long int stateRegisterCopy, unsigned long long int event_code){
-  return (stateRegisterCopy & event_code) ? TRUE : FALSE;
+unsigned long long int SR_getStateRegister(){
+  return stateRegister;
 }
 
 typedef struct StateRegisterState{
@@ -24,6 +18,7 @@ typedef struct StateRegisterState{
   struct StateRegisterState* rightNode;
   struct StateRegisterState* leftNode;
 }StateRegisterState;
+StateRegisterState* SR_rootPtr;
 
 StateRegisterState* SR_initStateRegisterState(unsigned long long int StateRegisterCopy){
   StateRegisterState* temp = (StateRegisterState*)malloc(sizeof(StateRegisterState));
@@ -53,8 +48,8 @@ StateRegisterState* SR_insertState(StateRegisterState* root, unsigned long long 
 }
 
 /*If the state is not found it will be inserted to the tree. The new node pointer will be returned.*/
-StateRegisterState* SR_getStatePointer(StateRegisterState* root, unsigned long long int StateRegisterCopy){
-  StateRegisterState* temp = root;
+StateRegisterState* SR_getStatePointer(unsigned long long int StateRegisterCopy){
+  StateRegisterState* temp = SR_rootPtr;
 
   while (temp != NULL && temp->stateRegisterState != StateRegisterCopy) {
     if (StateRegisterCopy < temp->stateRegisterState){
