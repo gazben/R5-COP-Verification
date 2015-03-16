@@ -18,7 +18,18 @@ typedef struct Property{
   struct Property* descendantNode;
 
   StateRegisterState* stateRegisterPtr;
-  PROP_evalFunctionType evalFunction;
+
+  unsigned int inputSize;
+  OutputState* inputStates;
+  
+  PROP_evalFunctionType* evalFunctions;
+  
+  unsigned int outputSize;
+  OutputState* outputStates;
+
   PROP_constructDescendantNodeType constructDescendantNode;
+
 }Property;
+
+
 #endif // Property_h__

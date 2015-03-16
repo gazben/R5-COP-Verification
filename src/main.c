@@ -6,11 +6,11 @@
 int main(){
   stateRegister = 0;
 
-  addEvent(EVENT_R);
+  addEvent(EVENT_A);
   printf("%d\n", stateRegister);  //1
-  addEvent(EVENT_P);
+  addEvent(EVENT_B);
   printf("%d\n", stateRegister);  //3
-  removeEvent(EVENT_R);
+  removeEvent(EVENT_C);
   printf("%d\n", stateRegister);  //2
 
   /*TEST1*/
