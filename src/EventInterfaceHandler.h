@@ -10,7 +10,6 @@ If an event happens in the system, it will trigger a function here.
 
 /* LOCAL INCLUDES */
 #include "EventHandler.h"
-#include "Events.h"
 /* INCLUDES END */
 
 #endif // EventInterfaceHandler_h__

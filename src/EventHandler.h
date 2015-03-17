@@ -6,20 +6,16 @@
 /* LOCAL INCLUDES */
 #include "StateRegister.h"
 #include "OutputState.h"
+#include "Events.h"
 
 /* INCLUDES END */
 
 /* TEST FUNCTIONS */
-void addEvent(unsigned long long int event_code){
+void addEvent(SR_regtype event_code){
   stateRegister = stateRegister | event_code;
 }
 
-void removeEvent(unsigned long long int event_code){
+void removeEvent(SR_regtype event_code){
   stateRegister = stateRegister ^ event_code;
 }
-
-OutputState getEvent(unsigned long long int stateRegisterCopy, unsigned long long int event_code){
-  return (stateRegisterCopy & event_code) ? TRUE : FALSE;
-}
-
 #endif // EventHandler_h__

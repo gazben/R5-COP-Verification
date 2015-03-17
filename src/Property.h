@@ -10,8 +10,8 @@
 
 /* FUNCTION TYPE DEFINITIONS */
 typedef struct Property;
-typedef OutputState(*PROP_evalFunctionType)(unsigned long long int);
-typedef void(*PROP_constructDescendantNodeType)(struct Property*);
+typedef OutputState(*PROP_evalFunctionType)(struct Property*);
+typedef struct Property*(*PROP_constructDescendantNodeType)(struct Property*);
 
 typedef struct Property{
   struct Property* rootNode;
@@ -21,15 +21,13 @@ typedef struct Property{
 
   unsigned int inputSize;
   OutputState* inputStates;
-  
+
   PROP_evalFunctionType* evalFunctions;
-  
+
   unsigned int outputSize;
   OutputState* outputStates;
 
   PROP_constructDescendantNodeType constructDescendantNode;
-
 }Property;
-
 
 #endif // Property_h__

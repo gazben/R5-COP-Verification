@@ -8,19 +8,20 @@
 
 /* INCLUDES END */
 
-unsigned long long int stateRegister;
-unsigned long long int SR_getStateRegister(){
+typedef unsigned long long int SR_regtype;
+SR_regtype stateRegister;
+SR_regtype SR_getStateRegister(){
   return stateRegister;
 }
 
 typedef struct StateRegisterState{
-  unsigned long long int stateRegisterState;
+  SR_regtype stateRegisterState;
   struct StateRegisterState* rightNode;
   struct StateRegisterState* leftNode;
 }StateRegisterState;
 StateRegisterState* SR_rootPtr;
 
-StateRegisterState* SR_initStateRegisterState(unsigned long long int StateRegisterCopy){
+StateRegisterState* SR_initStateRegisterState(SR_regtype StateRegisterCopy){
   StateRegisterState* temp = (StateRegisterState*)malloc(sizeof(StateRegisterState));
   temp->leftNode = NULL;
   temp->rightNode = NULL;
@@ -29,7 +30,7 @@ StateRegisterState* SR_initStateRegisterState(unsigned long long int StateRegist
   return temp;
 }
 
-StateRegisterState* SR_insertState(StateRegisterState* root, unsigned long long int StateRegisterCopy){
+StateRegisterState* SR_insertState(StateRegisterState* root, SR_regtype StateRegisterCopy){
   if (root == NULL) {
     StateRegisterState *temp = (StateRegisterState*)malloc(sizeof(StateRegisterState));
     temp->leftNode = temp->rightNode = NULL;
@@ -48,7 +49,7 @@ StateRegisterState* SR_insertState(StateRegisterState* root, unsigned long long 
 }
 
 /*If the state is not found it will be inserted to the tree. The new node pointer will be returned.*/
-StateRegisterState* SR_getStatePointer(unsigned long long int StateRegisterCopy){
+StateRegisterState* SR_getStatePointer(SR_regtype StateRegisterCopy){
   StateRegisterState* temp = SR_rootPtr;
 
   while (temp != NULL && temp->stateRegisterState != StateRegisterCopy) {
