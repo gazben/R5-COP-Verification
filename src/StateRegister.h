@@ -50,19 +50,25 @@ StateRegisterState* SR_insertState(StateRegisterState* root, SR_regtype StateReg
 
 /*If the state is not found it will be inserted to the tree. The new node pointer will be returned.*/
 StateRegisterState* SR_getStatePointer(SR_regtype StateRegisterCopy){
+  
+  if (SR_rootPtr == NULL){
+    SR_rootPtr = SR_initStateRegisterState(SR_getStateRegister());
+    return SR_rootPtr;
+  }
+
   StateRegisterState* temp = SR_rootPtr;
 
-  while (temp != NULL && temp->stateRegisterState != StateRegisterCopy) {
+  while (temp != NULL && temp->stateRegisterState != SR_getStateRegister()) {
     if (StateRegisterCopy < temp->stateRegisterState){
       if (temp->leftNode == NULL){
-        temp->leftNode = SR_initStateRegisterState(StateRegisterCopy);
+        temp->leftNode = SR_initStateRegisterState(SR_getStateRegister());
         return temp->leftNode;
       }
       temp = temp->leftNode;
     }
     else{
       if (temp->rightNode == NULL){
-        temp->rightNode = SR_initStateRegisterState(StateRegisterCopy);
+        temp->rightNode = SR_initStateRegisterState(SR_getStateRegister());
         return temp->rightNode;
       }
       temp = temp->rightNode;

@@ -11,11 +11,15 @@
 /* INCLUDES END */
 
 /* TEST FUNCTIONS */
-void addEvent(SR_regtype event_code){
+void EVENT_addEvent(SR_regtype event_code){
   stateRegister = stateRegister | event_code;
 }
 
-void removeEvent(SR_regtype event_code){
+void EVENT_removeEvent(SR_regtype event_code){
   stateRegister = stateRegister ^ event_code;
+}
+
+void EVENT_clearEvents(){
+  stateRegister = 0;
 }
 #endif // EventHandler_h__

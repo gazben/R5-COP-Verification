@@ -10,7 +10,11 @@
 
 /* INCLUDES END */
 
-OutputState getEvent(Property* _this, SR_regtype event){
+Property* PROP_constructS0(Property* _rootNode);
+Property* PROP_constructS1(Property* _rootNode);
+
+
+OutputState EVENT_getEvent(Property* _this, SR_regtype event){
   return (_this->stateRegisterPtr->stateRegisterState & event) ? FALSE : TRUE;
 }
 
@@ -19,11 +23,11 @@ OutputState EVAL_s0( Property* _this){
   return 
     AND_3( 
       NAND_3( 
-        getEvent(_this, EVENT_R),
+        EVENT_getEvent(_this, EVENT_R),
         AND_3(  
-          NOT_3(getEvent(_this, EVENT_D)),
+          NOT_3(EVENT_getEvent(_this, EVENT_D)),
           NAND_3(
-            getEvent(_this, EVENT_P),
+            EVENT_getEvent(_this, EVENT_P),
             _this->inputStates[0])
         )
       ), 
@@ -31,14 +35,14 @@ OutputState EVAL_s0( Property* _this){
     );
 }
 
-OutputState EVAL_s1a(Property* _this, SR_regtype event){
+OutputState EVAL_s1a(Property* _this){
   return 
     NAND_3(
-      NOT_3(getEvent(_this, EVENT_D)),
-      NAND_3(getEvent(_this, EVENT_P), _this->inputStates[1])
+      NOT_3(EVENT_getEvent(_this, EVENT_D)),
+      NAND_3(EVENT_getEvent(_this, EVENT_P), _this->inputStates[1])
     );
 }
-Property* PROP_createEmptyProperty(){
+Property* PROP_createEmptyPropertyNode(){
   Property* newProperty = (Property*)malloc(sizeof(Property));
 
   newProperty->descendantNode = NULL;
@@ -74,25 +78,39 @@ Property* PROP_initProperty(Property* _this, unsigned int _inputSize, unsigned i
 }
 
 /* CONSTRUCT FUNCTIONS */
-Property* PROP_constructS0(Property* _this){
-  _this->descendantNode = PROP_createEmptyProperty();
-  _this->descendantNode = PROP_initProperty(_this, 2, 1);
-  _this->descendantNode->rootNode = _this;
+Property* PROP_constructS0(Property* _rootNode){
+  Property* newProppertyNode;
 
-  _this->descendantNode->evalFunctions[0] = EVAL_s0;
+  newProppertyNode = PROP_createEmptyPropertyNode();
+  newProppertyNode = PROP_initProperty(newProppertyNode, 2, 1);
+  
+  if (_rootNode != NULL){
+    newProppertyNode->rootNode = _rootNode;
+    _rootNode->descendantNode = newProppertyNode;
+  }
+  
+  newProppertyNode->evalFunctions[0] = EVAL_s0;
+  newProppertyNode->constructDescendantNode = PROP_constructS1;
 
-  return _this;
+  return newProppertyNode;
 }
 
-Property* PROP_constructS1(Property* _this){
-  _this->descendantNode = PROP_createEmptyProperty();
-  _this->descendantNode = PROP_initProperty(_this, 2, 2);
-  _this->descendantNode->rootNode = _this;
+Property* PROP_constructS1(Property* _rootNode){
+  Property* newProppertyNode;
 
-  _this->descendantNode->evalFunctions[0] = EVAL_s1a;
-  _this->descendantNode->evalFunctions[1] = EVAL_s0;
+  newProppertyNode = PROP_createEmptyPropertyNode();
+  newProppertyNode = PROP_initProperty(newProppertyNode, 2, 2);
+  
+  if (_rootNode != NULL){
+    newProppertyNode->rootNode = _rootNode;
+    _rootNode->descendantNode = newProppertyNode;
+  }
 
-  return _this;
+  newProppertyNode->evalFunctions[0] = EVAL_s1a;
+  newProppertyNode->evalFunctions[1] = EVAL_s0;
+  newProppertyNode->constructDescendantNode = PROP_constructS1;
+
+  return newProppertyNode;
 }
 
 //Frees the dinamically allocated memora of a node. This will set the parent node
@@ -121,23 +139,6 @@ void PROP_freePropertyStack(Property* root) {
   PROP_freePropertyNode(root);
 }
 
-Property* PROP_addNewPropertyToRoot(SR_regtype stateRegisterCopy, Property* rootproperty, PROP_evalFunctionType evalFunction){
-  Property* tempPropertyPtr = PROP_createEmptyProperty();
-  tempPropertyPtr->rootNode = rootproperty;
-
-  tempPropertyPtr->stateRegisterPtr = SR_getStatePointer(SR_getStateRegister());
-
-  if (rootproperty == NULL){
-    rootproperty = tempPropertyPtr;
-    tempPropertyPtr->rootNode = NULL;
-  }
-  else if (rootproperty->descendantNode == NULL){
-    rootproperty->descendantNode = tempPropertyPtr;
-  }
-
-  return rootproperty;
-}
-
 OutputState PROP_evaluateProperty(Property* root){
   Property* currentNode = root;
   OutputState result = UNKNOWN;
@@ -148,7 +149,7 @@ OutputState PROP_evaluateProperty(Property* root){
     isChanged = 0;
 
     for (int i = 0; i < currentNode->outputSize; i++){
-      OutputState tempOutputResult = currentNode->evalFunctions[i](currentNode->stateRegisterPtr->stateRegisterState);
+      OutputState tempOutputResult = currentNode->evalFunctions[i](currentNode);
       if (tempOutputResult != currentNode->outputStates[i]){
         isChanged = 1;
         currentNode->outputStates[i] = tempOutputResult;

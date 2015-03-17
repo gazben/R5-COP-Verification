@@ -24,4 +24,14 @@ OutputState NOT_3(OutputState a){
 int isUnknown(OutputState a){
   return (a == UNKNOWN) ? 1 : 0;
 }
+
+char* OS_tostring( OutputState state ){
+  if (state == TRUE)
+    return "TRUE";
+  else if (state == FALSE)
+    return "FALSE";
+  else
+    return "UNKNOWN";
+
+}
 #endif // OutputState_h__

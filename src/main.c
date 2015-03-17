@@ -3,17 +3,18 @@
 #include "PropertyHandler.h"
 
 int main(){
-  stateRegister = 0;
-
-  addEvent(EVENT_R);
-  printf("%d\n", stateRegister);  //1
-  addEvent(EVENT_D);
-  printf("%d\n", stateRegister);  //3
-  removeEvent(EVENT_P);
-  printf("%d\n", stateRegister);  //2
-
-  /*TEST1*/
+  /* INIT */
   Property* root = NULL;
+  root = PROP_constructS0(root);
+  EVENT_clearEvents();
+  
+
+  EVENT_addEvent(EVENT_R);
+  EVENT_addEvent(EVENT_P);
+  printf( "%s\n",  OS_tostring(PROP_evaluateProperty(root)));
+
+  EVENT_addEvent(EVENT_R);
+  root->descendantNode = root->constructDescendantNode(root);
   //root = PROP_addNewPropertyToRoot(stateRegister, root);
 
 
