@@ -23,11 +23,11 @@ OutputState EVAL_s0( Property* _this){
   return 
     AND_3( 
       NAND_3( 
-        EVENT_getEvent(_this, EVENT_R),
+        EVENT_getEvent(_this, EVENT_A),
         AND_3(  
-          NOT_3(EVENT_getEvent(_this, EVENT_D)),
+          NOT_3(EVENT_getEvent(_this, EVENT_B)),
           NAND_3(
-            EVENT_getEvent(_this, EVENT_P),
+            EVENT_getEvent(_this, EVENT_C),
             _this->inputStates[0])
         )
       ), 
@@ -38,8 +38,8 @@ OutputState EVAL_s0( Property* _this){
 OutputState EVAL_s1a(Property* _this){
   return 
     NAND_3(
-      NOT_3(EVENT_getEvent(_this, EVENT_D)),
-      NAND_3(EVENT_getEvent(_this, EVENT_P), _this->inputStates[1])
+      NOT_3(EVENT_getEvent(_this, EVENT_B)),
+      NAND_3(EVENT_getEvent(_this, EVENT_C), _this->inputStates[1])
     );
 }
 Property* PROP_createEmptyPropertyNode(){
@@ -140,12 +140,16 @@ void PROP_freePropertyStack(Property* root) {
 }
 
 OutputState PROP_evaluateProperty(Property* root){
+  
+  //TEST
+  EVENT_initStateReader("test1.txt");
+
   Property* currentNode = root;
   OutputState result = UNKNOWN;
 
   short isChanged = 0;
 
-  //while (result == UNKNOWN){
+  while (result == UNKNOWN){
     isChanged = 0;
 
     for (int i = 0; i < currentNode->outputSize; i++){
@@ -165,8 +169,8 @@ OutputState PROP_evaluateProperty(Property* root){
 
 
         //give the output to the input
-        if (currentNode->inputSize != currentNode->outputSize){
-          printf("Not eqvivalent input/output count! Input: %d Output: %d", currentNode->inputSize, currentNode->outputSize);
+        if (currentNode->inputSize != currentNode->descendantNode->outputSize){
+          printf("Not eqvivalent input/output count! Input: %d Output: %d\n", currentNode->inputSize, currentNode->outputSize);
         }
 
         //COPY right now, optimise later!
@@ -188,8 +192,12 @@ OutputState PROP_evaluateProperty(Property* root){
       currentNode->constructDescendantNode(currentNode);
       currentNode = currentNode->descendantNode;
     }
-  //}
 
+    EVENT_readNextState();
+  }
+
+  EVENT_deinitStatereader();
+  
   return result;
 }
 #endif // PropertyHandler_h__

@@ -14,6 +14,10 @@ SR_regtype SR_getStateRegister(){
   return stateRegister;
 }
 
+void SR_setStateRegister(SR_regtype StateRegisterCopy){
+  stateRegister = StateRegisterCopy;
+}
+
 typedef struct StateRegisterState{
   SR_regtype stateRegisterState;
   struct StateRegisterState* rightNode;
