@@ -1,5 +1,3 @@
-a
-b
+ac
 c
-d
-abc
+b

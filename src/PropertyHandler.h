@@ -151,6 +151,7 @@ OutputState PROP_evaluateProperty(Property* root){
 
   while (result == UNKNOWN){
     isChanged = 0;
+    EVENT_readNextState();
 
     for (int i = 0; i < currentNode->outputSize; i++){
       OutputState tempOutputResult = currentNode->evalFunctions[i](currentNode);
@@ -192,8 +193,6 @@ OutputState PROP_evaluateProperty(Property* root){
       currentNode->constructDescendantNode(currentNode);
       currentNode = currentNode->descendantNode;
     }
-
-    EVENT_readNextState();
   }
 
   EVENT_deinitStatereader();

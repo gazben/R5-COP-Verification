@@ -1,23 +1,21 @@
+/* GLOBAL INCLUDES */
 #include <stdio.h>
 
+/* LOCAL INCLUDES */
 #include "PropertyHandler.h"
+/* INCLUDES END */
 
 int main(){
-  /* INIT */
+  
   Property* root = NULL;
+  OutputState result;
   root = PROP_constructS0(root);
   EVENT_clearEvents();
   
-  PROP_evaluateProperty(root);
-  /*
-  printf( "%s\n",  OS_tostring(PROP_evaluateProperty(root)));
 
-  EVENT_addEvent(EVENT_A);
-  */
-  //root->descendantNode = root->constructDescendantNode(root);
-  //root = PROP_addNewPropertyToRoot(stateRegister, root);
-
-
+  result = PROP_evaluateProperty(root);
+  printf("The result of the rule checking: %s\n", OS_tostring(result));
+  
   getchar();
   return 0;
 }
