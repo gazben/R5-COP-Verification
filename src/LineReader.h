@@ -59,7 +59,7 @@ char *LR_nextLine(struct LineReader *lr, size_t *len)
       /* Append c to the buffer. */
       if (*len == lr->siz) {
         /* Need a bigger buffer! */
-        newsiz = lr->siz + 4096;
+        newsiz = lr->siz + 16;
         newbuf = (char*)realloc(lr->buf, newsiz);
         if (newbuf == NULL)
           return NULL;
