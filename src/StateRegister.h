@@ -5,34 +5,46 @@
 #include <stdlib.h>
 
 /* LOCAL INCLUDES */
-
+#include "Events.h"
 /* INCLUDES END */
 
-typedef unsigned long long int SR_regtype;
-SR_regtype stateRegister;
-SR_regtype SR_getStateRegister(){
-  return stateRegister;
-}
-
-void SR_setStateRegister(SR_regtype StateRegisterCopy){
-  stateRegister = StateRegisterCopy;
-}
-
-typedef struct StateRegisterState{
+class StateRegisterState{
+private:
+  //Global stateRegister
+  static SR_regtype stateRegister;
   SR_regtype stateRegisterState;
-  struct StateRegisterState* rightNode;
-  struct StateRegisterState* leftNode;
-}StateRegisterState;
-StateRegisterState* SR_rootPtr;
 
-StateRegisterState* SR_initStateRegisterState(SR_regtype StateRegisterCopy){
-  StateRegisterState* temp = (StateRegisterState*)malloc(sizeof(StateRegisterState));
-  temp->leftNode = NULL;
-  temp->rightNode = NULL;
-  temp->stateRegisterState = StateRegisterCopy;
+  StateRegisterState* rightNode;
+  StateRegisterState* leftNode;
 
-  return temp;
-}
+  StateRegisterState& insertState(StateRegisterState& ){
+    if (root == NULL) {
+      StateRegisterState *temp = (StateRegisterState*)malloc(sizeof(StateRegisterState));
+      temp->leftNode = temp->rightNode = NULL;
+      temp->stateRegisterState = StateRegisterCopy;
+      return temp;
+    }
+
+    if (StateRegisterCopy < root->stateRegisterState)
+      root->leftNode = SR_insertState(root->leftNode, StateRegisterCopy);
+    else if (StateRegisterCopy > root->stateRegisterState)
+      root->rightNode = SR_insertState(root->rightNode, StateRegisterCopy);
+    else
+      ;
+
+  }
+public:
+
+  StateRegisterState(){
+    leftNode = nullptr;
+    rightNode = nullptr;
+    stateRegisterState = stateRegister;
+  }
+
+
+  friend class Eventhandler;
+};
+
 
 StateRegisterState* SR_insertState(StateRegisterState* root, SR_regtype StateRegisterCopy){
   if (root == NULL) {
@@ -54,24 +66,23 @@ StateRegisterState* SR_insertState(StateRegisterState* root, SR_regtype StateReg
 
 /*If the state is not found it will be inserted to the tree. The new node pointer will be returned.*/
 StateRegisterState* SR_getStatePointer(SR_regtype StateRegisterCopy){
-  
-  if (SR_rootPtr == NULL){
+  if (SR_rootPtr == nullptr){
     SR_rootPtr = SR_initStateRegisterState(SR_getStateRegister());
     return SR_rootPtr;
   }
 
   StateRegisterState* temp = SR_rootPtr;
 
-  while (temp != NULL && temp->stateRegisterState != SR_getStateRegister()) {
+  while (temp != nullptr && temp->stateRegisterState != SR_getStateRegister()) {
     if (StateRegisterCopy < temp->stateRegisterState){
-      if (temp->leftNode == NULL){
+      if (temp->leftNode == nullptr){
         temp->leftNode = SR_initStateRegisterState(SR_getStateRegister());
         return temp->leftNode;
       }
       temp = temp->leftNode;
     }
     else{
-      if (temp->rightNode == NULL){
+      if (temp->rightNode == nullptr){
         temp->rightNode = SR_initStateRegisterState(SR_getStateRegister());
         return temp->rightNode;
       }

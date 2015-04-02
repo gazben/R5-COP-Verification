@@ -1,37 +1,91 @@
 #ifndef OutputState_h__
 #define OutputState_h__
 
+#include <string>
+
 typedef enum OutputState{
   TRUE, FALSE, UNKNOWN
 }OutputState;
 
+class trilean{
+protected:
+  OutputState state;
+public: 
+
+  trilean(OutputState _state = UNKNOWN) :state(_state){
+  }
+
+  static bool isUnknown(OutputState a){
+    return (a == UNKNOWN) ? true : false;
+  }
+
+  static std::string tostring(const trilean& obj){
+    if (obj.state == TRUE)
+      return "TRUE";
+    else if (obj.state == FALSE)
+      return "FALSE";
+    else
+      return "UNKNOWN";
+  }
+
+  operator OutputState() const {
+    return this->state;
+  }
+
+  trilean operator&(const trilean& rhs){
+    return trilean((
+      this->state == FALSE | rhs.state == FALSE) ? FALSE : (this->state == UNKNOWN | rhs.state == UNKNOWN) ? UNKNOWN : TRUE);
+  }
+
+  trilean operator&&(const trilean& rhs){
+    return *this & rhs;
+  }
+
+  trilean& operator=(const trilean& rhs){
+    this->state = rhs.state;
+    return *this;
+  }
+
+  bool operator==(const trilean& rhs){ 
+    return (this->state == rhs.state) ? true : false;
+  }
+
+  trilean operator|(const trilean& rhs){
+    return trilean((
+      this->state == TRUE | rhs.state == TRUE) ? TRUE : (this->state == UNKNOWN | rhs.state == UNKNOWN) ? UNKNOWN : FALSE);
+  }
+
+  trilean operator^(const trilean& rhs){
+    return trilean((
+      this->state == FALSE | rhs.state == FALSE) ? TRUE : (this->state == UNKNOWN | rhs.state == UNKNOWN) ? UNKNOWN : FALSE);
+  }
+
+  trilean operator!(){
+    return trilean(
+      (this->state == UNKNOWN) ? UNKNOWN : (this->state == FALSE) ? TRUE : FALSE);
+  }
+};
+
+std::iostream& operator<<(std::iostream& os, const trilean& obj){
+  os << trilean::tostring(obj);
+  return os;
+}
+
 /* 3 state logic functions */
-OutputState AND_3(OutputState a, OutputState b){
-  return (a == FALSE | b == FALSE) ? FALSE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : TRUE;
+trilean AND_3(trilean a, trilean b){
+  return a & b;
 }
-OutputState NAND_3(OutputState a, OutputState b){
-  return (a == FALSE | b == FALSE) ? TRUE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : FALSE;
+trilean NAND_3(trilean a, trilean b){
+  return !(a&b);
 }
-OutputState OR_3(OutputState a, OutputState b){
-  return (a == TRUE | b == TRUE) ? TRUE : (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : FALSE;
+trilean OR_3(trilean a, trilean b){
+  return a|b;
 }
-OutputState XOR_3(OutputState a, OutputState b){
-  return (a == UNKNOWN | b == UNKNOWN) ? UNKNOWN : (a == b) ? FALSE : TRUE;
+trilean XOR_3(trilean a, trilean b){
+  return a^b;
 }
-OutputState NOT_3(OutputState a){
-  return (a == UNKNOWN) ? UNKNOWN : (a == FALSE) ? TRUE : FALSE;
-}
-int isUnknown(OutputState a){
-  return (a == UNKNOWN) ? 1 : 0;
+trilean NOT_3(trilean a){
+  return !a;
 }
 
-char* OS_tostring( OutputState state ){
-  if (state == TRUE)
-    return "TRUE";
-  else if (state == FALSE)
-    return "FALSE";
-  else
-    return "UNKNOWN";
-
-}
 #endif // OutputState_h__
