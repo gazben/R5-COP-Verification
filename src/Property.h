@@ -31,7 +31,7 @@ public:
     rootNode(nullptr),
     stateRegisterPtr(nullptr)
   {
-    evalFunctions.resize(_outputSize);
+    outputStates.resize(_outputSize);
     inputStates.resize(_inputSize);
 
     stateRegisterPtr = StateRegisterState::getStatePointer();
@@ -80,12 +80,14 @@ public:
   void ChildrenNode(Property* val) { childrenNode = val; }
 
   trilean isEventFired(SR_regtype eventCode){
-    return (stateRegisterPtr->StateRegisterValue() & eventCode) ? FALSE : TRUE;
+    return (stateRegisterPtr->stateRegister & eventCode) ? FALSE : TRUE;
   }
 
   static trilean Evaluate(Property* root){
     Property* currentNode = root;
     trilean result = UNKNOWN;
+
+    EventInterfaceHandler::getinstance()->getNextEvent();
 
     bool isChanged = 0;
 
@@ -163,10 +165,10 @@ trilean EVAL_s1a(Property* _prop){
 
 //////////////////////////////////////////////////////////////////////////
 
-Property* PROP_constructS0(Property* _rootNode);
-Property* PROP_constructS1(Property* _rootNode);
+Property* constructS0(Property* _rootNode);
+Property* constructS1(Property* _rootNode);
 
-Property* PROP_constructS0(Property* _rootNode){
+Property* constructS0(Property* _rootNode){
   Property* newProppertyNode = new Property( 2, 1 );
 
   if (_rootNode != nullptr){
@@ -175,12 +177,12 @@ Property* PROP_constructS0(Property* _rootNode){
   }
 
   newProppertyNode->evalFunctions[0] = EVAL_s0;
-  newProppertyNode->constructChildrenNode = PROP_constructS1;
+  newProppertyNode->constructChildrenNode = constructS1;
 
   return newProppertyNode;
 }
 
-Property* PROP_constructS1(Property* _rootNode){
+Property* constructS1(Property* _rootNode){
   Property* newProppertyNode = new Property(2, 2);
 
   if (_rootNode != nullptr){
@@ -190,7 +192,7 @@ Property* PROP_constructS1(Property* _rootNode){
 
   newProppertyNode->evalFunctions[0] = EVAL_s1a;
   newProppertyNode->evalFunctions[1] = EVAL_s0;
-  newProppertyNode->constructChildrenNode = PROP_constructS1;
+  newProppertyNode->constructChildrenNode = constructS1;
 
   return newProppertyNode;
 }

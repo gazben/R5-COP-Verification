@@ -10,8 +10,7 @@
 
 class StateRegisterState{
 private:
-  //Global stateRegister
-  static SR_regtype stateRegister;
+
   static StateRegisterState* rootState;
 
   SR_regtype stateRegisterValue;
@@ -22,12 +21,12 @@ private:
   static StateRegisterState* insertState(SR_regtype stateReg = stateRegister, StateRegisterState* root = rootState);
 
 public:
-
+  
   StateRegisterState();
-
   ~StateRegisterState();
 
-  SR_regtype StateRegisterValue() const;
+  //Global stateRegister
+  static SR_regtype stateRegister;
 
   static void freeState(StateRegisterState *root = rootState);
 

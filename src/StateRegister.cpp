@@ -42,11 +42,6 @@ void StateRegisterState::freeState(StateRegisterState *root /*= rootState*/)
   delete root;
 }
 
-SR_regtype StateRegisterState::StateRegisterValue() const
-{
-  return stateRegisterValue;
-}
-
 StateRegisterState::~StateRegisterState()
 {
 }
