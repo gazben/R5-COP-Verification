@@ -15,25 +15,15 @@ public:
   trilean(OutputState _state = UNKNOWN);
 
   static bool isUnknown(OutputState a);
-
   static std::string tostring(const trilean& obj);
-
   explicit operator OutputState() const;
-
   trilean operator&(const trilean& rhs);
-
   trilean operator&&(const trilean& rhs);
-
   trilean& operator=(const trilean& rhs);
-
   bool operator==(const trilean& rhs);
-
   trilean operator|(const trilean& rhs);
-
   trilean operator^(const trilean& rhs);
-
   trilean operator!();
-
   bool operator!=(const trilean& rhs);
 };
 

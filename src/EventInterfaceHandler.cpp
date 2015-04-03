@@ -1,34 +1,43 @@
 #include "EventInterfaceHandler.h"
 
+#include <fstream>
+
 EventInterfaceHandler* EventInterfaceHandler::instance = nullptr;
 
 void EventInterfaceHandler::readEventsFromFile(std::string filename)
 {
-  eventFile.open(filename);
+  std::ofstream myfile;
+  myfile.open("example.txt");
+  myfile << "Writing this to a file.\n";
+  myfile.close();
+
+  EventInterfaceHandler::getinstance()->eventFile.open(filename);
 }
 
 SR_regtype EventInterfaceHandler::getNextEvent()
 {
-  if (eventFile.is_open())
-    eventQueue.push_back(readNextLine());
+  EventInterfaceHandler* instance = EventInterfaceHandler::getinstance();
 
-  SR_regtype front = eventQueue.front();
+  if (instance->eventFile.is_open())
+    instance->eventQueue.push_back(readNextLine());
+
+  SR_regtype front = instance->eventQueue.front();
   StateRegisterState::stateRegister = front;
-  eventQueue.pop_front();
+  instance->eventQueue.pop_front();
   return front;
 }
 
 EventInterfaceHandler::~EventInterfaceHandler()
 {
-  if (eventFile.is_open())
-    eventFile.close();
+  if (EventInterfaceHandler::getinstance()->eventFile.is_open())
+    EventInterfaceHandler::getinstance()->eventFile.close();
 }
 
 SR_regtype EventInterfaceHandler::readNextLine()
 {
   std::string line;
   SR_regtype tempStateReg;
-  std::getline(eventFile, line);
+  std::getline(EventInterfaceHandler::getinstance()->eventFile, line);
 
   for (char c : line){
     switch (c)

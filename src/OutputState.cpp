@@ -1,8 +1,5 @@
 #include "OutputState.h"
 
-
-
-
 bool trilean::operator!=(const trilean& rhs)
 {
   return (this->state == rhs.state) ? false : true;
@@ -70,7 +67,6 @@ bool trilean::isUnknown(OutputState a)
 
 trilean::trilean(OutputState _state /*= UNKNOWN*/) :state(_state)
 {
-
 }
 
 trilean AND_3(trilean a, trilean b)
