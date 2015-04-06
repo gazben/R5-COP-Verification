@@ -4,7 +4,7 @@
 /* GLOBAL INCLUDES */
 #include <functional>
 #include <vector>
-
+#include <iostream>
 /* LOCAL INCLUDES */
 #include "EventInterfaceHandler.h"
 /* INCLUDES END */
@@ -51,6 +51,7 @@ public:
   trilean isEventFired(SR_regtype eventCode);
 
   static trilean Evaluate(Property* root);
+  static trilean EvaluateROS(Property* root);
 };
 
 //////////////////////////////////////////////////////////////////////////

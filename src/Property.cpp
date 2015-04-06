@@ -55,6 +55,62 @@ trilean Property::Evaluate(Property* root)
   return result;
 }
 
+trilean Property::EvaluateROS(Property* root)
+{
+  Property* currentNode = root;
+  trilean result = UNKNOWN;
+
+  EventInterfaceHandler::getinstance()->getNextEvent();
+
+  bool isChanged = 0;
+
+  //while (result == UNKNOWN){
+    isChanged = false;
+
+    for (int i = 0; i < currentNode->outputStates.size(); i++){
+      trilean tempOutputResult = currentNode->evalFunctions[i](currentNode);
+      if (tempOutputResult != currentNode->outputStates[i]){
+        isChanged = true;
+        currentNode->outputStates[i] = tempOutputResult;
+        break;
+      }
+    }
+
+    //Output of the descendant node changed. We can go up in the stack.
+    if (isChanged){
+      //Free the current node.
+      if (currentNode->rootNode != nullptr){
+        currentNode = currentNode->rootNode;
+
+        //give the output to the input
+        if (currentNode->inputStates.size() != currentNode->childrenNode->outputStates.size()){
+          throw std::runtime_error("Invalid eval function size!");
+        }
+
+        //COPY right now, optimise later!
+        for (int i = 0; i < currentNode->inputStates.size(); i++){
+          currentNode->inputStates[i] = currentNode->childrenNode->outputStates[i];
+        }
+
+        delete currentNode->childrenNode;
+      }
+      else{
+        //GOAL REACHED
+        result = currentNode->outputStates[0];
+        root->freeChildrenNode();
+      }
+    }
+    //No change happened we go deeper
+    else{
+      currentNode->constructChildrenBlock();
+      currentNode = currentNode->childrenNode;
+    }
+  //}
+
+  cout<<result<<"\n";
+  return result;
+}
+
 trilean Property::isEventFired(SR_regtype eventCode)
 {
   return (stateRegisterPtr->stateRegister & eventCode) ? FALSE : TRUE;

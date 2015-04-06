@@ -61,8 +61,10 @@ int main(int argc, char **argv)
     beginner_tutorials::Parameters msg;
 
     msg.R=true;
+    msg.D=true;
+    msg.P=true;
 
-    ROS_INFO("%d", msg.R);
+    ROS_INFO("[R:%d][D:%d][P:%d]", msg.R, msg.D, msg.P);
 
     /**
      * The publish() function is how you send messages. The parameter

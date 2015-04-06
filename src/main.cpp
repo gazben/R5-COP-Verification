@@ -10,28 +10,7 @@ This is the suscriber node code for the R5-COP monitor.
 #include "Property.h"
 /* INCLUDES END */
 
-#include "ros/ros.h"
-#include "beginner_tutorials/Parameters.h"
-
-void chatterCallback(const beginner_tutorials::Parameters::ConstPtr& msg)
-{
-  ROS_INFO("Incoming: [R:%d][D:%d][P:%d]", msg->R, msg->D, msg->P);
-  SR_regtype tempStateReg;
-  if(msg->R)
-        tempStateReg |= EVENT_A;
-  if(msg->D)
-        tempStateReg |= EVENT_B;
-  if(msg->P)
-        tempStateReg |= EVENT_C;
-  EventInterfaceHandler::getinstance()->insertEvent(tempStateReg);
-}
-
-int main(int argc, char **argv){
-  ros::init(argc, argv, "listener");
-  ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
-  ros::spin();
-
+int main(){
   Eventhandler::clearEvents();
   EventInterfaceHandler::getinstance()->readEventsFromFile("test1.txt");
 
