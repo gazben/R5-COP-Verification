@@ -30,6 +30,7 @@ public:
   SR_regtype getNextEvent();
 
   void readEventsFromFile(std::string filename);
+  void insertEvent(SR_regtype params);
 };
 
 #endif // EventInterfaceHandler_h__

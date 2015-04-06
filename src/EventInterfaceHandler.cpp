@@ -64,6 +64,10 @@ SR_regtype EventInterfaceHandler::readNextLine()
   }
 }
 
+void EventInterfaceHandler::insertEvent(SR_regtype params) {
+  instance->eventQueue.push_back(params);
+}
+
 EventInterfaceHandler* EventInterfaceHandler::getinstance()
 {
   if (instance == nullptr)
