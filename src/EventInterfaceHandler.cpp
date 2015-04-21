@@ -6,11 +6,6 @@ EventInterfaceHandler* EventInterfaceHandler::instance = nullptr;
 
 void EventInterfaceHandler::readEventsFromFile(std::string filename)
 {
-  std::ofstream myfile;
-  myfile.open("example.txt");
-  myfile << "Writing this to a file.\n";
-  myfile.close();
-
   EventInterfaceHandler::getinstance()->eventFile.open(filename);
 }
 
