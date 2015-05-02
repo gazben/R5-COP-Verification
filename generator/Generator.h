@@ -28,13 +28,8 @@ public:
         
         path generatedPathTemp(generatedPath);
         generatedPathTemp += fileName;
-        
-        cout << generatedPathTemp << endl;
         copy_file(entry.path(), generatedPathTemp, copy_option::overwrite_if_exists);
-
-        if (fileName == "Property.cpp"){
-          cout << "Path: " + entry.path().string() << endl;
-
+        if (fileName == "Property.h"){
           wstring temp = entry.path().native();
           ifstream tempFile(temp.c_str());
 
@@ -43,7 +38,6 @@ public:
           propertyFileString = move(str);
         }
     }
-    cout << propertyFileString << endl;
   }
 
 };

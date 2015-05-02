@@ -5,3 +5,4 @@ R5-COP-Verification.vcxproj
 R5-COP-Verification.vcxproj.filters
 Debug/
 *.vcxproj
+Generated/

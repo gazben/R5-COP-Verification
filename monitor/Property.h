@@ -52,4 +52,60 @@ public:
   static trilean Evaluate(Property* root);
   static trilean EvaluateROS(Property* root);
 };
+trilean EVAL_s0(Property* _prop);
+trilean EVAL_s1a(Property* _prop);
+Property* constructS0(Property* _rootNode);
+Property* constructS1(Property* _rootNode);
+
+
+//BLOCK_START EVALFUNCTIONS
+trilean EVAL_s0(Property* _prop)
+{
+  return
+    AND_3(
+    NAND_3(
+    _prop->isEventFired(EVENT_A),
+    AND_3(
+    NOT_3(_prop->isEventFired(EVENT_B)),
+    NAND_3(
+    _prop->isEventFired(EVENT_C),
+    _prop->InputStates()[0])
+    )
+    ),
+    NAND_3(TRUE, _prop->InputStates()[1])
+    );
+}
+
+trilean EVAL_s1a(Property* _prop)
+{
+  return
+    NAND_3(
+    NOT_3(_prop->isEventFired(EVENT_B)),
+    NAND_3(_prop->isEventFired(EVENT_C), _prop->InputStates()[1])
+    );
+}
+//BLOCK_END EVALFUNCTIONS
+
+//BLOCK_START CONSTRUCTFUNCTIONS
+Property* constructS0(Property* _rootNode)
+{
+  _rootNode->evalFunctions.push_back(EVAL_s0);
+  _rootNode->constructChildrenNodeFunc = constructS1;
+  _rootNode->outputStates.resize(1);
+  _rootNode->inputStates.resize(2);
+
+  return _rootNode;
+}
+
+Property* constructS1(Property* _rootNode)
+{
+  _rootNode->evalFunctions.push_back(EVAL_s1a);
+  _rootNode->evalFunctions.push_back(EVAL_s0);
+  _rootNode->constructChildrenNodeFunc = constructS1;
+  _rootNode->outputStates.resize(2);
+  _rootNode->inputStates.resize(2);
+  return _rootNode;
+}
+//BLOCK_END CONSTRUCTFUNCTIONS
+
 #endif // Property_h__
