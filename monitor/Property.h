@@ -28,7 +28,6 @@ public:
   std::vector <std::function < trilean(class Property*) >> evalFunctions;
 
   Property();
-
   ~Property();
 
   Property* constructChildrenBlock();
@@ -53,14 +52,4 @@ public:
   static trilean Evaluate(Property* root);
   static trilean EvaluateROS(Property* root);
 };
-
-//////////////////////////////////////////////////////////////////////////
-//EVAL FUNCTION
-trilean EVAL_s0(Property* _prop);
-trilean EVAL_s1a(Property* _prop);
-
-//////////////////////////////////////////////////////////////////////////
-//BLOCK CONSTRUCTION FUNCTIONS
-Property* constructS0(Property* _rootNode);
-Property* constructS1(Property* _rootNode);
 #endif // Property_h__
