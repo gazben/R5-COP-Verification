@@ -14,7 +14,7 @@ string ConstructFunction::getFunctionString()
   functionString += "{ \n";
 
   for (string& evalEntry : evalFunctions){
-    functionString += "_rootNode->evalFunctions.push_back(" + evalEntry + ");";
+    functionString += "_rootNode->evalFunctions.push_back(" + evalEntry + "); \n";
   }
 
   functionString += "_rootNode->constructChildrenNodeFunc =" + constructChildrenNodeFunc + ";" + "\n";
@@ -44,6 +44,6 @@ string ConstructFunction::getSignature()
     "Property* construct_" +
     to_string(ID) + "_" +
     to_string(outputStatesSize) + "_" +
-    to_string(inputStatesSize) + "_" +
+    to_string(inputStatesSize) +
     "(Property* _rootNode)";
 }
