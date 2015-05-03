@@ -1,3 +1,6 @@
+#ifndef Generator_h__
+#define Generator_h__
+
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -68,5 +71,7 @@ public:
     return _rootNode;
   }  
   */
+private:
 
 };
+#endif // Generator_h__
