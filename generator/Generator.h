@@ -39,5 +39,34 @@ public:
         }
     }
   }
+  /*
+  Eval function example (operator overloads also work!).
+  Replace the //--EVALFUNCTIONS-- substring with the generated string!
+
+  Add the function to the //--DECLARATIONS-- 
+  trilean EVAL_s1a(Property* _prop)
+  {
+    return NAND_3( 
+        NOT_3(_prop->isEventFired(EVENT_B)), NAND_3(_prop->isEventFired(EVENT_C), _prop->InputStates()[1])
+        );
+  }
+  */
+
+  /*
+  Construct.
+  Replace the //--CONSTRUCTFUNCTIONS-- substring with the generated string
+  Add the function to the //--DECLARATIONS-- 
+
+  Just set the input and output sizes, evalfunctions and construct children node function.
+  Example:  
+  Property* constructS0(Property* _rootNode)
+  {
+    _rootNode->evalFunctions.push_back(EVAL_s0);
+    _rootNode->constructChildrenNodeFunc = constructS1;
+    _rootNode->outputStates.resize(1);
+    _rootNode->inputStates.resize(2);
+    return _rootNode;
+  }  
+  */
 
 };

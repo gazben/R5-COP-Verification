@@ -36,8 +36,8 @@ int main(int argc, char **argv){
   Eventhandler::clearEvents();
   EventInterfaceHandler::getinstance()->readEventsFromFile("test1.txt");
 
-  property1.constructChildrenNodeFunc = constructS0;
-  constructS0(&property1);  //Bruteforce for the first element
+  property1.constructChildrenNodeFunc = construct_START;
+  construct_START(&property1);  //Bruteforce for the first element
 
   ros::spin();
 

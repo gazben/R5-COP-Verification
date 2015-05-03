@@ -52,13 +52,18 @@ public:
   static trilean Evaluate(Property* root);
   static trilean EvaluateROS(Property* root);
 };
+//--DECLARATIONS--
 trilean EVAL_s0(Property* _prop);
 trilean EVAL_s1a(Property* _prop);
-Property* constructS0(Property* _rootNode);
+Property* construct_START(Property* _rootNode);
 Property* constructS1(Property* _rootNode);
 
 
-//BLOCK_START EVALFUNCTIONS
+//--EVALFUNCTIONS--
+
+
+//--CONSTRUCTFUNCTIONS--
+
 trilean EVAL_s0(Property* _prop)
 {
   return
@@ -84,16 +89,13 @@ trilean EVAL_s1a(Property* _prop)
     NAND_3(_prop->isEventFired(EVENT_C), _prop->InputStates()[1])
     );
 }
-//BLOCK_END EVALFUNCTIONS
 
-//BLOCK_START CONSTRUCTFUNCTIONS
-Property* constructS0(Property* _rootNode)
+Property* construct_START(Property* _rootNode)
 {
   _rootNode->evalFunctions.push_back(EVAL_s0);
   _rootNode->constructChildrenNodeFunc = constructS1;
   _rootNode->outputStates.resize(1);
   _rootNode->inputStates.resize(2);
-
   return _rootNode;
 }
 
@@ -106,6 +108,4 @@ Property* constructS1(Property* _rootNode)
   _rootNode->inputStates.resize(2);
   return _rootNode;
 }
-//BLOCK_END CONSTRUCTFUNCTIONS
-
 #endif // Property_h__

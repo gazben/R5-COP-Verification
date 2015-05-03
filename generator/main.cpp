@@ -12,7 +12,7 @@ int main(int argc, char* argv[]){
   }
   else
   {
-    expression = string(argv[0]);
+    expression = string(argv[1]);
   }
   Generator gen;
 
