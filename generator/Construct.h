@@ -1,8 +1,7 @@
 #ifndef Construct_h__
 #define Construct_h__
 
-#include <string>
-#include <vector>
+#include "Function.h"
 
 /*
 Construct.
@@ -22,7 +21,7 @@ return _rootNode;
 */
 using namespace std;
 
-class ConstructFunction{
+class ConstructFunction :public Function{
 public:
   ConstructFunction(
     vector<string> _evalFunctions,
@@ -43,9 +42,6 @@ private:
   string constructChildrenNodeFunc;
   unsigned int outputStatesSize;
   unsigned int inputStatesSize;
-
-  static unsigned int ID_counter;
-  unsigned int ID;
 
   string getSignature();
 };

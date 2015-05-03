@@ -35,7 +35,6 @@ ConstructFunction::ConstructFunction(
   outputStatesSize(_outputStatesSize),
   inputStatesSize(_inputStatesSize)
 {
-  ID = ID_counter++;
 }
 
 string ConstructFunction::getSignature()
