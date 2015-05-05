@@ -18,9 +18,23 @@ NAND_3(_prop->isEventFired(EVENT_C), _prop->InputStates()[1])
 }
 */
 
-class EvalFunction : Function{
+class EvalFunction : public Function{
+public:
+  virtual string getFunctionString()
+  {
+    throw std::logic_error("The method or operation is not implemented.");
+  }
 
+  virtual string getDeclarationString()
+  {
+    throw std::logic_error("The method or operation is not implemented.");
+  }
 
+private:
+  virtual string getSignature()
+  {
+    throw std::logic_error("The method or operation is not implemented.");
+  }
 };
 
 #endif // Eval_h__

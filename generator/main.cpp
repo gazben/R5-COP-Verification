@@ -16,12 +16,13 @@ int main(int argc, char* argv[]){
   }
   Generator gen;
 
-  gen.Parse();
-  gen.Generate();
+  if (gen.Parse(expression)){
+    gen.Generate();
+    cout << "Generation completed." << endl;
+    cout << "Given expression: " + expression << endl;
+  }
 
-  cout << "Generation completed." << endl;
-  cout << "Given expression: " + expression << endl;
-  cout << "Press enter to quit." << endl;
+  cout << endl << "Press enter to quit." << endl;
   getchar();
   return 0;
 }

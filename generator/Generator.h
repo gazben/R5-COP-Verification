@@ -5,16 +5,32 @@
 #include <sstream>
 #include <fstream>
 #include <boost/filesystem.hpp>
+#include <boost/spirit/include/qi.hpp>
+
 
 #include "Construct.h"
+#include "Eval.h"
+#include "Language.h"
 
 using namespace std;
 using namespace boost::filesystem;
+namespace qi = boost::spirit::qi;
 
 class Generator{
 public:
-  void Parse(std::string path = "..\\monitor\\"){
+  bool Parse( string input ){
+    if (input.empty()){
+      cout << "Empty input!" << endl;
+      return false;
+    }
+    
+    string::iterator iter = input.begin();
+    string::iterator end_iter = input.end();
+    //qi::parse(iter, end_iter, "" );
+
     //here comes the magic... eventually
+
+    return true;
   }
 
   void Generate(std::string generatedPath_ = "..\\Generated\\", std::string sourcePath_ = "..\\monitor\\"){
@@ -42,10 +58,11 @@ public:
       }
     }
 
-    constructFunctions.push_back(ConstructFunction(vector<string>({ "func1", "func2" }), "ctorfunc", 2, 1));
+    //constructFunctions.push_back(ConstructFunction(vector<string>({ "func1", "func2" }), "ctorfunc", 2, 1));
 
     string functionDeclarations;
     string constructFunctionsString;
+    string evalFunctionsString;
 
 
     for (unsigned int i = 0; i < constructFunctions.size(); i++){
@@ -55,16 +72,27 @@ public:
       constructFunctionsString += constructFunctions[i].getFunctionString();
       constructFunctionsString += "\n";
     }
+
+    for (unsigned int i = 0; i < evalFunctionsString.size(); i++){
+      functionDeclarations += evalFunctions[i].getDeclarationString();
+      functionDeclarations += "\n";
+
+      evalFunctionsString += evalFunctions[i].getFunctionString();
+      evalFunctionsString += "\n";
+    }
+
     str_replace(propertyFileString, "//--DECLARATIONS--", functionDeclarations);
     str_replace(propertyFileString, "//--CONSTRUCTFUNCTIONS--", constructFunctionsString);
+    str_replace(propertyFileString, "//--EVALFUNCTIONS--", evalFunctionsString);
 
-    //Replace the //--EVALFUNCTIONS-- substring with the generated string!
     ofstream propertyFile(generatedPath_ + "Property.h");
     propertyFile.write(propertyFileString.c_str(), propertyFileString.size());
+    propertyFile.close();
   }
 
 private:
   vector<ConstructFunction> constructFunctions;
+  vector<EvalFunction> evalFunctions;
 
   bool str_replace(std::string& str, const std::string& from, const std::string& to) {
     unsigned int start_pos = str.find(from);

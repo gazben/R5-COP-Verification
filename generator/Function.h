@@ -7,15 +7,13 @@
 class Function{
 public:
 
-  Function(){
-    ID = ID_counter++;
-  }
+  Function();
 
-  virtual string getFunctionString() = 0;
-  virtual string getDeclarationString() = 0;
+  virtual std::string getFunctionString() = 0;
+  virtual std::string getDeclarationString() = 0;
 
 protected:
-  virtual string getSignature() = 0;
+  virtual std::string getSignature() = 0;
 
   static unsigned int ID_counter;
   unsigned int ID;

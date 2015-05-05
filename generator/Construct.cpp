@@ -1,7 +1,5 @@
 #include "Construct.h"
 
-unsigned int ConstructFunction::ID_counter = 0;
-
 string ConstructFunction::getDeclarationString()
 {
   return getSignature() + ";";
