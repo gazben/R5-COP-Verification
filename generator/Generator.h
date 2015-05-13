@@ -58,7 +58,7 @@ public:
       }
     }
 
-    //constructFunctions.push_back(ConstructFunction(vector<string>({ "func1", "func2" }), "ctorfunc", 2, 1));
+    constructFunctions.push_back(ConstructFunction(vector<string>({ "func1", "func2" }), "ctorfunc", 2, 1));
 
     string functionDeclarations;
     string constructFunctionsString;

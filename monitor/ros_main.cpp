@@ -9,12 +9,15 @@ This is the suscriber node code for the R5-COP monitor.
 #include "Property.h"
 /* INCLUDES END */
 
-#include "ros/ros.h"
-#include "beginner_tutorials/Parameters.h"
+#include <ros/ros.h>
+#include <ros/param.h>
+#include <rosconsole/macros_generated.h>
+#include <ros/init.h>
+
 
 Property property1;
 
-void chatterCallback(const beginner_tutorials::Parameters::ConstPtr& msg)
+void chatterCallback(const Parameters::ConstPtr& msg)
 {
   SR_regtype tempStateReg;
   if(msg->R)

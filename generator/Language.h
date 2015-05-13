@@ -6,7 +6,7 @@
 
 using namespace std;
 namespace qi = boost::spirit::qi;
-
+/*
 template <typename Iterator>
 struct LTLgrammar : qi::grammar < Iterator, string > 
 {
@@ -15,5 +15,5 @@ struct LTLgrammar : qi::grammar < Iterator, string >
 
   qi::rule<Iterator, string> start;
 };
-
+*/
 #endif // Language_h__
