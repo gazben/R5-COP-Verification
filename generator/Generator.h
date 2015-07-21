@@ -5,50 +5,44 @@
 #include <sstream>
 #include <fstream>
 #include <boost/filesystem.hpp>
-#include <boost/spirit/include/qi.hpp>
-
 
 #include "Construct.h"
 #include "Eval.h"
-#include "Language.h"
 
-using namespace std;
+
 using namespace boost::filesystem;
-namespace qi = boost::spirit::qi;
+using namespace std;
 
-class Generator{
+class Generator {
 public:
-  bool Parse( string input ){
-    if (input.empty()){
-      cout << "Empty input!" << endl;
+  bool Parse(std::string input) {
+    if (input.empty()) {
+      //cout << "Empty input!" << endl;
       return false;
     }
-    
-    string::iterator iter = input.begin();
-    string::iterator end_iter = input.end();
-    //qi::parse(iter, end_iter, "" );
 
-    //here comes the magic... eventually
+    std::string::iterator iter = input.begin();
+    std::string::iterator end_iter = input.end();
 
     return true;
   }
 
-  void Generate(std::string generatedPath_ = "..\\Generated\\", std::string sourcePath_ = "..\\monitor\\"){
+  void Generate(std::string generatedPath_ = "..\\..\\Generated\\", std::string sourcePath_ = "..\\..\\monitor\\src\\monitor\\") {
     path sourcePath(sourcePath_);
     path generatedPath(generatedPath_);
     directory_iterator end_itr;
 
-    string propertyFileString;
+    std::string propertyFileString;
 
     //Copy the source files from the monitor directory to the Generated directory
-    for (directory_iterator iterator(sourcePath_); iterator != end_itr; ++iterator){
-      string fileName = iterator->path().filename().string();
+    for (directory_iterator iterator(sourcePath_); iterator != end_itr; ++iterator) {
+      std::string fileName = iterator->path().filename().string();
       directory_entry entry(*iterator);
 
       path generatedPathTemp(generatedPath);
       generatedPathTemp += fileName;
       copy_file(entry.path(), generatedPathTemp, copy_option::overwrite_if_exists);
-      if (fileName == "Property.h"){
+      if (fileName == "Property.h") {
         wstring propertyFilePath = entry.path().native();
         ifstream tempFile(propertyFilePath.c_str());
 
@@ -58,14 +52,13 @@ public:
       }
     }
 
-    constructFunctions.push_back(ConstructFunction(vector<string>({ "func1", "func2" }), "ctorfunc", 2, 1));
+    constructFunctions.push_back(ConstructFunction(vector<std::string>({ "func1", "func2" }), "ctorfunc", 2, 1));
 
-    string functionDeclarations;
-    string constructFunctionsString;
-    string evalFunctionsString;
+    std::string functionDeclarations;
+    std::string constructFunctionsString;
+    std::string evalFunctionsString;
 
-
-    for (unsigned int i = 0; i < constructFunctions.size(); i++){
+    for (unsigned int i = 0; i < constructFunctions.size(); i++) {
       functionDeclarations += constructFunctions[i].getDeclarationString();
       functionDeclarations += "\n";
 
@@ -73,7 +66,7 @@ public:
       constructFunctionsString += "\n";
     }
 
-    for (unsigned int i = 0; i < evalFunctionsString.size(); i++){
+    for (unsigned int i = 0; i < evalFunctionsString.size(); i++) {
       functionDeclarations += evalFunctions[i].getDeclarationString();
       functionDeclarations += "\n";
 
@@ -102,4 +95,4 @@ private:
     return true;
   }
 };
-#endif // Generator_h__
+#endif

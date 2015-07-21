@@ -19,13 +19,12 @@ _rootNode->inputStates.resize(2);
 return _rootNode;
 }
 */
-using namespace std;
 
-class ConstructFunction :public Function{
+class ConstructFunction :public Function {
 public:
   ConstructFunction(
-    vector<string> _evalFunctions,
-    string _constructChildrenNodeFunc,
+    std::vector<std::string> _evalFunctions,
+    std::string _constructChildrenNodeFunc,
     unsigned int _outputStatesSize,
     unsigned int _inputStatesSize
     );
@@ -33,17 +32,17 @@ public:
   /*
   Naming convention: construct_ID_OUT_IN
   */
-  string getFunctionString();
+  std::string getFunctionString();
 
-  string getDeclarationString();
+  std::string getDeclarationString();
 
 private:
-  vector<string> evalFunctions;
-  string constructChildrenNodeFunc;
+  std::vector<std::string> evalFunctions;
+  std::string constructChildrenNodeFunc;
   unsigned int outputStatesSize;
   unsigned int inputStatesSize;
 
-  string getSignature();
+  std::string getSignature();
 };
 
 #endif // Construct_h__

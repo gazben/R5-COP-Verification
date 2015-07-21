@@ -1,5 +1,7 @@
 #include "Construct.h"
 
+using namespace std;
+
 string ConstructFunction::getDeclarationString()
 {
   return getSignature() + ";";
@@ -11,7 +13,7 @@ string ConstructFunction::getFunctionString()
   functionString += getSignature();
   functionString += "{ \n";
 
-  for (string& evalEntry : evalFunctions){
+  for (string& evalEntry : evalFunctions) {
     functionString += "_rootNode->evalFunctions.push_back(" + evalEntry + "); \n";
   }
 

@@ -1,9 +1,5 @@
-R5-COP-Verification.opensdf
-R5-COP-Verification.sdf
-R5-COP-Verification.sln
-R5-COP-Verification.vcxproj
-R5-COP-Verification.vcxproj.filters
 Debug/
-*.vcxproj
 Generated/
-R5-COP-Generator/R5-COP-Generator.vcxproj.filters
+*.tlog
+*.opensdf
+*.sdf

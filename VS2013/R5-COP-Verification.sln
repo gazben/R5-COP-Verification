@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "R5-COP-Verification", "R5-COP-Verification\R5-COP-Verification.vcxproj", "{BBC7C97C-8581-4261-9607-35B8721BCEFE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "R5-COP-Generator", "R5-COP-Generator\R5-COP-Generator.vcxproj", "{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBC7C97C-8581-4261-9607-35B8721BCEFE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BBC7C97C-8581-4261-9607-35B8721BCEFE}.Debug|Win32.Build.0 = Debug|Win32
+		{BBC7C97C-8581-4261-9607-35B8721BCEFE}.Release|Win32.ActiveCfg = Release|Win32
+		{BBC7C97C-8581-4261-9607-35B8721BCEFE}.Release|Win32.Build.0 = Release|Win32
+		{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}.Debug|Win32.Build.0 = Debug|Win32
+		{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}.Release|Win32.ActiveCfg = Release|Win32
+		{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
