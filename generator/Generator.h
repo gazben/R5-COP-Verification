@@ -43,8 +43,8 @@ public:
       generatedPathTemp += fileName;
       copy_file(entry.path(), generatedPathTemp, copy_option::overwrite_if_exists);
       if (fileName == "Property.h") {
-        wstring propertyFilePath = entry.path().native();
-        ifstream tempFile(propertyFilePath.c_str());
+        //wstring propertyFilePath = entry.path().native().c_str();
+        ifstream tempFile( std::string( entry.path().native().c_str() ) );
 
         std::string str((std::istreambuf_iterator<char>(tempFile)),
           std::istreambuf_iterator<char>());

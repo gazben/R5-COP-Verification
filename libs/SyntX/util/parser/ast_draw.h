@@ -4,6 +4,7 @@
 #include <memory>
 #include <fstream>
 #include <iostream>
+#include <cmath>
 
 #include "base_rule.h"
 using namespace util::parser;
