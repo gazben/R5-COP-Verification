@@ -12,8 +12,6 @@ using namespace std;
 int main(int argc, char* argv[]) {
   base_rule::set_build_ast(true);
 
-  //LANGUAGE
-
   //Lexer rules
   rule ReleaseOp;
   ReleaseOp <<= character("R") | character("W");
@@ -63,7 +61,7 @@ int main(int argc, char* argv[]) {
   RPAR <<= character(")");
   rule AtomicProposition;
   AtomicProposition <<= range('0', '9');
-  
+
   rule addition, OperatorEnd("OperatorEnd"), expression;
   addition <<= -OperatorEnd << *(-Operator << -OperatorEnd);
   OperatorEnd <<= -AtomicProposition | -expression;
@@ -81,6 +79,10 @@ int main(int argc, char* argv[]) {
     ast_draw printer;
     printer.to_formatted_string(root);
     printer.draw_to_file(root);
+
+    printer.opimize_ast(root);
+    printer.to_formatted_string(root);
+
   }
   else {
     std::cout << "Didn't match" << std::endl;

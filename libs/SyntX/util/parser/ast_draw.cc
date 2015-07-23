@@ -166,3 +166,25 @@ void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node,
   }
 }
 
+std::shared_ptr<base_rule::node> ast_draw::opimize_ast(std::shared_ptr<base_rule::node> &node) {
+  if( root != nullptr )
+    root = node;
+
+  if(node->children.size() == 1 ){
+    while( node->the_type == node->children[0]->the_type ){
+      auto new_children = node->children[0]->children;
+      node->children.clear();
+
+      node->children = new_children;
+    }
+  }
+
+  for(auto &entry : node->children)
+    opimize_ast(entry);
+
+  return root;
+}
+
+ast_draw::ast_draw() {
+  root = nullptr;
+}
