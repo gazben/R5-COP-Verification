@@ -28,7 +28,7 @@
 #include <string>
 #include <sstream>
 
-#include <Syntx/util/parser/base_rule.h>
+#include <SyntX/util/parser/base_rule.h>
 
 namespace util {
 	namespace parser {

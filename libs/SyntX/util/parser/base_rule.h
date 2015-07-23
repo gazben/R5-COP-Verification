@@ -33,7 +33,7 @@
 #include <exception>
 #include <functional>
 
-#include <Syntx/util/enum_set.h>
+#include <SyntX/util/enum_set.h>
 
 namespace util {
 	namespace parser {
