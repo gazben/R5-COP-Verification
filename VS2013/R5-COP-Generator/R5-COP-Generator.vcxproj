@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\generator\Construct.cpp" />
     <ClCompile Include="..\..\generator\Function.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
+    <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\ast_draw.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\base_rule.cc" />
@@ -41,6 +42,8 @@
     <ClInclude Include="..\..\generator\Function.h" />
     <ClInclude Include="..\..\generator\Generator.h" />
     <ClInclude Include="..\..\libs\SyntX\util\enum_set.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\languages\language.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\languages\ltl.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\alternation.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\ast_draw.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\base_rule.h" />
@@ -100,7 +103,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Sdk;D:\Sdk\boost_1_58_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Projects\R5-COP-Verification\libs;D:\Sdk;D:\Sdk\boost_1_58_0</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <CallingConvention>Cdecl</CallingConvention>
