@@ -64,6 +64,9 @@ add_executable(
   libs/SyntX/util/parser/whitespace_not_newline.cc
   libs/SyntX/util/parser/whitespace_not_newline.h
   libs/SyntX/util/enum_set.h
+  libs/SyntX/util/languages/language.h
+  libs/SyntX/util/languages/ltl.h
+  libs/SyntX/util/languages/ltl.cc
 )
 
 target_link_libraries(ROSVeryfy_generator ${Boost_LIBRARIES})

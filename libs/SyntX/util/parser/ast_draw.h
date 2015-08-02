@@ -29,8 +29,12 @@ private:
 
   void create_svg(std::shared_ptr<base_rule::node> const &node, size_t depth, size_t level_pos = 1, vector parentLinePoint = vector());
 public:
+
+  ast_draw();
+
   void draw_to_file(std::shared_ptr<base_rule::node> const &node, std::string path = "ast.html");
   void to_formatted_string(std::shared_ptr<base_rule::node> const &node, size_t depth = 0);
+  std::shared_ptr<base_rule::node> opimize_ast(std::shared_ptr<base_rule::node> &node);
 };
 
 #endif // ast_draw_h__
