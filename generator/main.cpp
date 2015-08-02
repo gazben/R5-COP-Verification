@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
   base_rule::set_build_ast(true);
 
   //LANGUAGE END
-  std::string input = "1 G ( 1 & 2 )\n";
+  std::string input = "G ( 1 & 2 )\n";
   base_rule::match_range context(input.cbegin(), input.cend());
   base_rule::match_range result;
   std::shared_ptr<base_rule::node> root;
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Matched: " << std::string(result.first, result.second) << std::endl;
 
     ast_draw printer;
-    printer.opimize_ast(root);
+    printer.optimize_ast(root);
     printer.to_formatted_string(root);
     printer.draw_to_file(root);
 

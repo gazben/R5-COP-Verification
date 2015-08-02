@@ -2,36 +2,36 @@
 
 
 bool ltl::match(base_rule::match_range& context, base_rule::match_range& result, std::shared_ptr<base_rule::node>& root){
-    rule ReleaseOp;
+    rule ReleaseOp("Release");
     ReleaseOp <<= character("R") | character("W");
-    rule UntilOp;
+    rule UntilOp("Until");
     UntilOp <<= character("U");
-    rule ImplicationOp;
+    rule ImplicationOp("Implication");
     ImplicationOp <<= identifier("->") | identifier("=>") | identifier("-->") | identifier("imply") | identifier("i");
-    rule EquivalenceOp;
+    rule EquivalenceOp("Equivalence");
     EquivalenceOp <<= identifier("<->") | identifier("<=>") | identifier("iff") | identifier("eq") | identifier("e");
-    rule XorOp;
+    rule XorOp("Xor");
     XorOp <<= character("^") | identifier("xor");
-    rule OrOp;
+    rule OrOp("Or");
     OrOp <<= character("|") | identifier("||") | character("+") | identifier("or");
-    rule AndOp;
+    rule AndOp("And");
     AndOp <<= character("&") | identifier("&&") | character("*") | identifier("and");
-    rule WeakNextOp;
+    rule WeakNextOp("WeakNext");
     WeakNextOp <<= identifier("wX") | identifier("wO");
-    rule NextOp;
+    rule NextOp("Next");
     NextOp <<= character("X") | character("O");
-    rule FutureOp;
+    rule FutureOp("Future");
     FutureOp <<= character("F") | identifier("<>");
-    rule GloballyOp;
+    rule GloballyOp("Globally");
     GloballyOp <<= character("G") | identifier("[]");
-    rule NotOp;
+    rule NotOp("Not");
     NotOp <<= character("!") | character("~") | identifier("not");
 
     rule Operator;
     Operator <<=
             ReleaseOp
             | UntilOp
-            | ImplicationOp
+            | GloballyOp
             | EquivalenceOp
             | XorOp
             | OrOp
@@ -39,7 +39,7 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
             | WeakNextOp
             | NextOp
             | FutureOp
-            | GloballyOp
+            | ImplicationOp
             | NotOp
             ;
 
@@ -51,10 +51,17 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
     rule AtomicProposition;
     AtomicProposition <<= range('0', '9');
 
-    rule operation, OperatorEnd("OperatorEnd"), expression;
-    operation <<= -OperatorEnd << *(-Operator << -OperatorEnd);
-    OperatorEnd <<= -AtomicProposition | -expression;
-    expression <<= -LPAR << -operation << -RPAR;
+    rule operatorActions, operationOneOp, operationTwoOp, OperatorEnd, expression;
 
-    return operation.match(context, result, root);
+    operationTwoOp <<= -OperatorEnd << *(-Operator << -OperatorEnd);
+    operationOneOp <<= -Operator << *expression;
+
+    OperatorEnd <<= -AtomicProposition | -expression;
+    operatorActions <<= -operationOneOp | -operationTwoOp;
+
+    expression <<= -LPAR << -operatorActions << -RPAR;
+
+
+
+    return operatorActions.match(context, result, root);
 }

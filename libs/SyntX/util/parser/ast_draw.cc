@@ -8,7 +8,7 @@ size_t ast_draw::count_depth(std::shared_ptr<base_rule::node> const &node, size_
     max_depth = depth;
 
   for (auto &a_node : node->children) {
-    count_depth(a_node, depth + 1);
+      count_depth(a_node, depth + 1);
   }
 
   return max_depth;
@@ -74,7 +74,7 @@ void ast_draw::create_svg(std::shared_ptr<base_rule::node> const &node, size_t d
         "<line x1=\"" + std::to_string(parentLinePoint.x) +
         "\" y1=\"" + std::to_string(parentLinePoint.y) +
         "\" x2=\"" + std::to_string(x_pos + svg_ellipse_rx / 2.0) +
-        "\" y2=\"" + std::to_string(y_pos - svg_ellipse_ry / 1.2) +
+        "\" y2=\"" + std::to_string(y_pos - svg_ellipse_ry / 1.1) +
         "\" style=\"stroke: black;stroke-width:3\" />";
     }
 
@@ -166,10 +166,22 @@ void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node,
   }
 }
 
-std::shared_ptr<base_rule::node> ast_draw::opimize_ast(std::shared_ptr<base_rule::node> &node) {
+std::shared_ptr<base_rule::node> ast_draw::optimize_ast(std::shared_ptr<base_rule::node> &node) {
   if( root != nullptr )
     root = node;
+  
+  for (unsigned int i = 0; i < node->children.size(); i++) {
+    auto &entry = node->children[i];
+    
+    if (entry->the_type == base_rule::node::type::alternation) {
+      entry = entry->children.front();
+      optimize_ast(node);
+    }
+    
 
+  }
+  
+  /*
   if(node->children.size() == 1 ){
     //while( node->the_type == node->children[0]->the_type ){
     while( (node->children.size() == 1) && (node->children[0]->the_type != base_rule::node::type::value) ){
@@ -179,9 +191,9 @@ std::shared_ptr<base_rule::node> ast_draw::opimize_ast(std::shared_ptr<base_rule
       node->children = new_children;
     }
   }
-
+  */
   for(auto &entry : node->children)
-    opimize_ast(entry);
+    optimize_ast(entry);
 
   return root;
 }

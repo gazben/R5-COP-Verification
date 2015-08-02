@@ -34,7 +34,7 @@ public:
 
   void draw_to_file(std::shared_ptr<base_rule::node> const &node, std::string path = "ast.html");
   void to_formatted_string(std::shared_ptr<base_rule::node> const &node, size_t depth = 0);
-  std::shared_ptr<base_rule::node> opimize_ast(std::shared_ptr<base_rule::node> &node);
+  std::shared_ptr<base_rule::node> optimize_ast(std::shared_ptr<base_rule::node> &node);
 };
 
 #endif // ast_draw_h__
