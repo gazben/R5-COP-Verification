@@ -26,24 +26,6 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
     GloballyOp <<= character("G") | identifier("[]");
     rule NotOp("Not");
     NotOp <<= character("!") | character("~") | identifier("not");
-
-    rule Operator;
-    Operator <<=
-            ReleaseOp
-            | UntilOp
-            | GloballyOp
-            | EquivalenceOp
-            | XorOp
-            | OrOp
-            | AndOp
-            | WeakNextOp
-            | NextOp
-            | FutureOp
-            | ImplicationOp
-            | NotOp
-            ;
-
-
     rule LPAR;
     LPAR <<= character("(");
     rule RPAR;
@@ -51,17 +33,34 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
     rule AtomicProposition;
     AtomicProposition <<= range('0', '9');
 
+    rule OperatorTwoOp;
+    OperatorTwoOp <<=
+      ReleaseOp
+      | UntilOp
+      | EquivalenceOp
+      | XorOp
+      | OrOp
+      | AndOp
+      | ImplicationOp
+      ;
+
+    rule OperatorOneOp;
+    OperatorOneOp <<=
+      GloballyOp
+      | FutureOp
+      | NotOp
+      | WeakNextOp
+      | NextOp
+      ;
+
     rule operatorActions, operationOneOp, operationTwoOp, OperatorEnd, expression;
 
-    operationTwoOp <<= -OperatorEnd << *(-Operator << -OperatorEnd);
-    operationOneOp <<= -Operator << *expression;
-
-    OperatorEnd <<= -AtomicProposition | -expression;
-    operatorActions <<= -operationOneOp | -operationTwoOp;
+    operationTwoOp <<= -OperatorEnd << -OperatorTwoOp << -OperatorEnd;
+    operationOneOp <<= -OperatorOneOp << -OperatorEnd;
 
     expression <<= -LPAR << -operatorActions << -RPAR;
-
-
+    OperatorEnd <<= -AtomicProposition | -expression;
+    operatorActions <<= *(-operationTwoOp | -operationOneOp);
 
     return operatorActions.match(context, result, root);
 }
