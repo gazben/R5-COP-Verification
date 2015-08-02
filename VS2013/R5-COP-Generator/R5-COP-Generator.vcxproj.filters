@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="SyntX">
+      <UniqueIdentifier>{fdb96dc7-8a74-42de-8d1d-d8c96a497e2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\generator\Construct.cpp">
@@ -23,6 +26,66 @@
     </ClCompile>
     <ClCompile Include="..\..\generator\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\ast_draw.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\base_rule.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\character.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\concatenation.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\eol.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\identifier.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\integer.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\keyword.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\option.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\range.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\real.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\repetition.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\repetition_or_epsilon.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\rule.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\search.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\string.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\substring.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace.cc">
+      <Filter>SyntX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.cc">
+      <Filter>SyntX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +100,78 @@
     </ClInclude>
     <ClInclude Include="..\..\generator\Generator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\enum_set.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\alternation.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\ast_draw.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\base_rule.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\character.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\concatenation.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\debug_action.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\eol.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\epsilon.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\identifier.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\integer.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\keyword.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\option.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\parser.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\range.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\real.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\repetition.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\repetition_or_epsilon.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\rule.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\search.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\string.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\substring.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\whitespace.h">
+      <Filter>SyntX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.h">
+      <Filter>SyntX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,12 +14,56 @@
     <ClCompile Include="..\..\generator\Construct.cpp" />
     <ClCompile Include="..\..\generator\Function.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\ast_draw.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\base_rule.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\character.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\concatenation.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\eol.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\identifier.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\integer.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\keyword.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\option.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\range.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\real.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\repetition.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\repetition_or_epsilon.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\rule.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\search.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\string.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\substring.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace.cc" />
+    <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\generator\Construct.h" />
     <ClInclude Include="..\..\generator\Eval.h" />
     <ClInclude Include="..\..\generator\Function.h" />
     <ClInclude Include="..\..\generator\Generator.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\enum_set.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\alternation.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\ast_draw.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\base_rule.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\character.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\concatenation.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\debug_action.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\eol.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\epsilon.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\identifier.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\integer.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\keyword.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\option.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\parser.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\range.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\real.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\repetition.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\repetition_or_epsilon.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\rule.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\search.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\string.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\substring.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\whitespace.h" />
+    <ClInclude Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}</ProjectGuid>
@@ -64,7 +108,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>D:\Sdk\boost_1_58_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SyntX.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
