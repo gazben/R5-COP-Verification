@@ -8,7 +8,7 @@ size_t ast_draw::count_depth(std::shared_ptr<base_rule::node> const &node, size_
     max_depth = depth;
 
   for (auto &a_node : node->children) {
-      count_depth(a_node, depth + 1);
+    count_depth(a_node, depth + 1);
   }
 
   return max_depth;
@@ -100,7 +100,6 @@ void ast_draw::create_svg(std::shared_ptr<base_rule::node> const &node, size_t d
 void ast_draw::draw_to_file(std::shared_ptr<base_rule::node> const &node, std::string path /*= "ast.html"*/)
 {
   using namespace std;
-  root = node;
 
   double depth = count_depth(root);
   svg_width = pow(2, depth) * 70;
@@ -126,10 +125,56 @@ void ast_draw::draw_to_file(std::shared_ptr<base_rule::node> const &node, std::s
   std::cout << "AST_depth: " << depth << endl;
 }
 
+void ast_draw::draw_to_file(std::string path /*= "ast.html"*/)
+{
+  draw_to_file(root);
+}
+
 void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node, size_t depth /*= 0*/)
 {
   if (node) {
     for (size_t i = 0; i < depth; ++i) std::cout << "   ";
+
+    /*
+    std::cout << "--" << std::endl;
+    for (size_t i = 0; i < depth; ++i) std::cout << "   ";
+    std::cout << "Parent: ";
+    if (node->parent != nullptr) {
+      switch (node->parent->the_type) {
+      case base_rule::node::type::value:
+        std::cout << node->the_value << std::endl;
+        break;
+
+      case base_rule::node::type::alternation:
+        std::cout << "alternation" << std::endl;
+        break;
+
+      case base_rule::node::type::concatenation:
+        std::cout << "concatenation" << std::endl;
+        break;
+
+      case base_rule::node::type::option:
+        std::cout << "option" << std::endl;
+        break;
+
+      case base_rule::node::type::repetition:
+        std::cout << "repetition" << std::endl;
+        break;
+
+      case base_rule::node::type::repetition_or_epsilon:
+        std::cout << "repetition_or_epsilon" << std::endl;
+        break;
+
+      case base_rule::node::type::named_rule:
+        std::cout << "named_rule: " << node->the_value << std::endl;
+        break;
+      }
+    }
+    else
+    {
+      std::cout << "nullptr" << std::endl;
+    }
+    */
 
     switch (node->the_type) {
     case base_rule::node::type::value:
@@ -159,6 +204,10 @@ void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node,
     case base_rule::node::type::named_rule:
       std::cout << "named_rule: " << node->the_value << std::endl;
       break;
+
+    case base_rule::node::type::deleted:
+      std::cout << "deleted" << node->the_value << std::endl;
+      break;
     }
 
     for (auto &a_node : node->children)
@@ -166,38 +215,141 @@ void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node,
   }
 }
 
+void ast_draw::to_formatted_string(size_t depth /*= 0*/)
+{
+  to_formatted_string(root);
+}
+
 std::shared_ptr<base_rule::node> ast_draw::optimize_ast(std::shared_ptr<base_rule::node> &node) {
-  if( root != nullptr )
-    root = node;
-  
-  for (unsigned int i = 0; i < node->children.size(); i++) {
-    auto &entry = node->children[i];
-    
-    if (entry->the_type == base_rule::node::type::alternation) {
-      entry = entry->children.front();
-      optimize_ast(node);
-    }
-    
-
-  }
-  
-  /*
-  if(node->children.size() == 1 ){
-    //while( node->the_type == node->children[0]->the_type ){
-    while( (node->children.size() == 1) && (node->children[0]->the_type != base_rule::node::type::value) ){
-      auto new_children = node->children[0]->children;
-      node->children.clear();
-
-      node->children = new_children;
-    }
-  }
-  */
-  for(auto &entry : node->children)
-    optimize_ast(entry);
+  remove_alternations(node);
+  remove_one_children_roots(node);
+  remove_character_leafs(node);
+  rearrange_operators(node);
+  remove_nodes_marked_for_deletion(node);
+  remove_one_children_roots(node);
 
   return root;
 }
 
-ast_draw::ast_draw() {
-  root = nullptr;
+std::shared_ptr<base_rule::node> ast_draw::rearrange_operators(std::shared_ptr<base_rule::node> &node) {
+  if (node == nullptr)
+    return nullptr;
+
+  if (
+    node->parent != nullptr &&
+    node->parent->parent != nullptr &&
+    node->the_type == base_rule::node::type::named_rule) {
+    
+    
+    auto new_place = node->parent->parent;
+    new_place->the_type = node->the_type;
+    new_place->the_value = node->the_value;
+
+    for (unsigned int i = 0; i < node->parent->children.size(); i++) {
+      auto entry = node->parent->children[i];
+
+      if (entry->the_type == base_rule::node::type::named_rule) {
+        if (entry->children.size() == 0) {
+          node->the_type = base_rule::node::type::deleted;
+          node->parent->children.erase(node->parent->children.begin() + i);
+        }
+      }
+      else if (entry->the_type == base_rule::node::type::value)
+      {
+        node->parent->the_type = entry->the_type;
+        node->parent->the_value = entry->the_value;
+
+        if (entry->children.size() == 0) {
+          entry->the_type = base_rule::node::type::deleted;
+          //entry->parent->children.erase(node->parent->children.begin() + i);
+        }
+      }
+    }
+  }
+
+  rearrange_operators(node->left_children());
+  rearrange_operators(node->right_children());
+
+  return node;
+}
+
+std::shared_ptr<base_rule::node> ast_draw::remove_character_leafs(std::shared_ptr<base_rule::node> &node) {
+  if (node == nullptr)
+    return nullptr;
+  //Remove character value leafs under the named_rules
+  if (node->children.size() == 1 && node->the_type == base_rule::node::type::named_rule) {
+    node->children.clear();
+  }
+
+  for (auto &entry : node->children)
+    remove_character_leafs(entry);
+
+  return node;
+}
+
+std::shared_ptr<base_rule::node> ast_draw::remove_alternations(std::shared_ptr<base_rule::node> &node) {
+  if (node == nullptr)
+    return nullptr;
+  //Remove alternations
+  for (unsigned int i = 0; i < node->children.size(); i++) {
+    auto& entry = node->children[i];
+
+    if (entry->children.size() == 1 && entry->the_type == base_rule::node::type::alternation) {
+      entry = entry->children.front();
+      entry->parent = node;
+      remove_alternations(node);
+    }
+  }
+
+  
+  for (auto &entry : node->children)
+    remove_alternations(entry);
+
+  return node;
+}
+
+std::shared_ptr<base_rule::node> ast_draw::remove_one_children_roots(std::shared_ptr<base_rule::node> &node) {
+  if (node == nullptr)
+    return nullptr;
+
+  while ((node->children.size() == 1) && (node->children.front()->the_type != base_rule::node::type::value)) {
+    auto new_children = node->children.front()->children;
+    node->children.clear();
+    node->children = new_children;
+    for (auto entry : new_children)
+      entry->parent = node;
+  }
+
+  for (auto &entry : node->children)
+    remove_one_children_roots(entry);
+
+  return node;
+}
+
+void ast_draw::remove_nodes_marked_for_deletion(std::shared_ptr<base_rule::node> &node)
+{
+  if (node == nullptr)
+    return;
+  
+  remove_nodes_marked_for_deletion(node->left_children());
+  remove_nodes_marked_for_deletion(node->right_children());
+ 
+  while (node->parent != nullptr && node->parent->children.size() != 0 && node->parent->left_children().get()->the_type == base_rule::node::type::deleted) {
+    node->parent->children.erase(node->parent->children.begin());
+  }
+
+}
+
+std::shared_ptr<base_rule::node> ast_draw::optimize_ast()
+{
+  return optimize_ast(root);
+}
+
+ast_draw::ast_draw(std::shared_ptr < base_rule::node> _root) {
+  root = _root;
+}
+
+void ast_draw::set_root(std::shared_ptr < base_rule::node> _root)
+{
+  root = _root;
 }

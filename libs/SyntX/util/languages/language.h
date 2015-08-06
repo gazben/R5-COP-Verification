@@ -5,9 +5,9 @@
 
 using namespace util::parser;
 
-class language{
-  public:
-    virtual bool match(base_rule::match_range& context, base_rule::match_range& result, std::shared_ptr<base_rule::node>& root) = 0;
+class language {
+public:
+  virtual bool match(base_rule::match_range& context, base_rule::match_range& result, std::shared_ptr<base_rule::node>& root) = 0;
 };
 
 #endif

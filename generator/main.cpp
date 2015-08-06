@@ -13,7 +13,9 @@ int main(int argc, char* argv[]) {
   base_rule::set_build_ast(true);
 
   //LANGUAGE END
-  std::string input = "G ( 1 & 2 )\n";
+  //std::string input = "G(!(1 & 2))\n";
+  std::string input = "((8 & 9) ^ 4) & (1 & 2)\n";
+  //std::string input = "4 & 2\n";
   base_rule::match_range context(input.cbegin(), input.cend());
   base_rule::match_range result;
   std::shared_ptr<base_rule::node> root;
@@ -21,9 +23,9 @@ int main(int argc, char* argv[]) {
   if (ltl().match(context, result, root)) {
     std::cout << "Matched: " << std::string(result.first, result.second) << std::endl;
 
-    ast_draw printer;
-    printer.optimize_ast(root);
-    printer.to_formatted_string(root);
+    ast_draw printer(root);
+    printer.optimize_ast();
+    printer.to_formatted_string();
     printer.draw_to_file(root);
 
   }

@@ -1,0 +1,33 @@
+Matched: ((8 & 9) ^ 4) & (1 & 2)
+named_rule: And
+   concatenation
+      concatenation
+         concatenation
+            (
+            named_rule: Xor
+               concatenation
+                  concatenation
+                     concatenation
+                        (
+                        named_rule: And
+                           8
+                              8
+                              named_rule: And
+                           9
+                     )
+                  named_rule: Xor
+               4
+         )
+      named_rule: And
+   concatenation
+      concatenation
+         (
+         named_rule: And
+            1
+               1
+               named_rule: And
+            2
+      )
+SVG_Height: 1570
+SVG_Width: 71680
+AST_depth: 10
