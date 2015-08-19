@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include <SyntX/util/languages/ltl.h>
-
+#include <SyntX/util/parser/parser.h>
 #include "Generator.h"
 
 using namespace util::parser;
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Matched: " << std::string(result.first, result.second) << std::endl;
 
     ast_draw printer(root);
-    printer.optimize_ast();
+    ast_optimizer::optimize_ast(root);
     printer.to_formatted_string();
     printer.draw_to_file(root);
 

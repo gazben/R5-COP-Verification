@@ -51,5 +51,6 @@
 #include <SyntX/util/parser/whitespace.h>
 #include <SyntX/util/parser/whitespace_not_newline.h>
 #include <SyntX/util/parser/ast_draw.h>
+#include <SyntX/util/parser/ast_optimizer.h>
 
 #endif // _UTIL_PARSER_PARSER_
