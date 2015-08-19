@@ -12,6 +12,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::optimize_ast(std::shared_ptr<bas
   remove_one_children_roots(node);
   remove_lpar_rpar(node);
   remove_alternations(node);
+  rearrange_oneop_operators(node);
 
   return node;
 }
@@ -52,11 +53,56 @@ std::shared_ptr<base_rule::node> ast_optimizer::rearrange_operators(std::shared_
       }
     }
   }
-
+  
   rearrange_operators(node->left_children());
   rearrange_operators(node->right_children());
 
   return node;
+}
+
+std::shared_ptr<base_rule::node> ast_optimizer::rearrange_oneop_operators(std::shared_ptr<base_rule::node> &node)
+{
+  if (node == nullptr)
+    return nullptr;
+
+if (
+  node->parent != nullptr &&
+  node->parent->parent == nullptr &&
+  node->children.size() == 0 &&
+  node->parent->the_type == base_rule::node::type::repetition_or_epsilon &&
+  node->the_type == base_rule::node::type::named_rule) {
+
+
+  auto new_place = node->parent;
+  new_place->the_type = node->the_type;
+  new_place->the_value = node->the_value;
+
+  for (unsigned int i = 0; i < node->parent->children.size(); i++) {
+    auto entry = node->parent->children[i];
+
+    if (entry->the_type == base_rule::node::type::named_rule) {
+      if (entry->children.size() == 0) {
+        node->the_type = base_rule::node::type::deleted;
+        node->parent->children.erase(node->parent->children.begin() + i);
+      }
+    }
+    else if (entry->the_type == base_rule::node::type::value)
+    {
+      node->parent->the_type = entry->the_type;
+      node->parent->the_value = entry->the_value;
+
+      if (entry->children.size() == 0) {
+        entry->the_type = base_rule::node::type::deleted;
+        //entry->parent->children.erase(node->parent->children.begin() + i);
+      }
+    }
+  }
+}
+
+rearrange_oneop_operators(node->left_children());
+rearrange_oneop_operators(node->right_children());
+
+return node;
 }
 
 std::shared_ptr<base_rule::node> ast_optimizer::remove_lpar_rpar(std::shared_ptr<base_rule::node> &node)

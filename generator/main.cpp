@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
 
   //LANGUAGE END
   //std::string input = "G(!(1 & 2))\n";
-  std::string input = "((8 & 9) ^ 4) & (1 & 2)\n";
+  std::string input = "G(((8 & 9) ^ 4) & (1 & 2))\n";
   //std::string input = "4 & 2\n";
   base_rule::match_range context(input.cbegin(), input.cend());
   base_rule::match_range result;
