@@ -135,47 +135,6 @@ void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node,
   if (node) {
     for (size_t i = 0; i < depth; ++i) std::cout << "   ";
 
-    /*
-    std::cout << "--" << std::endl;
-    for (size_t i = 0; i < depth; ++i) std::cout << "   ";
-    std::cout << "Parent: ";
-    if (node->parent != nullptr) {
-      switch (node->parent->the_type) {
-      case base_rule::node::type::value:
-        std::cout << node->the_value << std::endl;
-        break;
-
-      case base_rule::node::type::alternation:
-        std::cout << "alternation" << std::endl;
-        break;
-
-      case base_rule::node::type::concatenation:
-        std::cout << "concatenation" << std::endl;
-        break;
-
-      case base_rule::node::type::option:
-        std::cout << "option" << std::endl;
-        break;
-
-      case base_rule::node::type::repetition:
-        std::cout << "repetition" << std::endl;
-        break;
-
-      case base_rule::node::type::repetition_or_epsilon:
-        std::cout << "repetition_or_epsilon" << std::endl;
-        break;
-
-      case base_rule::node::type::named_rule:
-        std::cout << "named_rule: " << node->the_value << std::endl;
-        break;
-      }
-    }
-    else
-    {
-      std::cout << "nullptr" << std::endl;
-    }
-    */
-
     switch (node->the_type) {
     case base_rule::node::type::value:
       std::cout << node->the_value << std::endl;
@@ -222,11 +181,13 @@ void ast_draw::to_formatted_string(size_t depth /*= 0*/)
 
 std::shared_ptr<base_rule::node> ast_draw::optimize_ast(std::shared_ptr<base_rule::node> &node) {
   remove_alternations(node);
-  remove_one_children_roots(node);
   remove_character_leafs(node);
+  remove_one_children_roots(node);
   rearrange_operators(node);
   remove_nodes_marked_for_deletion(node);
   remove_one_children_roots(node);
+  remove_lpar_rpar(node);
+  remove_alternations(node);
 
   return root;
 }
@@ -273,10 +234,30 @@ std::shared_ptr<base_rule::node> ast_draw::rearrange_operators(std::shared_ptr<b
   return node;
 }
 
+std::shared_ptr<base_rule::node> ast_draw::remove_lpar_rpar(std::shared_ptr<base_rule::node> &node)
+{
+  if (node == nullptr)
+    return nullptr;
+
+  for (unsigned int i = 0; i < node->children.size(); i++) {
+    auto& entry = node->children[i];
+
+    if (entry->the_value == "(" || entry->the_value == ")") {
+      entry->parent->children.erase(entry->parent->children.begin() + i);
+    }
+  }
+
+  remove_lpar_rpar(node->left_children());
+  remove_lpar_rpar(node->right_children());
+
+  return node;
+
+}
+
 std::shared_ptr<base_rule::node> ast_draw::remove_character_leafs(std::shared_ptr<base_rule::node> &node) {
   if (node == nullptr)
     return nullptr;
-  //Remove character value leafs under the named_rules
+
   if (node->children.size() == 1 && node->the_type == base_rule::node::type::named_rule) {
     node->children.clear();
   }
@@ -290,11 +271,11 @@ std::shared_ptr<base_rule::node> ast_draw::remove_character_leafs(std::shared_pt
 std::shared_ptr<base_rule::node> ast_draw::remove_alternations(std::shared_ptr<base_rule::node> &node) {
   if (node == nullptr)
     return nullptr;
-  //Remove alternations
+
   for (unsigned int i = 0; i < node->children.size(); i++) {
     auto& entry = node->children[i];
 
-    if (entry->children.size() == 1 && entry->the_type == base_rule::node::type::alternation) {
+    if (entry->children.size() == 1 && ((entry->the_type == base_rule::node::type::alternation) || (entry->the_type == base_rule::node::type::concatenation) ) ) {
       entry = entry->children.front();
       entry->parent = node;
       remove_alternations(node);
@@ -320,8 +301,8 @@ std::shared_ptr<base_rule::node> ast_draw::remove_one_children_roots(std::shared
       entry->parent = node;
   }
 
-  for (auto &entry : node->children)
-    remove_one_children_roots(entry);
+  remove_one_children_roots(node->left_children());
+  remove_one_children_roots(node->right_children());
 
   return node;
 }

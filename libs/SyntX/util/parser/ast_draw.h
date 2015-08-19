@@ -17,6 +17,7 @@ private:
   std::string svg_file_content;
 
   std::shared_ptr<base_rule::node> rearrange_operators(std::shared_ptr<base_rule::node> &node);
+  std::shared_ptr<base_rule::node> remove_lpar_rpar(std::shared_ptr<base_rule::node> &node);
   std::shared_ptr<base_rule::node> remove_character_leafs(std::shared_ptr<base_rule::node> &node);
   std::shared_ptr<base_rule::node> remove_alternations(std::shared_ptr<base_rule::node> &node);
   std::shared_ptr<base_rule::node> remove_one_children_roots(std::shared_ptr<base_rule::node> &node);
