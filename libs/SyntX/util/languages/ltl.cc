@@ -15,16 +15,14 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
   OrOp <<= character("|") | identifier("||") | character("+") | identifier("or");
   rule AndOp("And");
   AndOp <<= character("&") | identifier("&&") | character("*") | identifier("and");
-  rule WeakNextOp("WeakNext");
-  WeakNextOp <<= identifier("wX") | identifier("wO");
   rule NextOp("Next");
-  NextOp <<= character("X") | character("O");
+  NextOp <<= character("X");
   rule FutureOp("Future");
-  FutureOp <<= character("F") | identifier("<>");
+  FutureOp <<= character("F");
   rule GloballyOp("Globally");
-  GloballyOp <<= character("G") | identifier("[]");
+  GloballyOp <<= character("G");
   rule NotOp("Not");
-  NotOp <<= character("!") | character("~") | identifier("not");
+  NotOp <<= character("!") | character("~");
   rule LPAR;
   LPAR <<= character("(");
   rule RPAR;
@@ -42,13 +40,12 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
     | AndOp
     | ImplicationOp
     ;
-
+  
   rule OperatorOneOp;
   OperatorOneOp <<=
-    GloballyOp
-    | FutureOp
+    FutureOp
+    | GloballyOp
     | NotOp
-    | WeakNextOp
     | NextOp
     ;
 

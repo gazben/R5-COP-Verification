@@ -14,38 +14,41 @@ size_t ast_draw::count_depth(std::shared_ptr<base_rule::node> const &node, size_
   return max_depth;
 }
 
+std::string ast_draw::node_to_string(std::shared_ptr<base_rule::node> const &node) {
+  std::string text;
+  switch (node->the_type) {
+  case base_rule::node::type::value:
+    text = node->the_value;
+    break;
+  case base_rule::node::type::alternation:
+    text = "alternation";
+    break;
+  case base_rule::node::type::concatenation:
+    text = "concatenation";
+    break;
+  case base_rule::node::type::option:
+    text = "option";
+    break;
+  case base_rule::node::type::repetition:
+    text = "repetition";
+    break;
+  case base_rule::node::type::repetition_or_epsilon:
+    text = "repetition_or_epsilon";
+    break;
+  case base_rule::node::type::named_rule:
+    text = "Op_" + node->the_value;
+    break;
+  }
+  return text;
+}
+
 void ast_draw::create_svg(std::shared_ptr<base_rule::node> const &node, size_t depth, size_t level_pos /*= 1*/, vector parentLinePoint /*= vector()*/)
 {
   if (node) {
-    //TEXT
-    std::string text;
-    switch (node->the_type) {
-    case base_rule::node::type::value:
-      text = node->the_value;
-      break;
-    case base_rule::node::type::alternation:
-      text = "alternation";
-      break;
-    case base_rule::node::type::concatenation:
-      text = "concatenation";
-      break;
-    case base_rule::node::type::option:
-      text = "option";
-      break;
-    case base_rule::node::type::repetition:
-      text = "repetition";
-      break;
-    case base_rule::node::type::repetition_or_epsilon:
-      text = "repetition_or_epsilon";
-      break;
-    case base_rule::node::type::named_rule:
-      text = "named_rule: " + node->the_value;
-      break;
-    }
-    //POSITION
+    std::string text = node_to_string(node);
+
     size_t x_pos;
     size_t y_pos;
-
     size_t offset = level_pos;
     if (offset % 2 == 0)
       offset += 1;
@@ -133,41 +136,9 @@ void ast_draw::draw_to_file(std::string path /*= "ast.html"*/)
 void ast_draw::to_formatted_string(std::shared_ptr<base_rule::node> const &node, size_t depth /*= 0*/)
 {
   if (node) {
-    for (size_t i = 0; i < depth; ++i) std::cout << "   ";
-
-    switch (node->the_type) {
-    case base_rule::node::type::value:
-      std::cout << node->the_value << std::endl;
-      break;
-
-    case base_rule::node::type::alternation:
-      std::cout << "alternation" << std::endl;
-      break;
-
-    case base_rule::node::type::concatenation:
-      std::cout << "concatenation" << std::endl;
-      break;
-
-    case base_rule::node::type::option:
-      std::cout << "option" << std::endl;
-      break;
-
-    case base_rule::node::type::repetition:
-      std::cout << "repetition" << std::endl;
-      break;
-
-    case base_rule::node::type::repetition_or_epsilon:
-      std::cout << "repetition_or_epsilon" << std::endl;
-      break;
-
-    case base_rule::node::type::named_rule:
-      std::cout << "named_rule: " << node->the_value << std::endl;
-      break;
-
-    case base_rule::node::type::deleted:
-      std::cout << "deleted" << node->the_value << std::endl;
-      break;
-    }
+    std::string text = node_to_string(node);
+    for (size_t i = 0; i < depth; ++i) std::cout << "  ";
+    std::cout << text << std::endl;
 
     for (auto &a_node : node->children)
       to_formatted_string(a_node, depth + 1);

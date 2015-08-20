@@ -27,6 +27,7 @@ private:
 
   size_t count_depth(std::shared_ptr<base_rule::node> const &node, size_t depth = 0);
 
+  std::string node_to_string(std::shared_ptr<base_rule::node> const &node);
   void create_svg(std::shared_ptr<base_rule::node> const &node, size_t depth, size_t level_pos = 1, vector parentLinePoint = vector());
 public:
 
