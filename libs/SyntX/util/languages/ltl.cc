@@ -6,9 +6,9 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
   rule UntilOp("Until");
   UntilOp <<= character("U");
   rule ImplicationOp("Implication");
-  ImplicationOp <<= identifier("->") | identifier("=>") | identifier("-->") | identifier("imply") | identifier("i");
+  ImplicationOp <<= identifier("=>") | identifier("imply");
   rule EquivalenceOp("Equivalence");
-  EquivalenceOp <<= identifier("<->") | identifier("<=>") | identifier("iff") | identifier("eq") | identifier("e");
+  EquivalenceOp <<= identifier("<->") | identifier("eq") | identifier("e");
   rule XorOp("Xor");
   XorOp <<= character("^") | identifier("xor");
   rule OrOp("Or");
@@ -34,11 +34,11 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
   OperatorTwoOp <<=
     ReleaseOp
     | UntilOp
+    | ImplicationOp
     | EquivalenceOp
     | XorOp
     | OrOp
     | AndOp
-    | ImplicationOp
     ;
   
   rule OperatorOneOp;
