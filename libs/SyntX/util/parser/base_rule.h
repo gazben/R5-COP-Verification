@@ -119,6 +119,13 @@ namespace util {
          * @param a_type the type of the node
          */
         node(type a_type) : the_type(a_type) {}
+
+        /**
+        * Constructs a node of the given type (tipically used for tyeps other than value), and the value.
+        * @param a_type the type of the node
+        * @param a_value the value of the node
+        */
+        node(type a_type, std::string a_value) : the_type(a_type), the_value(a_value) {}
       };
 
       /**
