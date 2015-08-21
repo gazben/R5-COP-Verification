@@ -57,7 +57,7 @@ void ast_draw::create_svg(std::shared_ptr<base_rule::node> const &node, size_t d
     y_pos = depth * 120 + 70;
 
     //SYMBOL
-    double svg_ellipse_rx = 50 + text.length() * 1.6;
+    double svg_ellipse_rx = 50 + text.length() * 1.4;
     double svg_ellipse_ry = 35;
 
     svg_file_content +=
