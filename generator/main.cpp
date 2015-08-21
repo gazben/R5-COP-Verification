@@ -5,6 +5,7 @@
 #include <SyntX/util/languages/ltl.h>
 #include <SyntX/util/parser/parser.h>
 #include "Generator.h"
+#include "ConnectionNormalFormGenerator.h"
 
 using namespace util::parser;
 using namespace std;
@@ -12,10 +13,9 @@ using namespace std;
 int main(int argc, char* argv[]) {
   base_rule::set_build_ast(true);
 
-  //LANGUAGE END
-  //std::string input = "G(!(1 & 2))\n";
-  std::string input = "G(((8 & 9) ^ 4) & (1 & 2))\n";
-  //std::string input = "4 & 2\n";
+  //std::string input = "G (((8 | 9) ^ 4) U (1 & 2))\n";
+
+  std::string input = "G(1 => (2 U 3))";
   base_rule::match_range context(input.cbegin(), input.cend());
   base_rule::match_range result;
   std::shared_ptr<base_rule::node> root;
@@ -25,6 +25,9 @@ int main(int argc, char* argv[]) {
 
     ast_draw printer(root);
     ast_optimizer::optimize_ast(root);
+    printer.to_formatted_string();     std::cout << std::endl << std::endl;
+    ConnectionNormalFormGenerator converter;
+    converter.convertToConnectionNormalForm(root);
     printer.to_formatted_string();
     printer.draw_to_file(root);
 
