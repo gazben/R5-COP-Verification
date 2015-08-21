@@ -18,11 +18,79 @@ Rules:
 
 */
 
+/*
+Structure used for the Connection Normal form generation.
+*/
+struct ast_node {
+  ast_node* leftChildren;
+  ast_node* rightChildren;
+  ast_node* parent;
+  base_rule::node::type the_type;
+  std::string the_value;
+
+
+  ast_node() :leftChildren(nullptr), rightChildren(nullptr), parent(nullptr) {}
+  ast_node(std::string _value) :ast_node() {
+    the_value = _value;
+  }
+  ast_node(base_rule::node::type _type) :ast_node() {
+    the_type = _type;
+  }
+  ast_node(base_rule::node::type _type, std::string _value) :ast_node() {
+    the_type = _type;
+    the_value = _value;
+  }
+
+  ast_node* left_children() { return leftChildren; }
+  ast_node* right_children() { return rightChildren; }
+
+  ast_node* clone(ast_node* _parent = nullptr) {
+    ast_node* result = new ast_node(the_type, the_value);
+    result->parent = _parent;
+    if (right_children())
+      result->rightChildren = right_children()->clone(result);
+    if (left_children())
+      result->leftChildren = left_children()->clone(result);
+
+    return result;
+  }
+
+  void free_ast(ast_node* node) {
+    if (node == nullptr)
+      return
+
+    free_ast(node->left_children());
+    free_ast(node->right_children());
+    delete node;
+  }
+
+  void add_children(ast_node* node) {
+    if (leftChildren == nullptr)
+      leftChildren = node;
+    else if (rightChildren == nullptr)
+      rightChildren = node;
+    else
+      throw std::runtime_error("Too many children!");
+  }
+};
+
 class ConnectionNormalFormGenerator {
 private:
-  std::shared_ptr<base_rule::node> root;
+  std::shared_ptr<base_rule::node> originalRoot;
+  ast_node* rootNode;
 
-  void convertGenerallyOperators(std::shared_ptr<base_rule::node> node) {
+  ast_node* copyAST(std::shared_ptr<base_rule::node> node, ast_node* parent = nullptr) {
+    ast_node* result = new ast_node(node->the_type, node->the_value);
+    result->parent = parent;
+    if (node->right_children())
+      result->rightChildren = copyAST(node->right_children(), result);
+    if (node->left_children())
+      result->leftChildren = copyAST(node->left_children(), result);
+
+    return result;
+  }
+
+  void convertGenerallyOperators(ast_node* node) {
     if (node == nullptr) {
       return;
     }
@@ -31,23 +99,24 @@ private:
       node->the_type = base_rule::node::type::named_rule;
       node->the_value = "Not";
 
-      std::shared_ptr<base_rule::node> future_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Future");
+      ast_node* future_node = new ast_node(base_rule::node::type::named_rule, "Future");
       future_node->parent = node;
 
-      std::shared_ptr<base_rule::node> not_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Not");
+      ast_node* not_node = new ast_node(base_rule::node::type::named_rule, "Not");
       not_node->parent = future_node;
 
-      not_node->children = node->children;
-      node->children.clear();
-      node->children.push_back(future_node);
-      future_node->children.push_back(not_node);
+      not_node->leftChildren = node->left_children();
+      not_node->rightChildren = node->right_children();
+
+      node->add_children(future_node);
+      future_node->add_children(not_node);
     }
 
     convertGenerallyOperators(node->left_children());
     convertGenerallyOperators(node->right_children());
   }
 
-  void convertFutureOperators(std::shared_ptr<base_rule::node> node) {
+  void convertFutureOperators(ast_node* node) {
     if (node == nullptr) {
       return;
     }
@@ -56,17 +125,18 @@ private:
       node->the_type = base_rule::node::type::named_rule;
       node->the_value = "Until";
 
-      std::shared_ptr<base_rule::node> true_node = std::make_shared<base_rule::node>(base_rule::node::type::value, "True");
+      ast_node* true_node = new ast_node(base_rule::node::type::value, "True");
       true_node->parent = node;
-      //TODO: error handling (if children.size() == 2)
-      node->children.push_back(true_node);
+
+      node->rightChildren = node->left_children();
+      node->leftChildren = true_node;
     }
 
     convertFutureOperators(node->left_children());
     convertFutureOperators(node->right_children());
   }
 
-  void convertImplicationOperators(std::shared_ptr<base_rule::node> node) {
+  void convertImplicationOperators(ast_node* node) {
     if (node == nullptr) {
       return;
     }
@@ -75,17 +145,17 @@ private:
       node->the_type = base_rule::node::type::named_rule;
       node->the_value = "Or";
 
-      std::shared_ptr<base_rule::node> not_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Not");
+      ast_node* not_node = new ast_node(base_rule::node::type::named_rule, "Not");
       not_node->parent = node;
-      not_node->children.push_back(node->children[0]);
+      not_node->add_children(node->left_children());
 
-      node->children[0] = not_node;
+      node->leftChildren = not_node;
     }
 
     convertImplicationOperators(node->left_children());
     convertImplicationOperators(node->right_children());
   }
-  void convertOrOperators(std::shared_ptr<base_rule::node> node) {
+  void convertOrOperators(ast_node* node) {
     if (node == nullptr) {
       return;
     }
@@ -94,69 +164,72 @@ private:
       node->the_type = base_rule::node::type::named_rule;
       node->the_value = "Not";
 
-      std::shared_ptr<base_rule::node> and_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "And");
+      ast_node* and_node = new ast_node(base_rule::node::type::named_rule, "And");
       and_node->parent = node;
 
-      std::shared_ptr<base_rule::node> not_node_left = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Not");
-      std::shared_ptr<base_rule::node> not_node_right = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Not");
-      and_node->children.push_back(not_node_left);
-      and_node->children.push_back(not_node_right);
+      ast_node* not_node_left = new ast_node(base_rule::node::type::named_rule, "Not");
+      ast_node* not_node_right = new ast_node(base_rule::node::type::named_rule, "Not");
+      and_node->add_children(not_node_left);
+      and_node->add_children(not_node_right);
 
       not_node_left->parent = and_node;
-      not_node_left->children.push_back(node->children[0]);
+      not_node_left->add_children(node->left_children());
       not_node_right->parent = and_node;
-      not_node_right->children.push_back(node->children[1]);
+      not_node_right->add_children(node->right_children());
 
-      node->children.clear();
-      node->children.push_back(and_node);
+      node->leftChildren = and_node;
     }
 
     convertOrOperators(node->left_children());
     convertOrOperators(node->right_children());
   }
 
-  void convertUntilOperators(std::shared_ptr<base_rule::node> node) {
+  void convertUntilOperators(ast_node* node, size_t depth = 0) {
     if (node == nullptr) {
       return;
     }
-    convertUntilOperators(node->left_children()); //To avoid endless loop
-    convertUntilOperators(node->right_children());
 
-    if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Until") {
+    convertUntilOperators(node->left_children(), depth + 1);
+    convertUntilOperators(node->right_children(), depth + 1);
+
+    if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Until" &&
+      depth < 1) {
       node->the_type = base_rule::node::type::named_rule;
       node->the_value = "Or";
 
-      std::shared_ptr<base_rule::node> and_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "And");
-      std::shared_ptr<base_rule::node> next_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Next");
-      std::shared_ptr<base_rule::node> until_node = std::make_shared<base_rule::node>(base_rule::node::type::named_rule, "Not");
+      ast_node* and_node = new ast_node(base_rule::node::type::named_rule, "And");
+      ast_node* next_node = new ast_node(base_rule::node::type::named_rule, "Next");
+      ast_node* until_node = new ast_node(base_rule::node::type::named_rule, "Until");
 
       and_node->parent = node;
       next_node->parent = and_node;
       until_node->parent = next_node;
 
-      until_node->children = node->children;
+      ast_node* childrenBuffer[2] = {node->left_children(), node->right_children()};
 
-      node->children.clear();
-      node->children.push_back(until_node->children[1]);
-      node->children.push_back(and_node);
+      node->leftChildren = childrenBuffer[1];
+      node->rightChildren = and_node;
 
-      and_node->children.push_back(until_node->children[0]);
-      and_node->children.push_back(next_node);
-      next_node->children.push_back(until_node);
+      and_node->add_children(childrenBuffer[0]);
+      and_node->add_children(next_node);
+      next_node->add_children(until_node);
+      until_node->leftChildren = childrenBuffer[0];
+      until_node->rightChildren = childrenBuffer[1];
+
     }
   }
-  void convertNegateOperators(std::shared_ptr<base_rule::node>& node) {
+  void convertNegateOperators(ast_node* node) {
     if (node == nullptr) {
       return;
     }
 
     if ((node->the_type == base_rule::node::type::named_rule && node->the_value == "Not") &&
-      (node->children[0]->the_type == base_rule::node::type::named_rule && node->children[0]->the_value == "Not")){
-
-      node->the_type = node->children[0]->children[0]->the_type;
-      node->the_value = node->children[0]->children[0]->the_value;
-      node->children[0]->children[0]->parent = node;
-      node->children = node->children[0]->children[0]->children;
+      (node->left_children()->the_type == base_rule::node::type::named_rule && node->left_children()->the_value == "Not")) {
+      node->the_type = node->left_children()->left_children()->the_type;
+      node->the_value = node->left_children()->left_children()->the_value;
+      node->left_children()->left_children()->parent = node;
+      node->leftChildren = node->left_children()->left_children()->left_children();
+      node->rightChildren = node->left_children()->left_children()->right_children();
     }
 
     convertNegateOperators(node->left_children());
@@ -164,20 +237,29 @@ private:
   }
 
 public:
-  std::shared_ptr<base_rule::node> getRoot() { return root; }
-  void setRoot(std::shared_ptr<base_rule::node> val) { root = val; }
+  std::shared_ptr<base_rule::node> getOriginalRoot() { return originalRoot; }
+  void setOriginalRoot(std::shared_ptr<base_rule::node> val) { originalRoot = val; }
 
-  std::shared_ptr<base_rule::node> convertToConnectionNormalForm(std::shared_ptr<base_rule::node> _root) {
-    root = _root;
+  auto convertToConnectionNormalForm(std::shared_ptr<base_rule::node>& _root) {
+    originalRoot = _root;
+    rootNode = copyAST(originalRoot);
 
-    convertGenerallyOperators(root);
-    convertFutureOperators(root);
-    convertImplicationOperators(root);
-    convertOrOperators(root);
-    convertUntilOperators(root);
-    convertNegateOperators(root);
+    ast_draw<decltype(originalRoot)> printer_1(originalRoot);
+    ast_draw<decltype(rootNode)> printer_2(rootNode);
 
-    return root;
+    printer_1.to_formatted_string(); std::cout << std::endl << std::endl;
+    printer_2.to_formatted_string(); std::cout << std::endl << std::endl;
+
+    convertGenerallyOperators(rootNode);
+    convertFutureOperators(rootNode);
+    convertImplicationOperators(rootNode);
+    convertUntilOperators(rootNode);
+    convertOrOperators(rootNode);
+    convertNegateOperators(rootNode);
+
+    printer_2.to_formatted_string();
+
+    return rootNode;
   }
 };
 
