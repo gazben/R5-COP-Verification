@@ -87,7 +87,13 @@
     <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc">
       <Filter>SyntX</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libs\SyntX\util\parser\ast_optimizer.cpp">
+    <ClCompile Include="..\..\generator\ast_optimizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\ast_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,10 +188,16 @@
     <ClInclude Include="..\..\libs\SyntX\util\languages\ltl.h">
       <Filter>SyntX</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libs\SyntX\util\parser\ast_optimizer.h">
-      <Filter>SyntX</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\generator\ConnectionNormalFormGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\BlockGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\ast_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\ast_optimizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

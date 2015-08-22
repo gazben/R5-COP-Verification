@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\generator\ast_node.cpp" />
+    <ClCompile Include="..\..\generator\ast_optimizer.cpp" />
+    <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp" />
     <ClCompile Include="..\..\generator\Construct.cpp" />
     <ClCompile Include="..\..\generator\Function.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
     <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\ast_optimizer.cpp" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\base_rule.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\character.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\concatenation.cc" />
@@ -37,6 +39,9 @@
     <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\generator\ast_node.h" />
+    <ClInclude Include="..\..\generator\ast_optimizer.h" />
+    <ClInclude Include="..\..\generator\BlockGenerator.h" />
     <ClInclude Include="..\..\generator\ConnectionNormalFormGenerator.h" />
     <ClInclude Include="..\..\generator\Construct.h" />
     <ClInclude Include="..\..\generator\Eval.h" />
@@ -47,7 +52,6 @@
     <ClInclude Include="..\..\libs\SyntX\util\languages\ltl.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\alternation.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\ast_draw.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\ast_optimizer.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\base_rule.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\character.h" />
     <ClInclude Include="..\..\libs\SyntX\util\parser\concatenation.h" />
