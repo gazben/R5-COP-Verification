@@ -164,8 +164,11 @@ public:
     if (node) {
       std::string text = node_to_string(node);
       for (size_t i = 0; i < depth; ++i) std::cout << "  ";
-      std::cout << text << std::endl;
 
+      if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Next")
+        std::cout << "Block: " + std::to_string(node->blockID) + " ";
+      
+      std::cout << text << std::endl;
 
       to_formatted_string(node->left_children(), depth + 1);
       to_formatted_string(node->right_children(), depth + 1);
