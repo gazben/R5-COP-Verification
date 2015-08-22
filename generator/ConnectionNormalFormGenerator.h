@@ -28,12 +28,9 @@ private:
   ast_node* copyAST(std::shared_ptr<base_rule::node> node, ast_node* parent = nullptr);
 
   void convertGenerallyOperators(ast_node* node);
-
   void convertFutureOperators(ast_node* node);
-
   void convertImplicationOperators(ast_node* node);
   void convertOrOperators(ast_node* node);
-
   void convertUntilOperators(ast_node* node, size_t depth = 0);
   void convertNegateOperators(ast_node* node);
 
@@ -42,8 +39,10 @@ public:
   void setOriginalRoot(std::shared_ptr<base_rule::node> val);
   void convertOneMOreUntilLevel(ast_node* root);
   ast_node* convertToConnectionNormalForm(std::shared_ptr<base_rule::node>& _root);
+  ast_node * add_nextop_to_root(ast_node * node);
   void free_ast();
   int getUntilDeepness();
+
 };
 
 #endif // ConnectionNormalFormGenerator_h__

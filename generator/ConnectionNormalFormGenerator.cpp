@@ -207,6 +207,7 @@ ast_node* ConnectionNormalFormGenerator::convertToConnectionNormalForm(std::shar
   convertUntilOperators(rootNode);
   convertOrOperators(rootNode);
   convertNegateOperators(rootNode);
+  rootNode = add_nextop_to_root(rootNode);
 
   return rootNode;
 }
@@ -219,4 +220,16 @@ void ConnectionNormalFormGenerator::free_ast()
 int ConnectionNormalFormGenerator::getUntilDeepness()
 {
   return untilDeepness;
+}
+
+ast_node*  ConnectionNormalFormGenerator::add_nextop_to_root(ast_node* node) {
+  if (node == nullptr)
+    return nullptr;
+
+  ast_node* root_Next_node = new ast_node(base_rule::node::type::named_rule, "Next");
+  root_Next_node->leftChildren = node;
+  root_Next_node->parent = nullptr;
+  node->parent = root_Next_node;
+
+  return root_Next_node;
 }

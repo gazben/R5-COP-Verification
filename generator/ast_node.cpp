@@ -42,6 +42,21 @@ ast_node* ast_node::clone(ast_node* _parent /*= nullptr*/)
   return result;
 }
 
+ast_node * ast_node::cloneUntilNext(ast_node* _parent)
+{
+  if (the_type == base_rule::node::type::named_rule && the_value == "Next")
+    return nullptr;
+
+  ast_node* result = new ast_node(the_type, the_value);
+  result->parent = _parent;
+  if (right_children())
+    result->rightChildren = right_children()->clone(result);
+  if (left_children())
+    result->leftChildren = left_children()->clone(result);
+
+  return result;
+}
+
 void ast_node::free_ast(ast_node* node)
 {
   if (node == nullptr)
