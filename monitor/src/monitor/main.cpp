@@ -33,7 +33,7 @@ void velMessageRecieved(const turtlesim::Velocity &msg) {
   if( property1 == nullptr ){
     property1 = new Property();
     property1->constructChildrenNodeFunc = construct_block0;
-    construct_START(property1);
+    construct_block0(property1);
   }
   property1->Evaluate();
 
