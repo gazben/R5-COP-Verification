@@ -1,8 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/BlockGenerator.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/BlockGenerator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/ConnectionNormalFormGenerator.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/ConnectionNormalFormGenerator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Construct.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Construct.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Eval.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Function.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Function.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Generator.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/ast_node.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/ast_node.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/ast_optimizer.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/ast_optimizer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/enum_set.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/languages/language.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/languages/ltl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/languages/ltl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/alternation.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/alternation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/ast_draw.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/base_rule.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/base_rule.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/character.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/character.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/concatenation.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/concatenation.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/debug_action.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/eol.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/eol.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/epsilon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/identifier.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/identifier.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/integer.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/integer.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/keyword.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/keyword.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/option.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/option.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/parser.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/range.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/range.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/real.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/real.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition_or_epsilon.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition_or_epsilon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/rule.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/rule.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/search.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/search.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/string.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/string.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/substring.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/substring.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace_not_newline.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace_not_newline.h" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include/cilk" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include/sanitizer" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/libs" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include/cilk" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include/sanitizer" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+        <excluded>
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/languages/language.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/languages/ltl.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/languages/ltl.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/eol.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/range.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/character.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/integer.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/substring.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/string.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/substring.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/base_rule.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/identifier.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition_or_epsilon.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/identifier.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/eol.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/string.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/epsilon.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/option.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace_not_newline.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/integer.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition_or_epsilon.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/base_rule.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/range.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/rule.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/repetition.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/real.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/rule.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/character.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/search.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/real.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/alternation.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/search.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/parser.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/concatenation.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/debug_action.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/option.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/keyword.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace_not_newline.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/alternation.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/whitespace.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/keyword.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/concatenation.cc" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/enum_set.h" />
+          <root url="file://$MODULE_DIR$/libs/SyntX/util/parser/ast_draw.h" />
+        </excluded>
+      </library>
+    </orderEntry>
   </component>
 </module>

@@ -12,6 +12,14 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(
   ROSVeryfy_generator
+  generator/ast_node.cpp
+  generator/ast_node.h
+  generator/ast_optimizer.cpp
+  generator/ast_optimizer.h
+  generator/BlockGenerator.cpp
+  generator/BlockGenerator.h
+  generator/ConnectionNormalFormGenerator.cpp
+  generator/ConnectionNormalFormGenerator.h
   generator/Construct.cpp
   generator/Construct.h
   generator/Eval.h
@@ -22,7 +30,6 @@ add_executable(
 
   libs/SyntX/util/parser/alternation.cc
   libs/SyntX/util/parser/alternation.h
-  libs/SyntX/util/parser/ast_draw.cc
   libs/SyntX/util/parser/ast_draw.h
   libs/SyntX/util/parser/base_rule.cc
   libs/SyntX/util/parser/base_rule.h

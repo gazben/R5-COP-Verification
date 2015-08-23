@@ -15,7 +15,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::optimize_ast(std::shared_ptr<bas
   return node;
 }
 
-std::shared_ptr<base_rule::node> ast_optimizer::rearrange_operators(std::shared_ptr<base_rule::node> &node)
+std::shared_ptr<base_rule::node> ast_optimizer::rearrange_operators(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return nullptr;
@@ -56,7 +56,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::rearrange_operators(std::shared_
   return node;
 }
 
-std::shared_ptr<base_rule::node> ast_optimizer::rearrange_oneop_operators(std::shared_ptr<base_rule::node> &node)
+std::shared_ptr<base_rule::node> ast_optimizer::rearrange_oneop_operators(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return nullptr;
@@ -99,7 +99,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::rearrange_oneop_operators(std::s
   return node;
 }
 
-std::shared_ptr<base_rule::node> ast_optimizer::remove_lpar_rpar(std::shared_ptr<base_rule::node> &node)
+std::shared_ptr<base_rule::node> ast_optimizer::remove_lpar_rpar(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return nullptr;
@@ -118,7 +118,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::remove_lpar_rpar(std::shared_ptr
   return node;
 }
 
-std::shared_ptr<base_rule::node> ast_optimizer::remove_character_leafs(std::shared_ptr<base_rule::node> &node)
+std::shared_ptr<base_rule::node> ast_optimizer::remove_character_leafs(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return nullptr;
@@ -133,7 +133,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::remove_character_leafs(std::shar
   return node;
 }
 
-std::shared_ptr<base_rule::node> ast_optimizer::remove_alternations(std::shared_ptr<base_rule::node> &node)
+std::shared_ptr<base_rule::node> ast_optimizer::remove_alternations(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return nullptr;
@@ -154,7 +154,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::remove_alternations(std::shared_
   return node;
 }
 
-std::shared_ptr<base_rule::node> ast_optimizer::remove_one_children_roots(std::shared_ptr<base_rule::node> &node)
+std::shared_ptr<base_rule::node> ast_optimizer::remove_one_children_roots(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return nullptr;
@@ -173,7 +173,7 @@ std::shared_ptr<base_rule::node> ast_optimizer::remove_one_children_roots(std::s
   return node;
 }
 
-void ast_optimizer::remove_nodes_marked_for_deletion(std::shared_ptr<base_rule::node> &node)
+void ast_optimizer::remove_nodes_marked_for_deletion(std::shared_ptr<base_rule::node> node)
 {
   if (node == nullptr)
     return;
