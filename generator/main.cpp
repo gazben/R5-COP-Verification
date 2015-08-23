@@ -19,6 +19,10 @@ int main(int argc, char* argv[]) {
   //std::string input = "G (((8 | 9) ^ 4) U (1 & 2))\n";
   std::string input = "G(1 => (2 U 3))";
 
+  cout << "ROS Automatic monitor generator BETA. Made by Gazder Bence" << endl;
+  //cout << "Please enter the expression!" << endl;
+  //getline(std::cin, input);
+
   base_rule::match_range context(input.cbegin(), input.cend());
   base_rule::match_range result;
   std::shared_ptr<base_rule::node> root;
@@ -34,31 +38,18 @@ int main(int argc, char* argv[]) {
     BlockGenerator block_generator(normalFormRoot);
     block_generator.createBlocks();
 
+    Generator gen;
+    gen.Generate();
+    cout << "Generation completed." << endl;
+    cout << "Given expression: " + input << endl;
   }
   else {
     std::cout << "Didn't match" << std::endl;
   }
 
-  /*
-  if (argc <= 1) {
-    cout << "ROS Automatic monitor generator ALFA. Made by Gazder Bence" << endl;
-    cout << "Please enter the expression!" << endl;
-    getline(std::cin, input);
-  }
-  else
-  {
-    input = std::string(argv[1]);
-  }
-  Generator gen;
-
-  if (gen.Parse(input)) {
-    gen.Generate();
-    cout << "Generation completed." << endl;
-    cout << "Given expression: " + input << endl;
-  }
-
-  cout << endl << "Press enter to quit." << endl;
-  */
+  cout << endl << "Press any key to quit." << endl;
+  
   getchar();
+
   return 0;
 }

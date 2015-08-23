@@ -9,50 +9,21 @@
 #include "Construct.h"
 #include "Eval.h"
 
-
 using namespace boost::filesystem;
 using namespace std;
 
 class Generator {
 public:
-  bool Parse(std::string input) {
-    if (input.empty()) {
-      //cout << "Empty input!" << endl;
-      return false;
-    }
 
-    std::string::iterator iter = input.begin();
-    std::string::iterator end_iter = input.end();
+  std::string PropertyFilePath;
+  std::string propertyFileString;
 
-    return true;
-  }
+  void Generate(std::string sourcePath_ = "D:\\Projects\\R5-COP-Verification\\monitor\\", std::string generatedPath_ = "D:\\Projects\\R5-COP-Verification\\Generated\\") {
+    copyDir(boost::filesystem::path(sourcePath_), boost::filesystem::path(generatedPath_));
 
-  void Generate(std::string generatedPath_ = "..\\..\\Generated\\", std::string sourcePath_ = "..\\..\\monitor\\src\\monitor\\") {
-    path sourcePath(sourcePath_);
-    path generatedPath(generatedPath_);
-    directory_iterator end_itr;
-
-    std::string propertyFileString;
-
-    //Copy the source files from the monitor directory to the Generated directory
-    for (directory_iterator iterator(sourcePath_); iterator != end_itr; ++iterator) {
-      std::string fileName = iterator->path().filename().string();
-      directory_entry entry(*iterator);
-
-      path generatedPathTemp(generatedPath);
-      generatedPathTemp += fileName;
-      copy_file(entry.path(), generatedPathTemp, copy_option::overwrite_if_exists);
-      if (fileName == "Property.h") {
-        //wstring propertyFilePath = entry.path().native().c_str();
-        ifstream tempFile( std::string( entry.path().native().begin(), entry.path().native().end() ) );
-
-        std::string str((std::istreambuf_iterator<char>(tempFile)),
-          std::istreambuf_iterator<char>());
-        propertyFileString = move(str);
-      }
-    }
-
-    constructFunctions.push_back(ConstructFunction(vector<std::string>({ "func1", "func2" }), "ctorfunc", 2, 1));
+    ifstream tempFile(PropertyFilePath);
+    std::string str((std::istreambuf_iterator<char>(tempFile)), std::istreambuf_iterator<char>());
+    propertyFileString = move(str);
 
     std::string functionDeclarations;
     std::string constructFunctionsString;
@@ -78,7 +49,7 @@ public:
     str_replace(propertyFileString, "//--CONSTRUCTFUNCTIONS--", constructFunctionsString);
     str_replace(propertyFileString, "//--EVALFUNCTIONS--", evalFunctionsString);
 
-    ofstream propertyFile(generatedPath_ + "Property.h");
+    ofstream propertyFile(PropertyFilePath);
     propertyFile.write(propertyFileString.c_str(), propertyFileString.size());
     propertyFile.close();
   }
@@ -92,6 +63,54 @@ private:
     if (start_pos == std::string::npos)
       return false;
     str.replace(start_pos, from.length(), to);
+    return true;
+  }
+
+  bool copyDir(
+    boost::filesystem::path const & source,
+    boost::filesystem::path const & destination
+    )
+  {
+    namespace fs = boost::filesystem;
+    // Iterate through the source directory
+    for (
+      fs::directory_iterator file(source);
+      file != fs::directory_iterator(); ++file
+      )
+    {
+      try
+      {
+        fs::path current(file->path());
+        if (fs::is_directory(current))
+        {
+          // Found directory: Recursion
+          if (
+            !copyDir(
+              current,
+              destination / current.filename()
+              )
+            )
+          {
+            return false;
+          }
+        }
+        else
+        {
+          // Found file: Copy
+          if (current.filename() == "Property.h") {
+            PropertyFilePath = std::string((destination / current.filename()).string());
+          }
+          fs::copy_file(
+            current,
+            destination / current.filename()
+            );
+        }
+      }
+      catch (fs::filesystem_error const & e)
+      {
+        std::cerr << e.what() << '\n';
+      }
+    }
     return true;
   }
 };
