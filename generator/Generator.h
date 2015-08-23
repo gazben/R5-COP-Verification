@@ -30,25 +30,7 @@ public:
     std::string functionDeclarations = blockGenerator->getFunctionDeclarations();
     std::string constructFunctionsString = blockGenerator->getConstructFunctionStrings();
     std::string evalFunctionsString = blockGenerator->getFunctionStrings();
-   
-    /*
-    for (unsigned int i = 0; i < constructFunctions.size(); i++) {
-      functionDeclarations += constructFunctions[i].getDeclarationString();
-      functionDeclarations += "\n";
 
-      constructFunctionsString += constructFunctions[i].getFunctionString();
-      constructFunctionsString += "\n";
-    }
-
-    for (unsigned int i = 0; i < evalFunctionsString.size(); i++) {
-      functionDeclarations += evalFunctions[i].getDeclarationString();
-      functionDeclarations += "\n";
-
-      evalFunctionsString += evalFunctions[i].getFunctionString();
-      evalFunctionsString += "\n";
-    }
-    */
-   
     str_replace(propertyFileString, "//--DECLARATIONS--", functionDeclarations);
     str_replace(propertyFileString, "//--CONSTRUCTFUNCTIONS--", constructFunctionsString);
     str_replace(propertyFileString, "//--EVALFUNCTIONS--", evalFunctionsString);
