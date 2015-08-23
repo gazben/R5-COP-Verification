@@ -34,7 +34,7 @@ private:
   void cutAST(ast_node* node = nullptr);
   void RootNode(ast_node* val);
   void cutNextBlock(std::vector<ast_node*> blockRoots);
-
+  static void markBlocks(ast_node* node);
   std::vector<std::string> getNextStateInterface(ast_node* node);
   std::vector<std::string> getPreviousStateInterface(int blockNumber);
   std::vector<std::string> getNextStateInterface(int blockNumber);
@@ -42,7 +42,7 @@ private:
   int getHeight(ast_node* node);
 
 public:
-  static void markBlocks(ast_node* node);
+
   BlockGenerator(ast_node* root);
   void createBlocks();
 };

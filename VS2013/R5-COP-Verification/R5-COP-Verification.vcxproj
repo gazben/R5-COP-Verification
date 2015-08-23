@@ -10,6 +10,31 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\monitor\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\monitor\package.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\monitor\turtle_monitor.launch" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\monitor\src\mission_cntrl_groovy.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\main.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\OutputState.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\Property.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\StateRegister.cpp" />
+    <ClCompile Include="..\..\monitor\src\subpose.cpp" />
+    <ClCompile Include="..\..\monitor\src\vel_monitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\monitor\src\monitor\EventHandler.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\Events.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\OutputState.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\Property.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\StateRegister.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BBC7C97C-8581-4261-9607-35B8721BCEFE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -52,6 +77,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

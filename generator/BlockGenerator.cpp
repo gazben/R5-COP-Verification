@@ -147,6 +147,7 @@ void BlockGenerator::createBlocks()
 {
   std::vector<ast_node*> rootTemp;
   rootTemp.push_back(rootNode);
+  markBlocks(rootNode);
   cutNextBlock(rootTemp);
   currentBlockNumber++;
 
