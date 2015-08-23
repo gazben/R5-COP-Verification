@@ -196,6 +196,8 @@ void ConnectionNormalFormGenerator::convertOneMOreUntilLevel(ast_node* root)
 {
   untilDeepness++;
   convertUntilOperators(root);
+  convertOrOperators(root);
+  convertNegateOperators(root);
 }
 
 ast_node* ConnectionNormalFormGenerator::convertToConnectionNormalForm(std::shared_ptr<base_rule::node>& _root)

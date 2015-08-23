@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\generator\ast_node.cpp" />
     <ClCompile Include="..\..\generator\ast_optimizer.cpp" />
+    <ClCompile Include="..\..\generator\BlockGenerator.cpp" />
     <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp" />
     <ClCompile Include="..\..\generator\Construct.cpp" />
     <ClCompile Include="..\..\generator\Function.cpp" />

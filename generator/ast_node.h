@@ -33,6 +33,5 @@ struct ast_node {
   void nullChildren();
 
   static std::string to_string(ast_node* node);
-  static std::string to_stringUntilNext(ast_node * node);
 };
 #endif // ast_node_h__

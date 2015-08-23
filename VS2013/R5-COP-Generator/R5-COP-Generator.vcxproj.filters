@@ -96,6 +96,9 @@
     <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\generator\BlockGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\generator\Construct.h">
