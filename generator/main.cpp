@@ -33,8 +33,10 @@ int main(int argc, char* argv[]) {
     BlockGenerator block_generator(normalFormRoot);
     BlockGenerator::markBlocks(normalFormRoot);
 
-    ast_draw<decltype(normalFormRoot)> ast_printer(normalFormRoot);
-    ast_printer.to_formatted_string(); std::cout << std::endl << std::endl;
+    //ast_draw<decltype(normalFormRoot)> ast_printer(normalFormRoot);
+    //ast_printer.to_formatted_string(); std::cout << std::endl << std::endl;
+
+    block_generator.createBlocks();
 
   }
   else {

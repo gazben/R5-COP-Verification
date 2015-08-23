@@ -23,7 +23,7 @@ class ConnectionNormalFormGenerator {
 private:
   std::shared_ptr<base_rule::node> originalRoot;
   ast_node* rootNode;
-  int untilDeepness = 1;
+  static int untilDeepness;
 
   ast_node* copyAST(std::shared_ptr<base_rule::node> node, ast_node* parent = nullptr);
 

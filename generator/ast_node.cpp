@@ -44,9 +44,11 @@ ast_node* ast_node::clone(ast_node* _parent /*= nullptr*/)
 
 ast_node * ast_node::cloneUntilNext(ast_node* _parent)
 {
-  if (the_type == base_rule::node::type::named_rule && the_value == "Next")
-    return nullptr;
-
+  if (the_type == base_rule::node::type::named_rule && the_value == "Next") {
+    return new ast_node(the_type, the_value);
+    //return nullptr;
+  }
+  
   ast_node* result = new ast_node(the_type, the_value);
   result->parent = _parent;
   if (right_children())
@@ -81,4 +83,36 @@ void ast_node::nullChildren()
 {
   leftChildren = nullptr;
   rightChildren = nullptr;
+}
+
+std::string ast_node::to_string(ast_node* node)
+{
+  if (node == nullptr || node->the_value == "Next")
+    return "";
+
+  std::string text;
+  switch (node->the_type) {
+  case base_rule::node::type::value:
+    text = node->the_value;
+    break;
+  case base_rule::node::type::alternation:
+    text = "a";
+    break;
+  case base_rule::node::type::concatenation:
+    text = "c";
+    break;
+  case base_rule::node::type::option:
+    text = "o";
+    break;
+  case base_rule::node::type::repetition:
+    text = "r";
+    break;
+  case base_rule::node::type::repetition_or_epsilon:
+    text = "R";
+    break;
+  case base_rule::node::type::named_rule:
+    text = node->the_value;
+    break;
+  }
+  return text + to_string(node->leftChildren) + to_string(node->rightChildren);
 }

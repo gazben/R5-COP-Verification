@@ -32,35 +32,7 @@ struct ast_node {
   void add_children(ast_node* node);
   void nullChildren();
 
-  static std::string to_string(ast_node* node) {
-    if (node == nullptr || node->the_value == "Next")
-      return "";
-
-    std::string text;
-    switch (node->the_type) {
-    case base_rule::node::type::value:
-      text = node->the_value;
-      break;
-    case base_rule::node::type::alternation:
-      text = "a";
-      break;
-    case base_rule::node::type::concatenation:
-      text = "c";
-      break;
-    case base_rule::node::type::option:
-      text = "o";
-      break;
-    case base_rule::node::type::repetition:
-      text = "r";
-      break;
-    case base_rule::node::type::repetition_or_epsilon:
-      text = "R";
-      break;
-    case base_rule::node::type::named_rule:
-      text = node->the_value;
-      break;
-    }
-    return text + to_string(node->leftChildren) + to_string(node->rightChildren);
-  }
+  static std::string to_string(ast_node* node);
+  static std::string to_stringUntilNext(ast_node * node);
 };
 #endif // ast_node_h__
