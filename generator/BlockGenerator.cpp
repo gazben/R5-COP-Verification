@@ -158,6 +158,79 @@ void BlockGenerator::createBlocks()
     currentBlockNumber++;
   }
 
+  for (int i = 0; i < evalBlocks.size(); i++)
+    evalBlocks[i].blockID = i;
+
   ast_draw<decltype(rootNode)> printer(rootNode);
   printer.to_formatted_string(rootNode);
+}
+
+std::string block::getConstructString()
+{
+  std::string constructBlockString;
+
+  //constructBlockString += getSignature();
+  constructBlockString += "Property* construct_block" + std::to_string(blockID);
+  constructBlockString += "{ \n";
+
+  std::vector<std::string> evalFunctions;
+  for (auto& blockEntry : blockRoots) {
+    evalFunctions.push_back("EVAL_" + std::get<0>(blockEntry));
+  }
+
+  for (auto& evalEntry : evalFunctions) {
+    constructBlockString += "_rootNode->evalFunctions.push_back(" + evalEntry + "); \n";
+  }
+
+  constructBlockString += "_rootNode->constructChildrenNodeFunc = construct_block" +
+    ((BlockGenerator::isNextBlockIdenticalToPrev(getPreviousStateInterface(), getNextStateInterface())) ? (std::to_string(blockID)) : (std::to_string(blockID + 1)) ) +
+    ";\n";
+  constructBlockString += "_rootNode->outputStates.resize(" + std::to_string(blockRoots.size()) + ");" + "\n";
+  constructBlockString += "_rootNode->inputStates.resize(" + std::to_string(nextStateRoots.size()) + ");" + "\n";
+  constructBlockString += "return _rootNode;\n}\n";
+
+  return constructBlockString;
+}
+
+std::vector<std::string> block::getSignatures()
+{
+  //return "trilean EVAL_s1a(Property* _prop)";    std::string result;
+  std::vector<std::string> result;
+
+  for (auto& blockEntry : blockRoots) {
+    result.push_back("trilean EVAL_" + std::get<0>(blockEntry) + "(Property* _prop)");
+  }
+  return result;
+}
+
+std::string block::getDeclarationString()
+{
+  std::string result;
+
+  for (auto& resultEntry : getSignatures()) {
+    result += (resultEntry + ";\n");
+  }
+  return result;
+}
+
+std::string block::getFunctionString()
+{
+  std::vector<std::string> signatures = getSignatures();
+  std::vector<std::string> functionBodys;
+  std::vector<std::string> results;
+
+  for (auto& blockEntry : blockRoots) {
+    functionBodys.push_back(std::get<1>(blockEntry)->getFunctionString());
+  }
+
+  for (int i = 0; i < blockRoots.size(); i++) {
+    results.push_back(signatures[i] + "{ return " + functionBodys[i] + "};");
+  }
+
+  std::string result;
+  for (auto& entry : results) {
+    result += (entry + "\n");
+  }
+
+  return result;
 }

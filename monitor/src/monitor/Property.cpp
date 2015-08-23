@@ -6,6 +6,7 @@ unsigned int Property::level = 0;
 const unsigned int Property::maxDepth = 2; //will be generated
 Property* Property::currentBlock = nullptr;
 
+
 trilean Property::isEventFired(SR_regtype eventCode)
 {
   return (stateRegisterPtr->stateRegister & eventCode) ? FALSE : TRUE;
@@ -125,6 +126,15 @@ Property::Property()
   }
 }
 
+//Declaration
+//--DECLARATIONS--
+
+//Construct
+//--CONSTRUCTFUNCTIONS--
+
+
+//Eval
+//--EVALFUNCTIONS--
 
 trilean EVAL_s0(Property* _prop)
 {

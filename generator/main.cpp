@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     BlockGenerator block_generator(normalFormRoot);
     block_generator.createBlocks();
 
-    Generator gen;
+    Generator gen(&block_generator);
     gen.Generate();
     cout << "Generation completed." << endl;
     cout << "Given expression: " + input << endl;
