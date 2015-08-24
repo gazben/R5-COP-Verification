@@ -201,7 +201,7 @@ std::string block::getConstructString()
   std::string constructBlockString;
 
   //constructBlockString += getSignature();
-  constructBlockString += "Property* construct_block(Property* _rootNode)" + std::to_string(blockID);
+  constructBlockString += "Property* construct_block" + std::to_string(blockID) + "(Property* _rootNode)";
   constructBlockString += "{ \n";
 
   std::vector<std::string> evalFunctions;
