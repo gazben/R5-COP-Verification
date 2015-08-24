@@ -2,7 +2,7 @@
 #include <turtlesim/Velocity.h>
 /* LOCAL INCLUDES */
 //#include "monitor/EventHandler.h"
-#include "Property.h"
+#include "monitor/Property.h"
 /* INCLUDES END */
 
 Property* property1;
