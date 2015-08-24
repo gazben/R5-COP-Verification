@@ -255,7 +255,7 @@ std::string block::getFunctionString()
   }
 
   for (int i = 0; i < blockRoots.size(); i++) {
-    results.push_back(signatures[i] + "{ return " + functionBodys[i] + "};");
+    results.push_back(signatures[i] + "{ return " + functionBodys[i] + ";}");
   }
 
   std::string result;
