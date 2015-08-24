@@ -126,9 +126,6 @@ Property::Property()
   }
 }
 
-//Declaration
-//--DECLARATIONS--
-
 //Construct
 //--CONSTRUCTFUNCTIONS--
 

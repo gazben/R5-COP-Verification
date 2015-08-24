@@ -4,21 +4,24 @@ void Generator::Generate(std::string sourcePath_ /*= "D:\\Projects\\R5-COP-Verif
 {
   copyDir(boost::filesystem::path(sourcePath_), boost::filesystem::path(generatedPath_));
 
-  ifstream tempFile(PropertyFilePath);
-  std::string str((std::istreambuf_iterator<char>(tempFile)), std::istreambuf_iterator<char>());
-  propertyFileString = move(str);
+  propertyFileString = move(std::string((std::istreambuf_iterator<char>(ifstream(PropertyFilePath))), std::istreambuf_iterator<char>()));
+  propertyHeaderFileString = move(std::string((std::istreambuf_iterator<char>(ifstream(PropertyHeaderFilePath))), std::istreambuf_iterator<char>()));
 
   std::string functionDeclarations = blockGenerator->getFunctionDeclarations();
   std::string constructFunctionsString = blockGenerator->getConstructFunctionStrings();
   std::string evalFunctionsString = blockGenerator->getFunctionStrings();
 
-  str_replace(propertyFileString, "//--DECLARATIONS--", functionDeclarations);
+  str_replace(propertyHeaderFileString, "//--DECLARATIONS--", functionDeclarations);
   str_replace(propertyFileString, "//--CONSTRUCTFUNCTIONS--", constructFunctionsString);
   str_replace(propertyFileString, "//--EVALFUNCTIONS--", evalFunctionsString);
 
   ofstream propertyFile(PropertyFilePath);
   propertyFile.write(propertyFileString.c_str(), propertyFileString.size());
   propertyFile.close();
+
+  ofstream propertyHeaderFile(PropertyHeaderFilePath);
+  propertyHeaderFile.write(propertyHeaderFileString.c_str(), propertyHeaderFileString.size());
+  propertyHeaderFile.close();
 }
 
 Generator::Generator(BlockGenerator* _generator) :blockGenerator(_generator)
@@ -90,6 +93,10 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
         if (current.filename() == "Property.cpp") {
           PropertyFilePath = std::string((destination / current.filename()).string());
         }
+        if (current.filename() == "Property.h") {
+          PropertyHeaderFilePath = std::string((destination / current.filename()).string());
+        }
+
         fs::copy_file(
           current,
           destination / current.filename(), copy_option::overwrite_if_exists

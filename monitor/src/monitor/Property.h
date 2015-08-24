@@ -41,8 +41,7 @@ public:
   void printBlock(Property*);
 };
 
-trilean EVAL_s0(Property*);
-trilean EVAL_s1a(Property*);
-Property* construct_START(Property*);
-Property* constructS1(Property*);
+//Declaration
+//--DECLARATIONS--
+
 #endif // Property_h__
