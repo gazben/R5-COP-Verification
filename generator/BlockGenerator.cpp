@@ -166,6 +166,36 @@ void BlockGenerator::createBlocks()
   printer.to_formatted_string(rootNode);
 }
 
+std::string BlockGenerator::getFunctionDeclarations()
+{
+  std::string result;
+
+  for (auto& blockEntry : evalBlocks)
+    result += (blockEntry.getDeclarationString() + "\n");
+
+  return result;
+}
+
+std::string BlockGenerator::getFunctionStrings()
+{
+  std::string result;
+
+  for (auto& blockEntry : evalBlocks)
+    result += (blockEntry.getFunctionString() + "\n");
+
+  return result;
+}
+
+std::string BlockGenerator::getConstructFunctionStrings()
+{
+  std::string result;
+
+  for (auto& blockEntry : evalBlocks) {
+    result += (blockEntry.getConstructString() + "\n");
+  }
+  return result;
+}
+
 std::string block::getConstructString()
 {
   std::string constructBlockString;

@@ -34,67 +34,7 @@ struct ast_node {
   void nullChildren();
 
   static std::string to_string(ast_node* node);
-  /*
-  trilean EVAL_s1a(Property* _prop)
-  {
-  return
-  NAND_3( NOT_3(_prop->isEventFired(EVENT_B)), NAND_3(_prop->isEventFired(EVENT_C), _prop->InputStates()[1])
-  );
-  }
-  */
-
-  void setInterfaceID() {
-    currentInterfaceID = globalInterfaceID;
-  }
-
-  std::string ast_node::getFunctionString()
-  {
-    std::string result;
-
-    if (the_value == "And")
-      result += "AND_3";
-    else if (the_value == "Or")
-      result += "OR_3";
-    else if (the_value == "Not")
-      result += "NOT_3";
-    else if (the_value == "Next") {
-      result += "_prop->inputStates[" + std::to_string(currentInterfaceID) + "]";
-      return result;
-    }
-    else if (the_value == "1") {
-      result += "_prop->isEventFired(EVENT_UP)";
-      return result;
-    }
-    else if (the_value == "2") {
-      result += "_prop->isEventFired(EVENT_DOWN)";
-      return result;
-    }
-    else if (the_value == "3") {
-      result += "_prop->isEventFired(EVENT_RIGHT)";
-      return result;
-    }
-    else if (the_value == "True") {
-      result += "TRUE";
-      return result;
-    }
-    else if (the_value == "False") {
-      result += "FALSE";
-      return result;
-    }
-    else
-      result += "VALUE";
-
-    return result + "(" + ((leftChildren) ? left_children()->getFunctionString() : "") + ((rightChildren) ? (", " + right_children()->getFunctionString()) : "") + ")";
-  }
-
-  std::string ast_node::getDeclarationString()
-  {
-    throw std::logic_error("The method or operation is not implemented.");
-  }
-
-  std::string ast_node::getSignature()
-  {
-    throw std::logic_error("The method or operation is not implemented.");
-  }
+  std::string getFunctionString();
+  void setInterfaceID();
 };
 #endif // ast_node_h__

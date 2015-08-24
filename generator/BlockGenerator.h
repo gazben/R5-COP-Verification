@@ -71,32 +71,9 @@ public:
   BlockGenerator(ast_node* root);
   void createBlocks();
 
-  std::string getFunctionDeclarations() {
-    std::string result;
-
-    for (auto& blockEntry : evalBlocks)
-      result += (blockEntry.getDeclarationString() + "\n");
-
-    return result;
-  }
-
-  std::string getFunctionStrings() {
-    std::string result;
-
-    for (auto& blockEntry : evalBlocks)
-      result += (blockEntry.getFunctionString() + "\n");
-
-    return result;
-  }
-
-  std::string getConstructFunctionStrings() {
-    std::string result;
-
-    for (auto& blockEntry : evalBlocks) {
-      result += (blockEntry.getConstructString() + "\n");
-    }
-    return result;
-  }
+  std::string getFunctionDeclarations();
+  std::string getFunctionStrings();
+  std::string getConstructFunctionStrings();
 };
 
 #endif // BlockGenerator_h__
