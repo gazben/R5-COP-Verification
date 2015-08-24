@@ -4,12 +4,10 @@
 #include <SyntX/util/parser/parser.h>
 #include <string>
 #include <memory>
-
-#include "Function.h"
 /*
 Structure used for the Connection Normal form generation.
 */
-struct ast_node{
+struct ast_node {
   ast_node* leftChildren;
   ast_node* rightChildren;
   ast_node* parent;
@@ -17,6 +15,8 @@ struct ast_node{
   std::string the_value;
   unsigned int blockID;
   unsigned int convertedCount;  //used for Until operators to determinate, how deap the converting
+  unsigned int currentInterfaceID;
+  static unsigned int globalInterfaceID;
 
   ast_node();
   ast_node(std::string _value);
@@ -28,7 +28,6 @@ struct ast_node{
 
   ast_node* clone(ast_node* _parent = nullptr);
   ast_node* cloneUntilNext(ast_node* _parent = nullptr);
-
 
   static void free_ast(ast_node* node);
   void add_children(ast_node* node);
@@ -44,20 +43,48 @@ struct ast_node{
   }
   */
 
+  void setInterfaceID() {
+    currentInterfaceID = globalInterfaceID;
+  }
+
   std::string ast_node::getFunctionString()
   {
     std::string result;
 
-    if( the_value == "And" )
+    if (the_value == "And")
       result += "AND_3";
     else if (the_value == "Or")
       result += "OR_3";
     else if (the_value == "Not")
       result += "NOT_3";
+    else if (the_value == "Next") {
+      result += "_prop->inputStates[" + std::to_string(currentInterfaceID) + "]";
+      return result;
+    }
+    else if (the_value == "1") {
+      result += "_prop->isEventFired(EVENT_UP)";
+      return result;
+    }
+    else if (the_value == "2") {
+      result += "_prop->isEventFired(EVENT_DOWN)";
+      return result;
+    }
+    else if (the_value == "3") {
+      result += "_prop->isEventFired(EVENT_RIGHT)";
+      return result;
+    }
+    else if (the_value == "True") {
+      result += "TRUE";
+      return result;
+    }
+    else if (the_value == "False") {
+      result += "FALSE";
+      return result;
+    }
     else
       result += "VALUE";
 
-    return result + "(" + ((leftChildren)? left_children()->getFunctionString():"") + ((rightChildren)?(", " + right_children()->getFunctionString()):"") + ")";
+    return result + "(" + ((leftChildren) ? left_children()->getFunctionString() : "") + ((rightChildren) ? (", " + right_children()->getFunctionString()) : "") + ")";
   }
 
   std::string ast_node::getDeclarationString()
@@ -69,6 +96,5 @@ struct ast_node{
   {
     throw std::logic_error("The method or operation is not implemented.");
   }
-
 };
 #endif // ast_node_h__

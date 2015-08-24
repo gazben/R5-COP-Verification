@@ -1,6 +1,6 @@
 #include "ConnectionNormalFormGenerator.h"
 
-int ConnectionNormalFormGenerator::untilDeepness = 2; 
+int ConnectionNormalFormGenerator::untilDeepness = 2;
 
 ast_node* ConnectionNormalFormGenerator::copyAST(std::shared_ptr<base_rule::node> node, ast_node* parent /*= nullptr*/)
 {

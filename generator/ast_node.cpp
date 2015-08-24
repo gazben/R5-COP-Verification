@@ -1,5 +1,7 @@
 #include "ast_node.h"
 
+unsigned int ast_node::globalInterfaceID = 0;
+
 ast_node::ast_node(base_rule::node::type _type, std::string _value) :ast_node()
 {
   the_type = _type;
@@ -16,7 +18,7 @@ ast_node::ast_node(std::string _value) : ast_node()
   the_value = _value;
 }
 
-ast_node::ast_node() : leftChildren(nullptr), rightChildren(nullptr), parent(nullptr), blockID(0), convertedCount(0)
+ast_node::ast_node() : leftChildren(nullptr), rightChildren(nullptr), parent(nullptr), blockID(0), convertedCount(0), currentInterfaceID(0)
 {
 }
 
@@ -42,20 +44,23 @@ ast_node* ast_node::clone(ast_node* _parent /*= nullptr*/)
   return result;
 }
 
-ast_node * ast_node::cloneUntilNext(ast_node* _parent)
+ast_node* ast_node::cloneUntilNext(ast_node* _parent)
 {
   if (the_type == base_rule::node::type::named_rule && the_value == "Next") {
-    return new ast_node(the_type, the_value);
+    ast_node* result = new ast_node(the_type, the_value);
+    result->setInterfaceID();
+    result->globalInterfaceID++;
+    result->parent = _parent;
+    return result;
     //return nullptr;
   }
-  
+
   ast_node* result = new ast_node(the_type, the_value);
   result->parent = _parent;
-  if (right_children())
-    result->rightChildren = right_children()->clone(result);
   if (left_children())
-    result->leftChildren = left_children()->clone(result);
-
+    result->leftChildren = left_children()->cloneUntilNext(result);
+  if (right_children())
+    result->rightChildren = right_children()->cloneUntilNext(result);
   return result;
 }
 

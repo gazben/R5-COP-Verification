@@ -17,5 +17,4 @@ private:
   static void remove_nodes_marked_for_deletion(std::shared_ptr<base_rule::node> node);
 };
 
-
 #endif // ast_optimizer_h__

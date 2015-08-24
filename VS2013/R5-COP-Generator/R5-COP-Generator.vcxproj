@@ -15,8 +15,6 @@
     <ClCompile Include="..\..\generator\ast_optimizer.cpp" />
     <ClCompile Include="..\..\generator\BlockGenerator.cpp" />
     <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp" />
-    <ClCompile Include="..\..\generator\Construct.cpp" />
-    <ClCompile Include="..\..\generator\Function.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
     <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc" />
@@ -44,9 +42,6 @@
     <ClInclude Include="..\..\generator\ast_optimizer.h" />
     <ClInclude Include="..\..\generator\BlockGenerator.h" />
     <ClInclude Include="..\..\generator\ConnectionNormalFormGenerator.h" />
-    <ClInclude Include="..\..\generator\Construct.h" />
-    <ClInclude Include="..\..\generator\Eval.h" />
-    <ClInclude Include="..\..\generator\Function.h" />
     <ClInclude Include="..\..\generator\Generator.h" />
     <ClInclude Include="..\..\libs\SyntX\util\enum_set.h" />
     <ClInclude Include="..\..\libs\SyntX\util\languages\language.h" />

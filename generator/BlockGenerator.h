@@ -7,8 +7,6 @@
 #include <SyntX/util/parser/parser.h>
 
 #include "ConnectionNormalFormGenerator.h"
-#include "Function.h"
-
 
 using block_data = std::vector<
   std::tuple<
@@ -44,10 +42,7 @@ struct block {
     }
     return result;
   }
-
-
 };
-
 
 class BlockGenerator {
 private:

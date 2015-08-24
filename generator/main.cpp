@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Matched: " << std::string(result.first, result.second) << std::endl;
 
     ast_optimizer::optimize_ast(root);
-    
+
     ConnectionNormalFormGenerator converter;
     ast_node* normalFormRoot = converter.convertToConnectionNormalForm(root);
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
   }
 
   cout << endl << "Press any key to quit." << endl;
-  
+
   getchar();
 
   return 0;

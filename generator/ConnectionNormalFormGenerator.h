@@ -42,7 +42,6 @@ public:
   ast_node * add_nextop_to_root(ast_node * node);
   void free_ast();
   int getUntilDeepness();
-
 };
 
 #endif // ConnectionNormalFormGenerator_h__

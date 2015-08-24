@@ -7,15 +7,12 @@
 #include <boost/filesystem.hpp>
 
 #include "BlockGenerator.h"
-#include "Construct.h"
-#include "Eval.h"
 
 using namespace boost::filesystem;
 using namespace std;
 
 class Generator {
 public:
-
 
   std::string PropertyFilePath;
   std::string propertyFileString;
@@ -39,8 +36,8 @@ public:
     propertyFile.write(propertyFileString.c_str(), propertyFileString.size());
     propertyFile.close();
   }
-  
-  Generator(BlockGenerator* _generator):blockGenerator(_generator) {
+
+  Generator(BlockGenerator* _generator) :blockGenerator(_generator) {
   }
 
 private:
@@ -69,15 +66,16 @@ private:
           << " already exists. Overriding..." << '\n'
           ;
         //return false;
-      }else 
-      // Create the destination directory
-      if (!fs::create_directory(destination))
-      {
-        std::cerr << "Unable to create destination directory"
-          << destination.string() << '\n'
-          ;
-        return false;
       }
+      else
+        // Create the destination directory
+        if (!fs::create_directory(destination))
+        {
+          std::cerr << "Unable to create destination directory"
+            << destination.string() << '\n'
+            ;
+          return false;
+        }
     }
     catch (fs::filesystem_error const & e)
     {
