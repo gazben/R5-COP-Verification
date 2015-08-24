@@ -21,6 +21,7 @@ struct block {
   std::vector<ast_node*> nextStateRoots;
   int blockID;
 
+  std::string getConstructDeclaration();
   std::string getConstructString();
   std::vector<std::string> getSignatures();
   std::string getDeclarationString();
