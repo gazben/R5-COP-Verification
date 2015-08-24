@@ -173,6 +173,9 @@ std::string BlockGenerator::getFunctionDeclarations()
   for (auto& blockEntry : evalBlocks)
     result += (blockEntry.getDeclarationString() + "\n");
 
+  for (auto& blockEntry : evalBlocks)
+    result += (blockEntry.getConstructDeclaration() + "\n");
+
   return result;
 }
 
@@ -194,6 +197,10 @@ std::string BlockGenerator::getConstructFunctionStrings()
     result += (blockEntry.getConstructString() + "\n");
   }
   return result;
+}
+
+std::string block::getConstructDeclaration() {
+  return "Property* construct_block" + std::to_string(blockID) + "(Property* _rootNode);";
 }
 
 std::string block::getConstructString()
@@ -243,6 +250,8 @@ std::string block::getDeclarationString()
   }
   return result;
 }
+
+
 
 std::string block::getFunctionString()
 {
