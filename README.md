@@ -29,7 +29,7 @@ Getting all the stuff for the Generator:
   sudo rm /usr/bin/g++
   sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
   sudo ln -s /usr/bin/g++-5 /usr/bin/g++
-  cd ~/Donwloads/
+  cd ~/Downloads/
   tar --bzip2 -xf boost_1_59_0.tar.bz2
   cd boost_1_58_0/
   ./bootstrap.sh
@@ -72,8 +72,8 @@ Getting all the stuff for the monitor:
 Optional:
 You should put a sylink into the catkin_ws/src tha will lead to the generated folder.
 For example:
-  Symlink: /home/ros/catkin_ws/src/turtle_monitor
-  Folder: /home/ros/R5-COP-Verification
+  * Symlink: /home/ros/catkin_ws/src/turtle_monitor
+  * Folder: /home/ros/R5-COP-Verification
 
 How to run the demo:
   * Copy the package in your source folder ( ~/ros/src$ )
