@@ -7,11 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/generator/BlockGenerator.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generator/ConnectionNormalFormGenerator.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generator/ConnectionNormalFormGenerator.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/generator/Construct.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/generator/Construct.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/generator/Eval.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/generator/Function.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/generator/Function.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/generator/Generator.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generator/Generator.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generator/ast_node.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generator/ast_node.h" isTestSource="false" />

@@ -20,12 +20,8 @@ add_executable(
   generator/BlockGenerator.h
   generator/ConnectionNormalFormGenerator.cpp
   generator/ConnectionNormalFormGenerator.h
-  generator/Construct.cpp
-  generator/Construct.h
-  generator/Eval.h
-  generator/Function.cpp
-  generator/Function.h
   generator/Generator.h
+  generator/Generator.cpp
   generator/main.cpp
 
   libs/SyntX/util/parser/alternation.cc
