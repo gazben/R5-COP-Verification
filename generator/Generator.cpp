@@ -4,8 +4,13 @@ void Generator::Generate(std::string sourcePath_ /*= "D:\\Projects\\R5-COP-Verif
 {
   copyDir(boost::filesystem::path(sourcePath_), boost::filesystem::path(generatedPath_));
 
-  propertyFileString = move(std::string((std::istreambuf_iterator<char>(ifstream(PropertyFilePath))), std::istreambuf_iterator<char>()));
-  propertyHeaderFileString = move(std::string((std::istreambuf_iterator<char>(ifstream(PropertyHeaderFilePath))), std::istreambuf_iterator<char>()));
+  ifstream propertyCppFile(PropertyFilePath);
+  std::string str((std::istreambuf_iterator<char>(propertyCppFile)), std::istreambuf_iterator<char>());
+  propertyFileString = move(str);
+
+  ifstream peopertyHeaderFile(PropertyHeaderFilePath);
+  std::string str1((std::istreambuf_iterator<char>(peopertyHeaderFile)), std::istreambuf_iterator<char>());
+  propertyHeaderFileString = move(str1);
 
   std::string functionDeclarations = blockGenerator->getFunctionDeclarations();
   std::string constructFunctionsString = blockGenerator->getConstructFunctionStrings();

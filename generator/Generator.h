@@ -17,10 +17,10 @@ public:
   std::string PropertyFilePath;
   std::string propertyFileString;
 
-  std::string PropertyHeaderFilePath;
   std::string propertyHeaderFileString;
+  std::string PropertyHeaderFilePath;
 
-  void Generate(std::string sourcePath_ = "D:\\Projects\\R5-COP-Verification\\monitor\\", std::string generatedPath_ = "D:\\Projects\\R5-COP-Verification\\Generated\\");
+  void Generate(std::string sourcePath_ = "/home/ros/R5-COP-Verification/monitor", std::string generatedPath_ = "/home/ros/R5-COP-Verification/Generated");
 
   Generator(BlockGenerator* _generator);
 

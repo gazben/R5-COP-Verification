@@ -50,7 +50,7 @@ trilean Property::Evaluate()
 
       currentBlock = currentBlock->rootNode;
       if (currentBlock->inputStates.size() != currentBlock->childrenNode->outputStates.size()){
-        ROS_ERROR_STREAM("Invalid eval function size!");
+        //ROS_ERROR_STREAM("Invalid eval function size!");
       }
 
       //give the output to the upper node
