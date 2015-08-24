@@ -136,6 +136,7 @@ Property::Property()
 //Eval
 //--EVALFUNCTIONS--
 
+/*
 trilean EVAL_s0(Property* _prop)
 {
   return
@@ -152,6 +153,7 @@ trilean EVAL_s0(Property* _prop)
           NAND_3(TRUE, _prop->inputStates[1])
       );
 }
+
 
 trilean EVAL_s1a(Property* _prop)
 {
@@ -181,6 +183,7 @@ Property* constructS1(Property* _rootNode)
   _rootNode->inputStates.resize(2);
   return _rootNode;
 }
+*/
 
 void Property::printBlock(Property *block) {
   //Print the current block out
