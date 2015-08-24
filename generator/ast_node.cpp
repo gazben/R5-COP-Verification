@@ -146,11 +146,11 @@ std::string ast_node::getFunctionString()
     return result;
   }
   else if (the_value == "2") {
-    result += "_prop->isEventFired(EVENT_DOWN)";
+    result += "_prop->isEventFired(EVENT_RIGHT)";
     return result;
   }
   else if (the_value == "3") {
-    result += "_prop->isEventFired(EVENT_RIGHT)";
+    result += "_prop->isEventFired(EVENT_DOWN)";
     return result;
   }
   else if (the_value == "True") {
