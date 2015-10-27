@@ -30,7 +30,7 @@ Getting all the stuff for the Generator:
   sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
   sudo ln -s /usr/bin/g++-5 /usr/bin/g++
   cd ~/Downloads/
-  tar --bzip2 -xf boost_1_59_0.tar.bz2
+  tar --bzip2 -xf boost_1_58_0.tar.bz2
   cd boost_1_58_0/
   ./bootstrap.sh
   sudo ./b2
