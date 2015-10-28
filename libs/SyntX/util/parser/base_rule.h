@@ -81,7 +81,7 @@ namespace util {
           /**
            * A node representing a named rule.
            */
-          named_rule, 
+          named_rule,
           /**
           * The node represent a deleted node waiting, for deletion.
           */
@@ -103,10 +103,9 @@ namespace util {
         std::shared_ptr<node> right_children() {
           if (children.size() == 0 || children.size() == 1)
             return nullptr;
-          else 
+          else
             return children[1];
         }
-
 
         /**
          * Constructs a value node.

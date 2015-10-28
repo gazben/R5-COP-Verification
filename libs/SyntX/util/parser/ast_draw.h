@@ -68,7 +68,6 @@ private:
     return text;
   }
 
-
   void create_svg(Type const &node, size_t depth, size_t level_pos = 1, vector parentLinePoint = vector()) {
     if (node) {
       std::string text = node_to_string(node);
@@ -132,7 +131,6 @@ public:
     root = _root;
   }
 
-
   void draw_to_file(Type const &node, std::string path = "ast.html") {
     using namespace std;
 
@@ -167,12 +165,11 @@ public:
 
       if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Next")
         std::cout << "Block: " + std::to_string(node->blockID) + " ";
-      
+
       std::cout << text << std::endl;
 
       to_formatted_string(node->left_children(), depth + 1);
       to_formatted_string(node->right_children(), depth + 1);
-
     }
   }
 

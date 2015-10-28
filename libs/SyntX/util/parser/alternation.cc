@@ -31,7 +31,7 @@ namespace util {
       base_rule::match_range local_context = context;
       std::shared_ptr<node> child_node;
 
-      if (first->match(local_context, first_range, child_node)){
+      if (first->match(local_context, first_range, child_node)) {
         the_match_range = first_range;
         context = local_context;
 

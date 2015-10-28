@@ -40,7 +40,7 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
     | OrOp
     | AndOp
     ;
-  
+
   rule OperatorOneOp;
   OperatorOneOp <<=
     FutureOp
