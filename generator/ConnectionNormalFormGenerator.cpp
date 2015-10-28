@@ -14,6 +14,17 @@ ast_node* ConnectionNormalFormGenerator::copyAST(std::shared_ptr<base_rule::node
   return result;
 }
 
+/*
+        exp1
+         |
+exp1    not
+ |       |
+ G   =>  F
+ |       |
+exp2    not
+         |
+        exp2
+*/
 void ConnectionNormalFormGenerator::convertGenerallyOperators(ast_node* node)
 {
   if (node == nullptr) {
@@ -33,7 +44,7 @@ void ConnectionNormalFormGenerator::convertGenerallyOperators(ast_node* node)
     not_node->leftChildren = node->left_children();
     not_node->rightChildren = node->right_children();
 
-    node->deleteChildren();
+    node->nullChildren();
     node->leftChildren = future_node;
     future_node->leftChildren = not_node;
   }
@@ -42,6 +53,13 @@ void ConnectionNormalFormGenerator::convertGenerallyOperators(ast_node* node)
   convertGenerallyOperators(node->right_children());
 }
 
+/*
+exp1      exp1
+ |         |
+ F   =>    U
+ |       /   \
+exp2   true  exp2
+*/
 void ConnectionNormalFormGenerator::convertFutureOperators(ast_node* node)
 {
   if (node == nullptr) {
@@ -63,6 +81,15 @@ void ConnectionNormalFormGenerator::convertFutureOperators(ast_node* node)
   convertFutureOperators(node->right_children());
 }
 
+/*
+               exp
+   exp          |
+    |           Or 
+   Impl    =>  /  \ 
+   /   \      not  exp2 
+ exp1  exp2    |
+              exp1
+*/
 void ConnectionNormalFormGenerator::convertImplicationOperators(ast_node* node)
 {
   if (node == nullptr) {
@@ -84,6 +111,17 @@ void ConnectionNormalFormGenerator::convertImplicationOperators(ast_node* node)
   convertImplicationOperators(node->right_children());
 }
 
+/*
+               exp
+  exp           |
+   |           not
+  Impl    =>    |
+ /   \         and
+exp1  exp2    /   \
+            not   not
+             |     |
+            exp1  exp2
+*/
 void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
 {
   if (node == nullptr) {
@@ -107,7 +145,7 @@ void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
     not_node_right->parent = and_node;
     not_node_right->add_children(node->right_children());
 
-    node->deleteChildren();
+    node->nullChildren();
     node->leftChildren = and_node;
   }
 
@@ -115,6 +153,19 @@ void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
   convertOrOperators(node->right_children());
 }
 
+/*
+                  exp
+                   |
+                   or
+   exp           /    \
+    |          exp2   and
+    U     =>         /   \
+  /   \            exp1  next
+exp1  exp2                |
+                          U
+                        /   \
+                      exp1  exp2                          
+*/
 void ConnectionNormalFormGenerator::convertUntilOperators(ast_node* node, size_t depth /*= 0*/)
 {
   if (node == nullptr) {
@@ -156,6 +207,15 @@ void ConnectionNormalFormGenerator::convertUntilOperators(ast_node* node, size_t
   convertUntilOperators(node->right_children(), depth + 1);
 }
 
+/*
+  exp1    
+   |      
+  not     exp1
+   |   =>  |
+  not     exp2
+   |      
+  exp2    
+*/
 void ConnectionNormalFormGenerator::convertNegateOperators(ast_node* node)
 {
   if (node == nullptr) {
