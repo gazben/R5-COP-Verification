@@ -13,16 +13,15 @@ using namespace std;
 
 class Generator {
 public:
+  Generator(BlockGenerator* _generator);
 
-  std::string PropertyFilePath;
+  std::string propertyFilePath;
   std::string propertyFileString;
 
   std::string propertyHeaderFileString;
   std::string PropertyHeaderFilePath;
 
-  void Generate(std::string sourcePath_ = "/home/ros/R5-COP-Verification/monitor", std::string generatedPath_ = "/home/ros/R5-COP-Verification/Generated");
-
-  Generator(BlockGenerator* _generator);
+  void Generate(std::string sourcePath_ = "D:\\Projects\\R5-COP-Verification\\monitor", std::string generatedPath_ = "D:\\Projects\\R5-COP-Verification\\generated");
 
 private:
   BlockGenerator* blockGenerator;

@@ -14,7 +14,7 @@ struct ast_node {
   base_rule::node::type the_type;
   std::string the_value;
   unsigned int blockID;
-  unsigned int convertedCount;  //used for Until operators to determinate, how deap the converting
+  unsigned int convertedCount;  //used for Until operators to determinate, how deap is the converting
   unsigned int currentInterfaceID;
   static unsigned int globalInterfaceID;
 
@@ -31,7 +31,7 @@ struct ast_node {
 
   static void free_ast(ast_node* node);
   void add_children(ast_node* node);
-  void nullChildren();
+  void deleteChildren();
 
   static std::string to_string(ast_node* node);
   std::string getFunctionString();

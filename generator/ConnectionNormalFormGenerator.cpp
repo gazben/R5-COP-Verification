@@ -33,7 +33,7 @@ void ConnectionNormalFormGenerator::convertGenerallyOperators(ast_node* node)
     not_node->leftChildren = node->left_children();
     not_node->rightChildren = node->right_children();
 
-    node->nullChildren();
+    node->deleteChildren();
     node->leftChildren = future_node;
     future_node->leftChildren = not_node;
   }
@@ -107,7 +107,7 @@ void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
     not_node_right->parent = and_node;
     not_node_right->add_children(node->right_children());
 
-    node->nullChildren();
+    node->deleteChildren();
     node->leftChildren = and_node;
   }
 

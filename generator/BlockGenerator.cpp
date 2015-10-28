@@ -251,8 +251,6 @@ std::string block::getDeclarationString()
   return result;
 }
 
-
-
 std::string block::getFunctionString()
 {
   std::vector<std::string> signatures = getSignatures();

@@ -84,7 +84,7 @@ void ast_node::add_children(ast_node* node)
     throw std::runtime_error("Too many children!");
 }
 
-void ast_node::nullChildren()
+void ast_node::deleteChildren()
 {
   leftChildren = nullptr;
   rightChildren = nullptr;

@@ -1,10 +1,10 @@
 #include "Generator.h"
 
-void Generator::Generate(std::string sourcePath_ /*= "D:\\Projects\\R5-COP-Verification\\monitor\\"*/, std::string generatedPath_ /*= "D:\\Projects\\R5-COP-Verification\\Generated\\"*/)
+void Generator::Generate(std::string sourcePath_, std::string generatedPath_ /*= "D:\\Projects\\R5-COP-Verification\\Generated\\"*/)
 {
   copyDir(boost::filesystem::path(sourcePath_), boost::filesystem::path(generatedPath_));
 
-  ifstream propertyCppFile(PropertyFilePath);
+  ifstream propertyCppFile(propertyFilePath);
   std::string str((std::istreambuf_iterator<char>(propertyCppFile)), std::istreambuf_iterator<char>());
   propertyFileString = move(str);
 
@@ -20,7 +20,7 @@ void Generator::Generate(std::string sourcePath_ /*= "D:\\Projects\\R5-COP-Verif
   str_replace(propertyFileString, "//--CONSTRUCTFUNCTIONS--", constructFunctionsString);
   str_replace(propertyFileString, "//--EVALFUNCTIONS--", evalFunctionsString);
 
-  ofstream propertyFile(PropertyFilePath);
+  ofstream propertyFile(propertyFilePath);
   propertyFile.write(propertyFileString.c_str(), propertyFileString.size());
   propertyFile.close();
 
@@ -96,7 +96,7 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
       {
         // Found file: Copy
         if (current.filename() == "Property.cpp") {
-          PropertyFilePath = std::string((destination / current.filename()).string());
+          propertyFilePath = std::string((destination / current.filename()).string());
         }
         if (current.filename() == "Property.h") {
           PropertyHeaderFilePath = std::string((destination / current.filename()).string());

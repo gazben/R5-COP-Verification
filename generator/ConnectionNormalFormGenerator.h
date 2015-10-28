@@ -9,14 +9,6 @@
 This class takes an AST and builds up a new AST with ConnectionNormalForm
 Example(25-26):
 http://home.mit.bme.hu/~majzik/dl/monitor/Pallagi_Peter_szakdolgozat_vegleges.pdf
-Rules:
-  - Generally: G(exp) ? ?F(?exp)
-  - Future: F(exp) ? true U exp
-  - Implication: exp1 ? exp2 ? ?exp1 V exp2
-  - Or:  exp1 V exp2 ? ?(?exp1 ? ?exp2)
-  - Until: exp1 U exp2 ? exp2 V (exp1 ? X(exp1 U exp2))
-  - Negate:  ?(?exp) ? exp
-
 */
 
 class ConnectionNormalFormGenerator {
