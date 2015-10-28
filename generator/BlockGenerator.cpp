@@ -194,7 +194,7 @@ std::string BlockGenerator::getConstructFunctionStrings()
   std::string result;
 
   for (auto& blockEntry : evalBlocks) {
-    result += (blockEntry.getConstructString() + "\n");
+    result += (blockEntry.getConstructBody() + "\n");
   }
   return result;
 }
@@ -203,7 +203,7 @@ std::string block::getConstructDeclaration() {
   return "Property* construct_block" + std::to_string(blockID) + "(Property* _rootNode);";
 }
 
-std::string block::getConstructString()
+std::string block::getConstructBody()
 {
   std::string constructBlockString;
 
@@ -230,9 +230,9 @@ std::string block::getConstructString()
   return constructBlockString;
 }
 
-std::vector<std::string> block::getSignatures()
+std::vector<std::string> block::getBlockRootEvalFunctionDeclarations()
 {
-  //return "trilean EVAL_s1a(Property* _prop)";    std::string result;
+  //return "trilean EVAL_s1a(Property* _prop)";
   std::vector<std::string> result;
 
   for (auto& blockEntry : blockRoots) {
@@ -245,7 +245,7 @@ std::string block::getDeclarationString()
 {
   std::string result;
 
-  for (auto& resultEntry : getSignatures()) {
+  for (auto& resultEntry : getBlockRootEvalFunctionDeclarations()) {
     result += (resultEntry + ";\n");
   }
   return result;
@@ -253,7 +253,7 @@ std::string block::getDeclarationString()
 
 std::string block::getFunctionString()
 {
-  std::vector<std::string> signatures = getSignatures();
+  std::vector<std::string> signatures = getBlockRootEvalFunctionDeclarations();
   std::vector<std::string> functionBodys;
   std::vector<std::string> results;
 
@@ -270,5 +270,23 @@ std::string block::getFunctionString()
     result += (entry + "\n");
   }
 
+  return result;
+}
+
+std::vector<std::string> block::getNextStateInterfaceString()
+{
+  std::vector<std::string> result;
+  for (auto entry : nextStateRoots) {
+    result.push_back(ast_node::to_string(entry->leftChildren));
+  }
+  return result;
+}
+
+std::vector<std::string> block::getPreviousStateInterfaceString()
+{
+  std::vector<std::string> result;
+  for (auto& entry : blockRoots) {
+    result.push_back(std::get<0>(entry));
+  }
   return result;
 }

@@ -26,28 +26,20 @@ struct block {
   previousStateInterface blockRoots;
   nextStateInterface nextStateRoots;
   
+  //Returns the generated construct function declaration.
   std::string getConstructDeclaration();
-  std::string getConstructString();
-  std::vector<std::string> getSignatures();
+  //Returns the generated construct function body.
+  std::string getConstructBody();
+  //Returns the function declarations for the block roots. 
+  std::vector<std::string> getBlockRootEvalFunctionDeclarations();
+  
+  //Returns the function declarations of the block.
   std::string getDeclarationString();
+  //Returns the function definitions of the block.
   std::string getFunctionString();
 
-  std::vector<std::string> getNextStateInterfaceString() {
-    std::vector<std::string> result;
-    for (auto entry : nextStateRoots) {
-      result.push_back(ast_node::to_string(entry->leftChildren));   //
-    }
-    return result;
-  }
-
-  std::vector<std::string> getPreviousStateInterfaceString()
-  {
-    std::vector<std::string> result;
-    for (auto& entry : blockRoots) {
-      result.push_back(std::get<0>(entry));
-    }
-    return result;
-  }
+  std::vector<std::string> getNextStateInterfaceString();
+  std::vector<std::string> getPreviousStateInterfaceString();
 };
 
 
