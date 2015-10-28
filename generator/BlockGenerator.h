@@ -8,34 +8,39 @@
 
 #include "ConnectionNormalFormGenerator.h"
 
-using block_data = std::vector<
-  std::tuple<
+// "Top" interface of a block
+using previousStateInterface = std::vector<
+  std::tuple
+  <
   std::string, // previousStateInterface
   ast_node*, // pointer to the root
   std::vector<std::string> // nextState interface string
   >
 >;
+// "Buttom" interface of a block
+using nextStateInterface = std::vector<ast_node*>;
 
+//Represents a block from the AST (from next node to next node)
 struct block {
-  block_data blockRoots;
-  std::vector<ast_node*> nextStateRoots;
   int blockID;
-
+  previousStateInterface blockRoots;
+  nextStateInterface nextStateRoots;
+  
   std::string getConstructDeclaration();
   std::string getConstructString();
   std::vector<std::string> getSignatures();
   std::string getDeclarationString();
   std::string getFunctionString();
 
-  std::vector<std::string> getNextStateInterface() {
+  std::vector<std::string> getNextStateInterfaceString() {
     std::vector<std::string> result;
     for (auto entry : nextStateRoots) {
-      result.push_back(ast_node::to_string(entry->leftChildren));
+      result.push_back(ast_node::to_string(entry->leftChildren));   //
     }
     return result;
   }
 
-  std::vector<std::string> getPreviousStateInterface()
+  std::vector<std::string> getPreviousStateInterfaceString()
   {
     std::vector<std::string> result;
     for (auto& entry : blockRoots) {
@@ -45,6 +50,8 @@ struct block {
   }
 };
 
+
+//Creates the next node to next node blocks from the given AST
 class BlockGenerator {
 private:
   ast_node* rootNode;

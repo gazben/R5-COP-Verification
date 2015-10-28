@@ -52,7 +52,6 @@ ast_node* ast_node::cloneUntilNext(ast_node* _parent)
     result->globalInterfaceID++;
     result->parent = _parent;
     return result;
-    //return nullptr;
   }
 
   ast_node* result = new ast_node(the_type, the_value);
@@ -84,7 +83,7 @@ void ast_node::add_children(ast_node* node)
     throw std::runtime_error("Too many children!");
 }
 
-void ast_node::deleteChildren()
+void ast_node::nullChildren()
 {
   leftChildren = nullptr;
   rightChildren = nullptr;

@@ -221,7 +221,7 @@ std::string block::getConstructString()
   }
 
   constructBlockString += "_rootNode->constructChildrenNodeFunc = construct_block" +
-    ((BlockGenerator::isNextBlockIdenticalToPrev(getPreviousStateInterface(), getNextStateInterface())) ? (std::to_string(blockID)) : (std::to_string(blockID + 1))) +
+    ((BlockGenerator::isNextBlockIdenticalToPrev(getPreviousStateInterfaceString(), getNextStateInterfaceString())) ? (std::to_string(blockID)) : (std::to_string(blockID + 1))) +
     ";\n";
   constructBlockString += "_rootNode->outputStates.resize(" + std::to_string(blockRoots.size()) + ");" + "\n";
   constructBlockString += "_rootNode->inputStates.resize(" + std::to_string(nextStateRoots.size()) + ");" + "\n";

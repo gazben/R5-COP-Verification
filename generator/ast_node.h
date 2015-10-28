@@ -4,15 +4,19 @@
 #include <SyntX/util/parser/parser.h>
 #include <string>
 #include <memory>
+
 /*
 Structure used for the Connection Normal form generation.
+The structure represents a binary tree node.
 */
 struct ast_node {
   ast_node* leftChildren;
   ast_node* rightChildren;
   ast_node* parent;
+
   base_rule::node::type the_type;
   std::string the_value;
+  
   unsigned int blockID;
   unsigned int convertedCount;  //used for Until operators to determinate, how deap is the converting
   unsigned int currentInterfaceID;
@@ -31,7 +35,7 @@ struct ast_node {
 
   static void free_ast(ast_node* node);
   void add_children(ast_node* node);
-  void deleteChildren();
+  void nullChildren();
 
   static std::string to_string(ast_node* node);
   std::string getFunctionString();
