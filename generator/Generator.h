@@ -15,11 +15,11 @@ class Generator {
 public:
   Generator(BlockGenerator* _generator);
 
-  std::string propertyFilePath;
-  std::string propertyFileString;
-
-  std::string propertyHeaderFileString;
+  std::string propertyCppFilePath;
   std::string PropertyHeaderFilePath;
+
+  std::string propertyCppFileString;
+  std::string propertyHeaderFileString;
 
   void Generate(std::string sourcePath_ = "D:\\Projects\\R5-COP-Verification\\monitor", std::string generatedPath_ = "D:\\Projects\\R5-COP-Verification\\generated");
 
