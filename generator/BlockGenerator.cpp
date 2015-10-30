@@ -1,13 +1,13 @@
 #include "BlockGenerator.h"
 
-void BlockGenerator::RootNode(ast_node* val)
+void BlockGenerator::setAstRootNode(ast_node* val)
 {
-  rootNode = val;
+  astRootNode = val;
 }
 
-ast_node* BlockGenerator::RootNode() const
+ast_node* BlockGenerator::getAstRootNode() const
 {
-  return rootNode;
+  return astRootNode;
 }
 
 void BlockGenerator::markBlocks(ast_node* node)
@@ -22,7 +22,6 @@ void BlockGenerator::markBlocks(ast_node* node)
   }
 
   node->blockID = currentBlockID;
-
   markBlocks(node->leftChildren);
   markBlocks(node->rightChildren);
 
@@ -38,20 +37,12 @@ int BlockGenerator::getHeight(ast_node* node)
 
   int lheight = getHeight(node->leftChildren);
   int rheight = getHeight(node->rightChildren);
+  int maxHeight = (lheight > rheight) ? lheight : rheight;
 
-  if (lheight > rheight) {
-    if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Next")
-      return(lheight + 1);
-    else
-      return(lheight);
-  }
-
-  else {
-    if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Next")
-      return(rheight + 1);
-    else
-      return(rheight);
-  }
+  if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Next")
+    return(maxHeight + 1);
+  else
+    return(maxHeight);
 }
 
 void BlockGenerator::cutNextBlock(std::vector<ast_node*> blockRoots)
@@ -63,11 +54,12 @@ void BlockGenerator::cutNextBlock(std::vector<ast_node*> blockRoots)
 
 std::vector<std::string> BlockGenerator::getPreviousStateInterface(int blockNumber)
 {
-  std::vector<std::string> result;
-  for (auto& entry : evalBlocks[blockNumber - 1].blockRoots) {
-    result.push_back(std::get<0>(entry));
-  }
-  return result;
+  return evalBlocks[blockNumber - 1].getPreviousStateInterfaceString();
+}
+
+std::vector<std::string> BlockGenerator::getNextStateInterface(int blockNumber)
+{
+  return evalBlocks[blockNumber - 1].getNextStateInterfaceString();
 }
 
 void BlockGenerator::cutAST(ast_node* node /*= nullptr*/)
@@ -100,15 +92,6 @@ void BlockGenerator::cutAST(ast_node* node /*= nullptr*/)
   cutAST(node->rightChildren);
 }
 
-std::vector<std::string> BlockGenerator::getNextStateInterface(int blockNumber)
-{
-  std::vector<std::string> result;
-  for (auto entry : evalBlocks[blockNumber - 1].nextStateRoots) {
-    result.push_back(ast_node::to_string(entry->leftChildren));
-  }
-  return result;
-}
-
 std::vector<std::string> BlockGenerator::getNextStateInterface(ast_node* node)
 {
   if (node == nullptr)
@@ -127,9 +110,9 @@ std::vector<std::string> BlockGenerator::getNextStateInterface(ast_node* node)
 
 bool BlockGenerator::isNextBlockIdenticalToPrev(std::vector<std::string> previousState, std::vector<std::string> nextState)
 {
-  for (const auto& prevEntry : previousState) {  //blockRoot to_string()
+  for (const auto& prevEntry : previousState) {
     bool result = false;
-    for (const auto& nextEntry : nextState) {  //nextStateRoots to_string
+    for (const auto& nextEntry : nextState) {
       if (prevEntry == nextEntry)
         result = true;
     }
@@ -140,21 +123,23 @@ bool BlockGenerator::isNextBlockIdenticalToPrev(std::vector<std::string> previou
   return true;
 }
 
-BlockGenerator::BlockGenerator(ast_node* root) :rootNode(root)
+BlockGenerator::BlockGenerator(ast_node* root) :astRootNode(root)
 {
 }
 
 void BlockGenerator::createBlocks()
 {
+  unsigned int currentBlockNumber = 0;
+
   std::vector<ast_node*> rootTemp;
-  rootTemp.push_back(rootNode);
-  markBlocks(rootNode);
+  rootTemp.push_back(astRootNode);
+  markBlocks(astRootNode);
   cutNextBlock(rootTemp);
   currentBlockNumber++;
 
   while (!isNextBlockIdenticalToPrev(getPreviousStateInterface(currentBlockNumber), getNextStateInterface(currentBlockNumber))) {
-    generator.convertOneMOreUntilLevel(rootNode);
-    markBlocks(rootNode);
+    generator.convertOneMOreUntilLevel(astRootNode);
+    markBlocks(astRootNode);
     cutNextBlock(evalBlocks[currentBlockNumber - 1].nextStateRoots);
     currentBlockNumber++;
   }
@@ -162,8 +147,8 @@ void BlockGenerator::createBlocks()
   for (int i = 0; i < evalBlocks.size(); i++)
     evalBlocks[i].blockID = i;
 
-  ast_draw<decltype(rootNode)> printer(rootNode);
-  printer.to_formatted_string(rootNode);
+  ast_draw<decltype(astRootNode)> printer(astRootNode);
+  printer.to_formatted_string(astRootNode);
 }
 
 std::string BlockGenerator::getFunctionDeclarations()
@@ -179,7 +164,7 @@ std::string BlockGenerator::getFunctionDeclarations()
   return result;
 }
 
-std::string BlockGenerator::getFunctionStrings()
+std::string BlockGenerator::getFunctions()
 {
   std::string result;
 
@@ -189,7 +174,7 @@ std::string BlockGenerator::getFunctionStrings()
   return result;
 }
 
-std::string BlockGenerator::getConstructFunctionStrings()
+std::string BlockGenerator::getConstructFunctions()
 {
   std::string result;
 
@@ -207,7 +192,6 @@ std::string block::getConstructBody()
 {
   std::string constructBlockString;
 
-  //constructBlockString += getSignature();
   constructBlockString += "Property* construct_block" + std::to_string(blockID) + "(Property* _rootNode)";
   constructBlockString += "{ \n";
 

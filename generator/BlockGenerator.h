@@ -5,6 +5,7 @@
 #include <vector>
 #include <tuple>
 #include <SyntX/util/parser/parser.h>
+#include <boost/log/trivial.hpp>
 
 #include "ConnectionNormalFormGenerator.h"
 
@@ -45,35 +46,41 @@ struct block {
 
 //Creates the next node to next node blocks from the given AST
 class BlockGenerator {
-private:
-  ast_node* rootNode;
-
-  ConnectionNormalFormGenerator generator;
-  std::vector<std::string> nextStateInterfaceBuffer;
-  std::vector<ast_node*> nextStateRootBuffer;
-  unsigned int currentBlockNumber = 0;
-  void cutAST(ast_node* node = nullptr);
-  void RootNode(ast_node* val);
-  void cutNextBlock(std::vector<ast_node*> blockRoots);
-  static void markBlocks(ast_node* node);
-  std::vector<std::string> getNextStateInterface(ast_node* node);
-
-  ast_node* RootNode() const;
-  int getHeight(ast_node* node);
-
 public:
+  BlockGenerator(ast_node* root);
   std::vector<block> evalBlocks;
+
+  //Returns true if the two given interfaces are equal
   static bool isNextBlockIdenticalToPrev(std::vector<std::string> previousState, std::vector<std::string> nextState);
 
   std::vector<std::string> getPreviousStateInterface(int blockNumber);
   std::vector<std::string> getNextStateInterface(int blockNumber);
 
-  BlockGenerator(ast_node* root);
+  //Create the evaluation blocks from the AST root node. Fill the evalBlocks vector.
   void createBlocks();
 
+  //CODE generation functions
   std::string getFunctionDeclarations();
-  std::string getFunctionStrings();
-  std::string getConstructFunctionStrings();
+  std::string getFunctions();
+  std::string getConstructFunctions();
+
+private:
+  ConnectionNormalFormGenerator generator;
+  
+  ast_node* astRootNode;
+  ast_node* getAstRootNode() const;
+  void setAstRootNode(ast_node* val);
+
+  int getHeight(ast_node* node);
+
+  std::vector<std::string> nextStateInterfaceBuffer;
+  std::vector<ast_node*> nextStateRootBuffer;
+  std::vector<std::string> getNextStateInterface(ast_node* node);
+  
+  void cutAST(ast_node* node = nullptr);
+  void cutNextBlock(std::vector<ast_node*> blockRoots);
+  //Mark the given AST with the proper blockID
+  void markBlocks(ast_node* node);
 };
 
 #endif // BlockGenerator_h__
