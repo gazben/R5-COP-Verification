@@ -1,15 +1,15 @@
 #include "ConnectionNormalFormGenerator.h"
 
-int ConnectionNormalFormGenerator::untilDeepness = 2;
+int ConnectionNormalFormGenerator::until_node_deepness = 2;
 
-ast_node* ConnectionNormalFormGenerator::copyAST(std::shared_ptr<base_rule::node> node, ast_node* parent /*= nullptr*/)
+AstNode* ConnectionNormalFormGenerator::copyAST(std::shared_ptr<base_rule::node> node, AstNode* parent /*= nullptr*/)
 {
-  ast_node* result = new ast_node(node->the_type, node->the_value);
+  AstNode* result = new AstNode(node->the_type, node->the_value);
   result->parent = parent;
   if (node->right_children())
-    result->rightChildren = copyAST(node->right_children(), result);
+    result->right_children = copyAST(node->right_children(), result);
   if (node->left_children())
-    result->leftChildren = copyAST(node->left_children(), result);
+    result->left_children = copyAST(node->left_children(), result);
 
   return result;
 }
@@ -25,32 +25,34 @@ exp2    not
          |
         exp2
 */
-void ConnectionNormalFormGenerator::convertGenerallyOperators(ast_node* node)
+void ConnectionNormalFormGenerator::convertGenerallyOperators(AstNode* node)
 {
-  if (node == nullptr) {
+  if (node == nullptr)
+  {
     return;
   }
 
-  if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Globally") {
+  if (node->the_type == base_rule::node::type::named_rule && node->the_value == "Globally")
+  {
     node->the_type = base_rule::node::type::named_rule;
     node->the_value = "Not";
 
-    ast_node* future_node = new ast_node(base_rule::node::type::named_rule, "Future");
+    AstNode* future_node = new AstNode(base_rule::node::type::named_rule, "Future");
     future_node->parent = node;
 
-    ast_node* not_node = new ast_node(base_rule::node::type::named_rule, "Not");
+    AstNode* not_node = new AstNode(base_rule::node::type::named_rule, "Not");
     not_node->parent = future_node;
 
-    not_node->leftChildren = node->left_children();
-    not_node->rightChildren = node->right_children();
+    not_node->left_children = node->getLeftChildren();
+    not_node->right_children = node->getRightChildren();
 
     node->nullChildren();
-    node->leftChildren = future_node;
-    future_node->leftChildren = not_node;
+    node->left_children = future_node;
+    future_node->left_children = not_node;
   }
 
-  convertGenerallyOperators(node->left_children());
-  convertGenerallyOperators(node->right_children());
+  convertGenerallyOperators(node->getLeftChildren());
+  convertGenerallyOperators(node->getRightChildren());
 }
 
 /*
@@ -60,7 +62,7 @@ exp1      exp1
  |       /   \
 exp2   true  exp2
 */
-void ConnectionNormalFormGenerator::convertFutureOperators(ast_node* node)
+void ConnectionNormalFormGenerator::convertFutureOperators(AstNode* node)
 {
   if (node == nullptr) {
     return;
@@ -70,27 +72,27 @@ void ConnectionNormalFormGenerator::convertFutureOperators(ast_node* node)
     node->the_type = base_rule::node::type::named_rule;
     node->the_value = "Until";
 
-    ast_node* true_node = new ast_node(base_rule::node::type::value, "True");
+    AstNode* true_node = new AstNode(base_rule::node::type::value, "True");
     true_node->parent = node;
 
-    node->rightChildren = node->left_children();
-    node->leftChildren = true_node;
+    node->right_children = node->getLeftChildren();
+    node->left_children = true_node;
   }
 
-  convertFutureOperators(node->left_children());
-  convertFutureOperators(node->right_children());
+  convertFutureOperators(node->getLeftChildren());
+  convertFutureOperators(node->getRightChildren());
 }
 
 /*
                exp
    exp          |
-    |           Or 
-   Impl    =>  /  \ 
-   /   \      not  exp2 
+    |           Or
+   Impl    =>  /  \
+   /   \      not  exp2
  exp1  exp2    |
               exp1
 */
-void ConnectionNormalFormGenerator::convertImplicationOperators(ast_node* node)
+void ConnectionNormalFormGenerator::convertImplicationOperators(AstNode* node)
 {
   if (node == nullptr) {
     return;
@@ -100,15 +102,15 @@ void ConnectionNormalFormGenerator::convertImplicationOperators(ast_node* node)
     node->the_type = base_rule::node::type::named_rule;
     node->the_value = "Or";
 
-    ast_node* not_node = new ast_node(base_rule::node::type::named_rule, "Not");
+    AstNode* not_node = new AstNode(base_rule::node::type::named_rule, "Not");
     not_node->parent = node;
-    not_node->add_children(node->left_children());
+    not_node->addChildren(node->getLeftChildren());
 
-    node->leftChildren = not_node;
+    node->left_children = not_node;
   }
 
-  convertImplicationOperators(node->left_children());
-  convertImplicationOperators(node->right_children());
+  convertImplicationOperators(node->getLeftChildren());
+  convertImplicationOperators(node->getRightChildren());
 }
 
 /*
@@ -122,9 +124,10 @@ exp1  exp2    /   \
              |     |
             exp1  exp2
 */
-void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
+void ConnectionNormalFormGenerator::convertOrOperators(AstNode* node)
 {
-  if (node == nullptr) {
+  if (node == nullptr)
+  {
     return;
   }
 
@@ -132,25 +135,25 @@ void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
     node->the_type = base_rule::node::type::named_rule;
     node->the_value = "Not";
 
-    ast_node* and_node = new ast_node(base_rule::node::type::named_rule, "And");
+    AstNode* and_node = new AstNode(base_rule::node::type::named_rule, "And");
     and_node->parent = node;
 
-    ast_node* not_node_left = new ast_node(base_rule::node::type::named_rule, "Not");
-    ast_node* not_node_right = new ast_node(base_rule::node::type::named_rule, "Not");
-    and_node->leftChildren = not_node_left;
-    and_node->rightChildren = not_node_right;
+    AstNode* not_node_left = new AstNode(base_rule::node::type::named_rule, "Not");
+    AstNode* not_node_right = new AstNode(base_rule::node::type::named_rule, "Not");
+    and_node->left_children = not_node_left;
+    and_node->right_children = not_node_right;
 
     not_node_left->parent = and_node;
-    not_node_left->add_children(node->left_children());
+    not_node_left->addChildren(node->getLeftChildren());
     not_node_right->parent = and_node;
-    not_node_right->add_children(node->right_children());
+    not_node_right->addChildren(node->getRightChildren());
 
     node->nullChildren();
-    node->leftChildren = and_node;
+    node->left_children = and_node;
   }
 
-  convertOrOperators(node->left_children());
-  convertOrOperators(node->right_children());
+  convertOrOperators(node->getLeftChildren());
+  convertOrOperators(node->getRightChildren());
 }
 
 /*
@@ -164,9 +167,9 @@ void ConnectionNormalFormGenerator::convertOrOperators(ast_node* node)
 exp1  exp2                |
                           U
                         /   \
-                      exp1  exp2                          
+                      exp1  exp2
 */
-void ConnectionNormalFormGenerator::convertUntilOperators(ast_node* node, size_t depth /*= 0*/)
+void ConnectionNormalFormGenerator::convertUntilOperators(AstNode* node, size_t depth /*= 0*/)
 {
   if (node == nullptr) {
     return;
@@ -174,49 +177,49 @@ void ConnectionNormalFormGenerator::convertUntilOperators(ast_node* node, size_t
 
   if (node->the_type == base_rule::node::type::named_rule &&
     node->the_value == "Until"  &&
-    node->convertedCount < untilDeepness
+    node->converted_count < until_node_deepness
     )
   {
     node->the_type = base_rule::node::type::named_rule;
     node->the_value = "Or";
 
-    ast_node* and_node = new ast_node(base_rule::node::type::named_rule, "And");
-    ast_node* next_node = new ast_node(base_rule::node::type::named_rule, "Next");
-    ast_node* until_node = new ast_node(base_rule::node::type::named_rule, "Until");
+    AstNode* and_node = new AstNode(base_rule::node::type::named_rule, "And");
+    AstNode* next_node = new AstNode(base_rule::node::type::named_rule, "Next");
+    AstNode* until_node = new AstNode(base_rule::node::type::named_rule, "Until");
 
     and_node->parent = node;
     next_node->parent = and_node;
     until_node->parent = next_node;
 
-    ast_node* childrenBuffer[2] = { node->left_children(), node->right_children() };
+    AstNode* childrenBuffer[2] = { node->getLeftChildren(), node->getRightChildren() };
 
-    node->leftChildren = childrenBuffer[1]->clone(node);
-    node->rightChildren = and_node;
+    node->left_children = childrenBuffer[1]->clone(node);
+    node->right_children = and_node;
 
-    and_node->leftChildren = childrenBuffer[0]->clone(and_node);
-    and_node->rightChildren = next_node;
-    next_node->leftChildren = until_node;
-    until_node->leftChildren = childrenBuffer[0];
-    until_node->rightChildren = childrenBuffer[1];
+    and_node->left_children = childrenBuffer[0]->clone(and_node);
+    and_node->right_children = next_node;
+    next_node->left_children = until_node;
+    until_node->left_children = childrenBuffer[0];
+    until_node->right_children = childrenBuffer[1];
 
-    until_node->convertedCount = node->convertedCount + 1;
-    node->convertedCount = 0;
+    until_node->converted_count = node->converted_count + 1;
+    node->converted_count = 0;
   }
 
-  convertUntilOperators(node->left_children(), depth + 1);
-  convertUntilOperators(node->right_children(), depth + 1);
+  convertUntilOperators(node->getLeftChildren(), depth + 1);
+  convertUntilOperators(node->getRightChildren(), depth + 1);
 }
 
 /*
-  exp1    
-   |      
+  exp1
+   |
   not     exp1
    |   =>  |
   not     exp2
-   |      
-  exp2    
+   |
+  exp2
 */
-void ConnectionNormalFormGenerator::convertNegateOperators(ast_node* node)
+void ConnectionNormalFormGenerator::convertNegateOperators(AstNode* node)
 {
   if (node == nullptr) {
     return;
@@ -224,74 +227,74 @@ void ConnectionNormalFormGenerator::convertNegateOperators(ast_node* node)
 
   if (
     (node->the_type == base_rule::node::type::named_rule && node->the_value == "Not") &&
-    (node->left_children()->the_type == base_rule::node::type::named_rule && node->left_children()->the_value == "Not"))
+    (node->getLeftChildren()->the_type == base_rule::node::type::named_rule && node->getLeftChildren()->the_value == "Not"))
   {
-    node->the_type = node->left_children()->left_children()->the_type;
-    node->the_value = node->left_children()->left_children()->the_value;
-    node->left_children()->left_children()->parent = node;
+    node->the_type = node->getLeftChildren()->getLeftChildren()->the_type;
+    node->the_value = node->getLeftChildren()->getLeftChildren()->the_value;
+    node->getLeftChildren()->getLeftChildren()->parent = node;
 
-    ast_node* childrenTemp = node->left_children()->left_children();
+    AstNode* childrenTemp = node->getLeftChildren()->getLeftChildren();
 
-    node->leftChildren = childrenTemp->left_children();
-    node->rightChildren = childrenTemp->right_children();
+    node->left_children = childrenTemp->getLeftChildren();
+    node->right_children = childrenTemp->getRightChildren();
 
     //TODO free up memory of NOT node
   }
 
-  convertNegateOperators(node->left_children());
-  convertNegateOperators(node->right_children());
+  convertNegateOperators(node->getLeftChildren());
+  convertNegateOperators(node->getRightChildren());
 }
 
 std::shared_ptr<base_rule::node> ConnectionNormalFormGenerator::getOriginalRoot()
 {
-  return originalRoot;
+  return original_root;
 }
 
 void ConnectionNormalFormGenerator::setOriginalRoot(std::shared_ptr<base_rule::node> val)
 {
-  originalRoot = val;
+  original_root = val;
 }
 
-void ConnectionNormalFormGenerator::convertOneMOreUntilLevel(ast_node* root)
+void ConnectionNormalFormGenerator::convertOneMOreUntilLevel(AstNode* root)
 {
-  untilDeepness++;
+  until_node_deepness++;
   convertUntilOperators(root);
   convertOrOperators(root);
   convertNegateOperators(root);
 }
 
-ast_node* ConnectionNormalFormGenerator::convertToConnectionNormalForm(std::shared_ptr<base_rule::node>& _root)
+AstNode* ConnectionNormalFormGenerator::convertToConnectionNormalForm(std::shared_ptr<base_rule::node>& _root)
 {
-  originalRoot = _root;
-  rootNode = copyAST(originalRoot);
+  original_root = _root;
+  root_node = copyAST(original_root);
 
-  convertGenerallyOperators(rootNode);
-  convertFutureOperators(rootNode);
-  convertImplicationOperators(rootNode);
-  convertUntilOperators(rootNode);
-  convertOrOperators(rootNode);
-  convertNegateOperators(rootNode);
-  rootNode = add_nextop_to_root(rootNode);
+  convertGenerallyOperators(root_node);
+  convertFutureOperators(root_node);
+  convertImplicationOperators(root_node);
+  convertUntilOperators(root_node);
+  convertOrOperators(root_node);
+  convertNegateOperators(root_node);
+  root_node = addNextOpToRoot(root_node);
 
-  return rootNode;
+  return root_node;
 }
 
-void ConnectionNormalFormGenerator::free_ast()
+void ConnectionNormalFormGenerator::freeAst()
 {
-  ast_node::free_ast(rootNode);
+  AstNode::freeAst(root_node);
 }
 
 int ConnectionNormalFormGenerator::getUntilDeepness()
 {
-  return untilDeepness;
+  return until_node_deepness;
 }
 
-ast_node*  ConnectionNormalFormGenerator::add_nextop_to_root(ast_node* node) {
+AstNode*  ConnectionNormalFormGenerator::addNextOpToRoot(AstNode* node) {
   if (node == nullptr)
     return nullptr;
 
-  ast_node* root_Next_node = new ast_node(base_rule::node::type::named_rule, "Next");
-  root_Next_node->leftChildren = node;
+  AstNode* root_Next_node = new AstNode(base_rule::node::type::named_rule, "Next");
+  root_Next_node->left_children = node;
   root_Next_node->parent = nullptr;
   node->parent = root_Next_node;
 

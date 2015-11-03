@@ -9,35 +9,36 @@
 Structure used for the Connection Normal form generation.
 The structure represents a binary tree node.
 */
-struct ast_node {
-  ast_node* leftChildren;
-  ast_node* rightChildren;
-  ast_node* parent;
+struct AstNode
+{
+  AstNode* left_children;
+  AstNode* right_children;
+  AstNode* parent;
 
   base_rule::node::type the_type;
   std::string the_value;
-  
-  unsigned int blockID;
-  unsigned int convertedCount;  //used for Until operators to determinate, how deap is the converting
-  unsigned int currentInterfaceID;
-  static unsigned int globalInterfaceID;
 
-  ast_node();
-  ast_node(std::string _value);
-  ast_node(base_rule::node::type _type);
-  ast_node(base_rule::node::type _type, std::string _value);
+  unsigned int block_id;
+  unsigned int converted_count;            //used for Until operators to determinate, how deap is the converting
+  unsigned int current_interface_id;
+  static unsigned int global_interface_id;
 
-  ast_node* left_children();
-  ast_node* right_children();
+  AstNode();
+  AstNode(std::string value);
+  AstNode(base_rule::node::type type);
+  AstNode(base_rule::node::type type, std::string value);
 
-  ast_node* clone(ast_node* _parent = nullptr);
-  ast_node* cloneUntilNext(ast_node* _parent = nullptr);
+  AstNode* getLeftChildren();
+  AstNode* getRightChildren();
 
-  static void free_ast(ast_node* node);
-  void add_children(ast_node* node);
+  AstNode* clone(AstNode* _parent = nullptr);
+  AstNode* cloneUntilNext(AstNode* _parent = nullptr);
+
+  static void freeAst(AstNode* node);
+  void addChildren(AstNode* node);
   void nullChildren();
 
-  static std::string to_string(ast_node* node);
+  static std::string toString(AstNode* node);
   std::string getFunctionString();
   void setInterfaceID();
 };

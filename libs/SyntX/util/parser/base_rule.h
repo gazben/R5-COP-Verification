@@ -107,6 +107,15 @@ namespace util {
             return children[1];
         }
 
+        //This hack is needed for the template based drawing!
+        std::shared_ptr<node> getRightChildren() {
+          return right_children();
+        }
+
+        std::shared_ptr<node> getLeftChildren() {
+          return left_children();
+        }
+
         /**
          * Constructs a value node.
          * @param a_value the value of the node

@@ -1,101 +1,102 @@
 #include "ast_node.h"
 
-unsigned int ast_node::globalInterfaceID = 0;
+unsigned int AstNode::global_interface_id = 0;
 
-ast_node::ast_node(base_rule::node::type _type, std::string _value) :ast_node()
+AstNode::AstNode(base_rule::node::type _type, std::string _value) :AstNode()
 {
   the_type = _type;
   the_value = _value;
 }
 
-ast_node::ast_node(base_rule::node::type _type) :ast_node()
+AstNode::AstNode(base_rule::node::type _type) :AstNode()
 {
   the_type = _type;
 }
 
-ast_node::ast_node(std::string _value) : ast_node()
+AstNode::AstNode(std::string _value) : AstNode()
 {
   the_value = _value;
 }
 
-ast_node::ast_node() : leftChildren(nullptr), rightChildren(nullptr), parent(nullptr), blockID(0), convertedCount(0), currentInterfaceID(0)
+AstNode::AstNode() : left_children(nullptr), right_children(nullptr), parent(nullptr), block_id(0), converted_count(0), current_interface_id(0)
 {
 }
 
-ast_node* ast_node::left_children()
+AstNode* AstNode::getLeftChildren()
 {
-  return leftChildren;
+  return left_children;
 }
 
-ast_node* ast_node::right_children()
+AstNode* AstNode::getRightChildren()
 {
-  return rightChildren;
+  return right_children;
 }
 
-ast_node* ast_node::clone(ast_node* _parent /*= nullptr*/)
+AstNode* AstNode::clone(AstNode* _parent /*= nullptr*/)
 {
-  ast_node* result = new ast_node(the_type, the_value);
+  AstNode* result = new AstNode(the_type, the_value);
   result->parent = _parent;
-  if (right_children())
-    result->rightChildren = right_children()->clone(result);
-  if (left_children())
-    result->leftChildren = left_children()->clone(result);
+  if (getRightChildren())
+    result->right_children = getRightChildren()->clone(result);
+  if (getLeftChildren())
+    result->left_children = getLeftChildren()->clone(result);
 
   return result;
 }
 
-ast_node* ast_node::cloneUntilNext(ast_node* _parent)
+AstNode* AstNode::cloneUntilNext(AstNode* _parent)
 {
   if (the_type == base_rule::node::type::named_rule && the_value == "Next") {
-    ast_node* result = new ast_node(the_type, the_value);
+    AstNode* result = new AstNode(the_type, the_value);
     result->setInterfaceID();
-    result->globalInterfaceID++;
+    result->global_interface_id++;
     result->parent = _parent;
     return result;
   }
 
-  ast_node* result = new ast_node(the_type, the_value);
+  AstNode* result = new AstNode(the_type, the_value);
   result->parent = _parent;
-  if (left_children())
-    result->leftChildren = left_children()->cloneUntilNext(result);
-  if (right_children())
-    result->rightChildren = right_children()->cloneUntilNext(result);
+  if (getLeftChildren())
+    result->left_children = getLeftChildren()->cloneUntilNext(result);
+  if (getRightChildren())
+    result->right_children = getRightChildren()->cloneUntilNext(result);
   return result;
 }
 
-void ast_node::free_ast(ast_node* node)
+void AstNode::freeAst(AstNode* node)
 {
   if (node == nullptr)
     return;
 
-  free_ast(node->left_children());
-  free_ast(node->right_children());
+  freeAst(node->getLeftChildren());
+  freeAst(node->getRightChildren());
   delete node;
 }
 
-void ast_node::add_children(ast_node* node)
+void AstNode::addChildren(AstNode* node)
 {
-  if (leftChildren == nullptr)
-    leftChildren = node;
-  else if (rightChildren == nullptr)
-    rightChildren = node;
+  if (getLeftChildren() == nullptr)
+    left_children = node;
+  else if (getRightChildren() == nullptr)
+    right_children = node;
   else
     throw std::runtime_error("Too many children!");
 }
 
-void ast_node::nullChildren()
+void AstNode::nullChildren()
 {
-  leftChildren = nullptr;
-  rightChildren = nullptr;
+  left_children = nullptr;
+  right_children = nullptr;
 }
 
-std::string ast_node::to_string(ast_node* node)
+std::string AstNode::toString(AstNode* node)
 {
   if (node == nullptr || node->the_value == "Next")
     return "";
 
   std::string text;
-  switch (node->the_type) {
+  switch (node->the_type)
+  {
   case base_rule::node::type::value:
     text = node->the_value;
     break;
@@ -118,15 +119,15 @@ std::string ast_node::to_string(ast_node* node)
     text = node->the_value;
     break;
   }
-  return text + to_string(node->leftChildren) + to_string(node->rightChildren);
+  return text + toString(node->left_children) + toString(node->right_children);
 }
 
-void ast_node::setInterfaceID()
+void AstNode::setInterfaceID()
 {
-  currentInterfaceID = globalInterfaceID;
+  current_interface_id = global_interface_id;
 }
 
-std::string ast_node::getFunctionString()
+std::string AstNode::getFunctionString()
 {
   std::string result;
 
@@ -136,32 +137,38 @@ std::string ast_node::getFunctionString()
     result += "OR_3";
   else if (the_value == "Not")
     result += "NOT_3";
-  else if (the_value == "Next") {
-    result += "_prop->inputStates[" + std::to_string(currentInterfaceID) + "]";
+  else if (the_value == "Next")
+  {
+    result += "_prop->inputStates[" + std::to_string(current_interface_id) + "]";
     return result;
   }
-  else if (the_value == "1") {
+  else if (the_value == "1")
+  {
     result += "_prop->isEventFired(EVENT_UP)";
     return result;
   }
-  else if (the_value == "2") {
+  else if (the_value == "2")
+  {
     result += "_prop->isEventFired(EVENT_DOWN)";
     return result;
   }
-  else if (the_value == "3") {
+  else if (the_value == "3")
+  {
     result += "_prop->isEventFired(EVENT_RIGHT)";
     return result;
   }
-  else if (the_value == "True") {
+  else if (the_value == "True")
+  {
     result += "TRUE";
     return result;
   }
-  else if (the_value == "False") {
+  else if (the_value == "False")
+  {
     result += "FALSE";
     return result;
   }
   else
     result += "VALUE";
 
-  return result + "(" + ((leftChildren) ? left_children()->getFunctionString() : "") + ((rightChildren) ? (", " + right_children()->getFunctionString()) : "") + ")";
+  return result + "(" + ((left_children) ? getLeftChildren()->getFunctionString() : "") + ((right_children) ? (", " + getRightChildren()->getFunctionString()) : "") + ")";
 }
