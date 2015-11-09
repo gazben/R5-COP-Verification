@@ -1,4 +1,4 @@
-# R5-COP-Verification
+# monitor_generator
 This project is a realtime verification software for the R5-COP project. Project website: http://www.r5-cop.eu/en/
 The package contains a demo of a monitor code generator and the generated monitor frame which subscribes to the velocity commands of a turtlesim turtle.
 
@@ -73,7 +73,7 @@ Optional:
 You should put a sylink into the catkin_ws/src tha will lead to the generated folder.
 For example:
   * Symlink: /home/ros/catkin_ws/src/turtle_monitor
-  * Folder: /home/ros/R5-COP-Verification
+  * Folder: /home/ros/monitor_generator
 
 How to run the demo:
   * Copy the package in your source folder ( ~/ros/src$ )
