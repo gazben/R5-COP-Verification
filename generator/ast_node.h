@@ -1,7 +1,7 @@
 #ifndef ast_node_h__
 #define ast_node_h__
 
-#include <SyntX/util/parser/parser.h>
+#include "SyntX/util/parser/parser.h"
 #include <string>
 #include <memory>
 

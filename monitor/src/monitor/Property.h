@@ -7,8 +7,8 @@
 #include <iostream>
 #include <ros/ros.h>
 /* LOCAL INCLUDES */
-#include "OutputState.h"
-#include "StateRegister.h"
+#include "output_state.h"
+#include "state_register.h"
 /* INCLUDES END */
 
 /* FUNCTION TYPE DEFINITIONS */

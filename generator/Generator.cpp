@@ -1,6 +1,6 @@
-#include "Generator.h"
+#include "generator.h"
 
-Generator::Generator()
+Generator::Generator() :error_code(0)
 {
 }
 
@@ -8,9 +8,92 @@ Generator::~Generator()
 {
 }
 
+void Generator::run(int argc, char* argv[])
+{
+  namespace po = boost::program_options;
+
+  BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator tool.";
+  BOOST_LOG_TRIVIAL(info) << "Made by Bence Gazder.";
+
+  try {
+    /*
+    po::options_description desc("Allowed options");
+    desc.add_options()
+      ("help", "produce help message")
+      ("compression", po::value<double>(), "set compression level")
+      ;
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+      std::cout << desc << "\n";
+    }
+
+    if (vm.count("compression")) {
+      std::cout << "Compression level was set to "
+        << vm["compression"].as<double>() << ".\n";
+    }
+    else {
+      std::cout << "Compression level was not set.\n";
+    }
+    */
+    std::string monitor_source_path = "D:\\Projects\\R5-COP-Verification\\monitor";
+    std::string monitor_destination_path = "D:\\Projects\\R5-COP-Verification\\generated";
+
+    //Example: std::string input = "G (((8 | 9) ^ 4) U (1 & 2))\n";
+    std::string input = "G(1 => (2 U 3))";
+
+    setMonitorDestinationPath(monitor_destination_path);
+    setMonitorSourcePath(monitor_source_path);
+    setExpressionInput(input);
+    setRoot(parseInput(getExpressionInput()));
+
+    AstOptimizer::optimizeAst(getRoot());   //remove the unnecessary parts of the AST
+    block_generator.setAstRootNode(converter.convertToConnectionNormalForm(root));
+    block_generator.createBlocks();
+    generateMonitor();
+    BOOST_LOG_TRIVIAL(info) << "Generation completed!";
+    BOOST_LOG_TRIVIAL(info) << "Press enter to quit.";
+    getchar();
+  }
+  catch (std::exception& e) {
+    BOOST_LOG_TRIVIAL(fatal) << e.what();
+  }
+  catch (...) {
+    //Unknown exception happened. Use some hack, to see what is it.
+    std::exception_ptr eptr = std::current_exception();
+    [&]() -> auto 
+    { 
+      try
+      {
+        if (eptr)
+        {
+          std::rethrow_exception(eptr);
+        }
+      }
+      catch (const std::exception& e) {
+        std::cout << e.what();
+      }
+    }();
+  }
+}
+
+void Generator::setExpressionInput(std::string expression_input)
+{
+  BOOST_LOG_TRIVIAL(info) << "Expression set to: " << expression_input;
+  this->expression_input = expression_input;
+}
+
+std::string Generator::getExpressionInput()
+{
+  return expression_input;
+}
+
 void Generator::setMonitorSourcePath(std::string monitor_source_path)
 {
-  BOOST_LOG_TRIVIAL(info) << "Monitor soucre path set to: " << monitor_source_path;
+  BOOST_LOG_TRIVIAL(info) << "Monitor source path set to: " << monitor_source_path;
   this->monitor_source_path = monitor_source_path;
 }
 
@@ -79,27 +162,41 @@ void Generator::generateMonitor()
   propertyHeaderFile_out.close();
 }
 
-void Generator::generateMonitor(std::string expression_input)
+std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_input)
 {
-  BOOST_LOG_TRIVIAL(info) << "Monitor generation started. Given expression: " << expression_input;
-
+  std::shared_ptr<base_rule::node> result_root;
   base_rule::set_build_ast(true);
   base_rule::match_range context(expression_input.cbegin(), expression_input.cend());
-  base_rule::match_range result;
+  base_rule::match_range result_range;
 
-  BOOST_LOG_TRIVIAL(info) << "Maching the given expression";
-  if (ltl().match(context, result, root)) {
-    BOOST_LOG_TRIVIAL(info) << "Matched!";
-
-    AstOptimizer::optimizeAst(root);
-    block_generator.setAstRootNode(converter.convertToConnectionNormalForm(root));
-    block_generator.createBlocks();
-    generateMonitor();
-    BOOST_LOG_TRIVIAL(info) << "Generation completed!";
+  BOOST_LOG_TRIVIAL(info) << "Parsing the given expression...";
+  if (ltl().match(context, result_range, result_root)) {
+    BOOST_LOG_TRIVIAL(info) << "Expression parsed!";
   }
   else {
-    BOOST_LOG_TRIVIAL(fatal) << "No match!";
+    BOOST_LOG_TRIVIAL(fatal) << "Expression parsing failed. Given expression is not valid!";
   }
+  return result_root;
+}
+
+int Generator::getErrorCode()
+{
+  return error_code;
+}
+
+void Generator::setErrorCode(int error_code)
+{
+  this->error_code = error_code;
+}
+
+std::shared_ptr<base_rule::node> Generator::getRoot()
+{
+  return root;
+}
+
+void Generator::setRoot(std::shared_ptr<base_rule::node> root)
+{
+  this->root = root;
 }
 
 bool Generator::str_replace(std::string& str, const std::string& from, const std::string& to)
