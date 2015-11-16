@@ -1,4 +1,4 @@
-#include "BlockGenerator.h"
+#include "block_generator.h"
 
 void BlockGenerator::setAstRootNode(AstNode* rootNode)
 {

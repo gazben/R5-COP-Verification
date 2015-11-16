@@ -5,9 +5,9 @@
 #include <vector>
 #include <tuple>
 #include <boost/log/trivial.hpp>
-#include <SyntX/util/parser/parser.h>
 
-#include "ConnectionNormalFormGenerator.h"
+#include "SyntX/util/parser/parser.h"
+#include "connection_normalform_generator.h"
 
 // "Top" interface of a block
 using PreviousStateInterface = std::vector<

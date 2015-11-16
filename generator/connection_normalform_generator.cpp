@@ -1,4 +1,4 @@
-#include "ConnectionNormalFormGenerator.h"
+#include "generator.h"
 
 int ConnectionNormalFormGenerator::until_node_deepness = 2;
 

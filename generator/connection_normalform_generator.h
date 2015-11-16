@@ -2,8 +2,8 @@
 #define ConnectionNormalFormGenerator_h__
 
 #include <memory>
-#include <SyntX/util/parser/parser.h>
 
+#include "SyntX/util/parser/parser.h"
 #include "ast_node.h"
 /*
 This class takes an AST and builds up a new AST with ConnectionNormalForm
