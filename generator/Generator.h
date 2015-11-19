@@ -12,8 +12,8 @@
 #include <boost/filesystem.hpp>
 #include <boost/log/trivial.hpp>
 
-#include "SyntX/util/languages/ltl.h"
-#include "SyntX/util/parser/parser.h"
+#include <SyntX/util/languages/ltl.h>
+#include <SyntX/util/parser/parser.h>
 #include "block_generator.h"
 #include "connection_normalform_generator.h"
 #include "ast_optimizer.h"
@@ -22,9 +22,10 @@ class Generator
 {
 public:
   Generator();
+  Generator(int argc, char* argv[]);
   ~Generator();
 
-  void run(int argc, char* argv[]);
+  void run();
   void setExpressionInput(std::string expression_input);
   std::string getExpressionInput();
   void setMonitorSourcePath(std::string monitor_source_path);
@@ -33,8 +34,12 @@ public:
   void setErrorCode(int error_code);
   std::shared_ptr<base_rule::node> getRoot();
   void setRoot(std::shared_ptr<base_rule::node> root);
+  void parseProgramArguments(int argc, char* argv[]);
 private:
   std::shared_ptr<base_rule::node> root;
+
+  static boost::program_options::options_description arguments;
+  static boost::program_options::variables_map argument_variables;
 
   std::string property_cpp_file_path;
   std::string property_header_file_path;
@@ -53,6 +58,9 @@ private:
   void generateMonitor();
   bool str_replace(std::string& str, const std::string& from, const std::string& to);
   bool copyDir(boost::filesystem::path const & source, boost::filesystem::path const & destination);
+
+  static void terminate(int error_code);
+  void terminate();
   
   int error_code;
 };

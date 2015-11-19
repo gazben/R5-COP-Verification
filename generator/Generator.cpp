@@ -1,83 +1,85 @@
 #include "generator.h"
 
-Generator::Generator() :error_code(0)
+//STATIC init
+boost::program_options::options_description Generator::arguments = boost::program_options::options_description();
+boost::program_options::variables_map Generator::argument_variables = boost::program_options::variables_map();
+
+
+Generator::Generator()
+  :error_code(0)
 {
+  BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator. Made by Bence Gazder";
+  arguments.add_options()
+    ("help", "See available options.")
+    ("input-path", boost::program_options::value<std::string>(), "Root directory of the monitor frame source.")
+    ("output-path", boost::program_options::value<std::string>(), "Root directory, of the generated monitor.")
+    ("ros-version", boost::program_options::value<std::string>(), "ROS version codename ex.: jade")
+    ("debug-output", boost::program_options::value<std::string>(), "Directory of the log files, and generation information.")
+    //("language", "ex.: LTL") //possible feature
+    ("input-expression", boost::program_options::value<std::string>(), "Expression that defines, the monitor behavior.")
+    ("no-auto-exit", "Before the program termination, the program will wait for a keystroke.")
+    ;
+}
+
+Generator::Generator(int argc, char* argv[]) :Generator()
+{
+  parseProgramArguments(argc, argv);
 }
 
 Generator::~Generator()
 {
 }
 
-void Generator::run(int argc, char* argv[])
+void Generator::run()
 {
-  namespace po = boost::program_options;
-
-  BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator tool.";
-  BOOST_LOG_TRIVIAL(info) << "Made by Bence Gazder.";
-
-  try {
-    /*
-    po::options_description desc("Allowed options");
-    desc.add_options()
-      ("help", "produce help message")
-      ("compression", po::value<double>(), "set compression level")
-      ;
-
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
-
-    if (vm.count("help")) {
-      std::cout << desc << "\n";
-    }
-
-    if (vm.count("compression")) {
-      std::cout << "Compression level was set to "
-        << vm["compression"].as<double>() << ".\n";
-    }
-    else {
-      std::cout << "Compression level was not set.\n";
-    }
-    */
-    std::string monitor_source_path = "D:\\Projects\\R5-COP-Verification\\monitor";
-    std::string monitor_destination_path = "D:\\Projects\\R5-COP-Verification\\generated";
-
-    //Example: std::string input = "G (((8 | 9) ^ 4) U (1 & 2))\n";
-    std::string input = "G(1 => (2 U 3))";
-
-    setMonitorDestinationPath(monitor_destination_path);
-    setMonitorSourcePath(monitor_source_path);
-    setExpressionInput(input);
-    setRoot(parseInput(getExpressionInput()));
-
-    AstOptimizer::optimizeAst(getRoot());   //remove the unnecessary parts of the AST
-    block_generator.setAstRootNode(converter.convertToConnectionNormalForm(root));
-    block_generator.createBlocks();
-    generateMonitor();
-    BOOST_LOG_TRIVIAL(info) << "Generation completed!";
-    BOOST_LOG_TRIVIAL(info) << "Press enter to quit.";
-    getchar();
+  if (!argument_variables["help"].empty())
+  {
+    BOOST_LOG_TRIVIAL(info) << "Displaying help options.";
+    std::cout << arguments;
   }
-  catch (std::exception& e) {
-    BOOST_LOG_TRIVIAL(fatal) << e.what();
-  }
-  catch (...) {
-    //Unknown exception happened. Use some hack, to see what is it.
-    std::exception_ptr eptr = std::current_exception();
-    [&]() -> auto 
-    { 
-      try
+  else {
+    try
+    {
+      std::string monitor_source_path = "D:\\Projects\\R5-COP-Verification\\monitor";
+      std::string monitor_destination_path = "D:\\Projects\\R5-COP-Verification\\generated";
+
+      //Example: std::string input = "G (((8 | 9) ^ 4) U (1 & 2))\n";
+      std::string input = "G(1 => (2 U 3))";
+
+      setMonitorDestinationPath(monitor_destination_path);
+      setMonitorSourcePath(monitor_source_path);
+      setExpressionInput(input);
+      setRoot(parseInput(getExpressionInput()));
+
+      AstOptimizer::optimizeAst(getRoot());   //remove the unnecessary parts of the AST
+      block_generator.setAstRootNode(converter.convertToConnectionNormalForm(root));
+      block_generator.createBlocks();
+      generateMonitor();
+      BOOST_LOG_TRIVIAL(info) << "Generation completed!";
+      BOOST_LOG_TRIVIAL(info) << "Press enter to quit.";
+    }
+    catch (std::exception& e) {
+      BOOST_LOG_TRIVIAL(fatal) << e.what();
+    }
+    catch (...) {
+      //Unknown exception happened. Use some hack, to see what is it.
+      std::exception_ptr eptr = std::current_exception();
+      [&]() -> auto
       {
-        if (eptr)
+        try
         {
-          std::rethrow_exception(eptr);
+          if (eptr)
+          {
+            std::rethrow_exception(eptr);
+          }
         }
-      }
-      catch (const std::exception& e) {
-        std::cout << e.what();
-      }
-    }();
+        catch (const std::exception& e) {
+          std::cout << e.what();
+        }
+      }();
+    }
   }
+  terminate();
 }
 
 void Generator::setExpressionInput(std::string expression_input)
@@ -111,53 +113,53 @@ void Generator::generateMonitor()
     BOOST_LOG_TRIVIAL(fatal) << "Error during the source code directory copying";
 
   if (property_cpp_file_path.empty())
-    BOOST_LOG_TRIVIAL(fatal) << "Property.cpp is NOT found!";
+    BOOST_LOG_TRIVIAL(fatal) << "property.cpp is NOT found!";
 
   if (property_header_file_path.empty())
-    BOOST_LOG_TRIVIAL(fatal) << "Property.h is NOT found!";
+    BOOST_LOG_TRIVIAL(fatal) << "property.h is NOT found!";
 
   std::ifstream propertyCppFile_in(property_cpp_file_path);
   if (propertyCppFile_in.is_open())
-    BOOST_LOG_TRIVIAL(info) << "Property.cpp is opened";
+    BOOST_LOG_TRIVIAL(info) << "property.cpp is opened";
   else
     BOOST_LOG_TRIVIAL(fatal) << "Property.cpp opening failed";
   property_cpp_file_content = std::string((std::istreambuf_iterator<char>(propertyCppFile_in)), std::istreambuf_iterator<char>());
 
   std::ifstream peopertyHeaderFile(property_header_file_path);
   if (propertyCppFile_in.is_open())
-    BOOST_LOG_TRIVIAL(info) << "Property.h is opened";
+    BOOST_LOG_TRIVIAL(info) << "property.h is opened";
   else
-    BOOST_LOG_TRIVIAL(fatal) << "Property.h opening failed";
+    BOOST_LOG_TRIVIAL(fatal) << "property.h opening failed";
   property_header_file_content = std::string((std::istreambuf_iterator<char>(peopertyHeaderFile)), std::istreambuf_iterator<char>());
 
   if (str_replace(property_header_file_content, "//--DECLARATIONS--", block_generator.getFunctionDeclarations()))
-    BOOST_LOG_TRIVIAL(info) << "Function declarations written to the Property.h file";
+    BOOST_LOG_TRIVIAL(info) << "Function declarations written to the property.h file";
   else
-    BOOST_LOG_TRIVIAL(fatal) << "Function declaration writing to the Property.h file failed!";
+    BOOST_LOG_TRIVIAL(fatal) << "Function declaration writing to the property.h file failed!";
 
   if (str_replace(property_cpp_file_content, "//--CONSTRUCTFUNCTIONS--", block_generator.getConstructFunctions()))
-    BOOST_LOG_TRIVIAL(info) << "Construct functions written to the Property.cpp file";
+    BOOST_LOG_TRIVIAL(info) << "Construct functions written to the property.cpp file";
   else
-    BOOST_LOG_TRIVIAL(fatal) << "Construct functions writing to the Property.cpp file failed!";
+    BOOST_LOG_TRIVIAL(fatal) << "Construct functions writing to the property.cpp file failed!";
 
   if (str_replace(property_cpp_file_content, "//--EVALFUNCTIONS--", block_generator.getFunctions()))
-    BOOST_LOG_TRIVIAL(info) << "EvalFunctions written to the Property.cpp file";
+    BOOST_LOG_TRIVIAL(info) << "EvalFunctions written to the property.cpp file";
   else
-    BOOST_LOG_TRIVIAL(fatal) << "EvalFunction writing to the Property.cpp failed";
+    BOOST_LOG_TRIVIAL(fatal) << "EvalFunction writing to the property.cpp failed";
 
   std::ofstream propertyCppFile_out(property_cpp_file_path);
   if (propertyCppFile_out.is_open())
-    BOOST_LOG_TRIVIAL(info) << "Property.cpp file opened for writing";
+    BOOST_LOG_TRIVIAL(info) << "property.cpp file opened for writing";
   else
-    BOOST_LOG_TRIVIAL(fatal) << "Property.cpp fille opening for writing failed";
+    BOOST_LOG_TRIVIAL(fatal) << "property.cpp fille opening for writing failed";
   propertyCppFile_out.write(property_cpp_file_content.c_str(), property_cpp_file_content.size());
   propertyCppFile_out.close();
 
   std::ofstream propertyHeaderFile_out(property_header_file_path);
   if (propertyHeaderFile_out.is_open())
-    BOOST_LOG_TRIVIAL(info) << "Property.h file opened for writing";
+    BOOST_LOG_TRIVIAL(info) << "property.h file opened for writing";
   else
-    BOOST_LOG_TRIVIAL(fatal) << "Property.h file opening for writing failed";
+    BOOST_LOG_TRIVIAL(fatal) << "property.h file opening for writing failed";
   propertyHeaderFile_out.write(property_header_file_content.c_str(), property_header_file_content.size());
   propertyHeaderFile_out.close();
 }
@@ -197,6 +199,18 @@ std::shared_ptr<base_rule::node> Generator::getRoot()
 void Generator::setRoot(std::shared_ptr<base_rule::node> root)
 {
   this->root = root;
+}
+
+void Generator::parseProgramArguments(int argc, char* argv[])
+{
+  boost::program_options::store(boost::program_options::parse_command_line(argc, argv, arguments), argument_variables);
+  boost::program_options::notify(argument_variables);
+
+  BOOST_LOG_TRIVIAL(info) << "Given parameters count: " << std::to_string(argc);
+  for (auto entry : argument_variables)
+  {
+    BOOST_LOG_TRIVIAL(info) << entry.first << " " << entry.second.as<std::string>();
+  }
 }
 
 bool Generator::str_replace(std::string& str, const std::string& from, const std::string& to)
@@ -251,16 +265,16 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
       }
       else
       {
-        if (current.filename() == "Property.h")
+        if (current.filename() == "property.h")
         {
           property_header_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "Property.h found! Path: " << property_cpp_file_path;
+          BOOST_LOG_TRIVIAL(info) << "property.h found! Path: " << property_cpp_file_path;
         }
 
-        if (current.filename() == "Property.cpp")
+        if (current.filename() == "property.cpp")
         {
           property_cpp_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "Property.cpp found! Path: " << property_cpp_file_path;
+          BOOST_LOG_TRIVIAL(info) << "property.cpp found! Path: " << property_cpp_file_path;
         }
         fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
       }
@@ -271,4 +285,21 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
     }
   }
   return true;
+}
+
+void Generator::terminate()
+{
+  terminate(getErrorCode());
+}
+
+void Generator::terminate(int error_code)
+{
+  BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
+
+  if (argument_variables["no-auto-exit"].empty()) {
+    BOOST_LOG_TRIVIAL(info) << "Press any key, to exit.";
+    getchar();
+  }
+
+  std::exit(error_code);
 }

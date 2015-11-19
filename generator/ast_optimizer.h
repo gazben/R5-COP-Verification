@@ -2,7 +2,7 @@
 #define ast_optimizer_h__
 
 #include <memory>
-#include "SyntX/util/parser/parser.h"
+#include <SyntX/util/parser/parser.h>
 
 
 class AstOptimizer
