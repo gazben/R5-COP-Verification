@@ -14,11 +14,26 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="SyntX">
-      <UniqueIdentifier>{fdb96dc7-8a74-42de-8d1d-d8c96a497e2a}</UniqueIdentifier>
+      <UniqueIdentifier>{a32a0312-ffec-494b-9476-e142f8f721d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\generator\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\ast_optimizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\ast_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\connection_normalform_generator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\block_generator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\generator\generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc">
@@ -81,24 +96,21 @@
     <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc">
       <Filter>SyntX</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\generator\ast_optimizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generator\ast_node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generator\BlockGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\generator\Generator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\generator\Generator.h">
+    <ClInclude Include="..\..\generator\ast_node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\ast_optimizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\connection_normalform_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\block_generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\generator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libs\SyntX\util\enum_set.h">
@@ -178,18 +190,6 @@
     </ClInclude>
     <ClInclude Include="..\..\libs\SyntX\util\languages\ltl.h">
       <Filter>SyntX</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generator\ConnectionNormalFormGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generator\BlockGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generator\ast_node.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\generator\ast_optimizer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

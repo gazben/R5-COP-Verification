@@ -13,9 +13,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\generator\ast_node.cpp" />
     <ClCompile Include="..\..\generator\ast_optimizer.cpp" />
-    <ClCompile Include="..\..\generator\BlockGenerator.cpp" />
-    <ClCompile Include="..\..\generator\ConnectionNormalFormGenerator.cpp" />
-    <ClCompile Include="..\..\generator\Generator.cpp" />
+    <ClCompile Include="..\..\generator\block_generator.cpp" />
+    <ClCompile Include="..\..\generator\connection_normalform_generator.cpp" />
+    <ClCompile Include="..\..\generator\generator.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
     <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc" />
     <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc" />
@@ -41,9 +41,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\generator\ast_node.h" />
     <ClInclude Include="..\..\generator\ast_optimizer.h" />
-    <ClInclude Include="..\..\generator\BlockGenerator.h" />
-    <ClInclude Include="..\..\generator\ConnectionNormalFormGenerator.h" />
-    <ClInclude Include="..\..\generator\Generator.h" />
+    <ClInclude Include="..\..\generator\block_generator.h" />
+    <ClInclude Include="..\..\generator\connection_normalform_generator.h" />
+    <ClInclude Include="..\..\generator\generator.h" />
     <ClInclude Include="..\..\libs\SyntX\util\enum_set.h" />
     <ClInclude Include="..\..\libs\SyntX\util\languages\language.h" />
     <ClInclude Include="..\..\libs\SyntX\util\languages\ltl.h" />
@@ -75,6 +75,8 @@
     <ProjectGuid>{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}</ProjectGuid>
     <RootNamespace>R5COPGenerator</RootNamespace>
     <TargetPlatformVersion>10.0.10069.0</TargetPlatformVersion>
+    <ProjectName>generator</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -86,8 +88,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>CTP_Nov2013</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -107,7 +109,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>D:\Projects\R5-COP-Verification\libs;D:\Sdk;D:\Sdk\boost_1_58_0</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
@@ -123,7 +125,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>D:\Projects\R5-COP-Verification\libs;D:\Sdk;D:\Sdk\boost_1_58_0</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
