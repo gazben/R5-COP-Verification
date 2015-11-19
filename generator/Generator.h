@@ -35,11 +35,12 @@ public:
   std::shared_ptr<base_rule::node> getRoot();
   void setRoot(std::shared_ptr<base_rule::node> root);
   void parseProgramArguments(int argc, char* argv[]);
-private:
-  std::shared_ptr<base_rule::node> root;
 
   static boost::program_options::options_description arguments;
   static boost::program_options::variables_map argument_variables;
+
+private:
+  std::shared_ptr<base_rule::node> root;
 
   std::string property_cpp_file_path;
   std::string property_header_file_path;

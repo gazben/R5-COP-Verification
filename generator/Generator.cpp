@@ -18,6 +18,7 @@ Generator::Generator()
     //("language", "ex.: LTL") //possible feature
     ("input-expression", boost::program_options::value<std::string>(), "Expression that defines, the monitor behavior.")
     ("no-auto-exit", "Before the program termination, the program will wait for a keystroke.")
+    //("debug-expression-tree-output", "Print out the expression optimalization. For advanced users only!")
     ;
 }
 

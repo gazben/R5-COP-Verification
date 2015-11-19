@@ -154,9 +154,6 @@ void BlockGenerator::createBlocks()
 
   for (int i = 0; i < eval_blocks.size(); i++)
     eval_blocks[i].block_id = i;
-
-  ast_draw<decltype(ast_root_rode)> printer(ast_root_rode);
-  printer.to_formatted_string(ast_root_rode);
 }
 
 std::string BlockGenerator::getFunctionDeclarations()
