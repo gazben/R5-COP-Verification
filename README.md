@@ -13,12 +13,13 @@ Required Software for the Generator:
   * Boost 1.58 library
   * CMake
   
-Download boost 1.58 from here:
+Download boost 1.58 from here and compile:
 http://www.boost.org/users/history/version_1_58_0.html
 
 Getting all the stuff for the Generator:
 
   ```
+  git checkout https://github.com/gazben/monitor_generator.git
   sudo apt-get update
   sudo apt-get upgrade
   sudo apt-get install build-essential
@@ -35,7 +36,6 @@ Getting all the stuff for the Generator:
   ./bootstrap.sh
   sudo ./b2
   sudo ./b2 install
-   
   ```
 
 Monitor:
@@ -48,7 +48,6 @@ The monitor will only run on Ubuntu 12.04!
 Getting all the stuff for the monitor:
 
   ```
-  
   sudo apt-get update
   sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list'
   wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
@@ -66,7 +65,6 @@ Getting all the stuff for the monitor:
   cd ~/catkin_ws/
   catkin_make
   source devel/setup.bash
-  
   ```
 
 Optional:
