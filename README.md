@@ -34,7 +34,7 @@ Getting all the stuff for the Generator:
   tar --bzip2 -xf boost_1_58_0.tar.bz2
   cd boost_1_58_0/
   ./bootstrap.sh
-  sudo ./b2
+  sudo ./bootstrap.sh --prefix=/usr/local
   sudo ./b2 install
   ```
 
