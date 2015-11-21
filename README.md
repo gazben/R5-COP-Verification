@@ -47,7 +47,16 @@ The package contains a demo of a monitor code generator and the generated monito
     - [CLion](https://www.jetbrains.com/clion/download)
  - Compiler:
     - [min-gw](http://sourceforge.net/projects/mingw/files/Installer)
-    - [gcc/b++](https://gcc.gnu.org)
+    - [gcc/g++](https://gcc.gnu.org)
+
+
+Open up an admin command line.
+  ```
+  git checkout https://github.com/gazben/monitor_generator.git
+  cd <unzipped boost library>
+  bootstrap.bat
+  b2 install toolset=gcc
+  ```
 
 ##Monitor
 
