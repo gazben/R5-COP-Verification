@@ -2,21 +2,22 @@
 This project is a realtime verification software for the R5-COP project. Project website: http://www.r5-cop.eu/en/
 The package contains a demo of a monitor code generator and the generated monitor frame which subscribes to the velocity commands of a turtlesim turtle.
 
-Currently supported IDE-s:
+###Currently supported IDE-s:
 
   * Visual Studio 2015 - Generator (compile/run)
   * CLion - Generator(compile/run), Monitor(compile/run)
 
-Required Software for the Generator:
+##GENERATOR
+
+###Required Software:
 
   * C++11 compatible C++ compiler
   * Boost 1.58 library
   * CMake
-  
-Download boost 1.58 from here and compile:
-http://www.boost.org/users/history/version_1_58_0.html
 
-Getting all the stuff for the Generator:
+###Getting all the stuff for the Generator (Linux):
+
+[Download boost 1.58](http://www.boost.org/users/history/version_1_58_0.html)
 
   ```
   git checkout https://github.com/gazben/monitor_generator.git
@@ -38,14 +39,28 @@ Getting all the stuff for the Generator:
   sudo ./b2 install
   ```
 
-Monitor:
-  * Ubuntu 12.04
-  * ROS Groovy
-  * turtlesim
+###Getting all the stuff for the Generator (Windows):
+- [cmake](https://cmake.org/download)
+- Download a C++11 compatible compiler and IDE:
+ - IDE + Compiler: 
+    - [Visual Studio 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx)
+    - [CLion](https://www.jetbrains.com/clion/download)
+ - Compiler:
+    - [min-gw](http://sourceforge.net/projects/mingw/files/Installer)
+    - [gcc/b++](https://gcc.gnu.org)
+
+##Monitor
+
+###Required Software
+  * [Ubuntu 12.04](http://releases.ubuntu.com/12.04)
+  * [ROS Groovy](http://wiki.ros.org/groovy/Installation/Ubuntu)
+  * [turtlesim](http://wiki.ros.org/turtlesim)
   * C++11 compatible compiler
+
 The monitor will only run on Ubuntu 12.04!
 
 Getting all the stuff for the monitor:
+Warning: The monitor is not supported on windows! You can try [win_ros](http://wiki.ros.org/win_ros) but it's not supported.
 
   ```
   sudo apt-get update
@@ -67,7 +82,8 @@ Getting all the stuff for the monitor:
   source devel/setup.bash
   ```
 
-Optional:
+##Monitor deploying
+
 You should put a sylink into the catkin_ws/src tha will lead to the generated folder.
 For example:
   * Symlink: /home/ros/catkin_ws/src/turtle_monitor
