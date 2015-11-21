@@ -52,7 +52,8 @@ void Generator::run()
       setExpressionInput(input);
       setRoot(parseInput(getExpressionInput()));
 
-      AstOptimizer::optimizeAst(getRoot());   //remove the unnecessary parts of the AST
+      auto tree_root = getRoot();
+      AstOptimizer::optimizeAst(tree_root);   //remove the unnecessary parts of the AST
       block_generator.setAstRootNode(converter.convertToConnectionNormalForm(root));
       block_generator.createBlocks();
       generateMonitor();

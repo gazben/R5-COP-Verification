@@ -1,27 +1,41 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ROSVeryfy_generator)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -lboost_system")
+project(monitor_generator)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
-include_directories(
- libs/
- /usr/include
+IF (WIN32)
+    include_directories(
+            libs/
+    )
+ELSEIF(UNIX)
+    include_directories(
+        libs/
+        /usr/include
+    )
+ENDIF()
+
+find_package(
+    Boost 1.58.0 COMPONENTS
+    system
+    filesystem
+    program_options
+    log
+    thread
+    REQUIRED
 )
-
-find_package(Boost 1.58.0 COMPONENTS system filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(
-  ROSVeryfy_generator
+  monitor_generator
   generator/ast_node.cpp
   generator/ast_node.h
   generator/ast_optimizer.cpp
   generator/ast_optimizer.h
-  generator/BlockGenerator.cpp
-  generator/BlockGenerator.h
-  generator/ConnectionNormalFormGenerator.cpp
-  generator/ConnectionNormalFormGenerator.h
-  generator/Generator.h
-  generator/Generator.cpp
+  generator/block_generator.cpp
+  generator/block_generator.h
+  generator/connection_normalform_generator.cpp
+  generator/connection_normalform_generator.h
+  generator/generator.h
+  generator/generator.cpp
   generator/main.cpp
 
   libs/SyntX/util/parser/alternation.cc
@@ -71,7 +85,8 @@ add_executable(
   libs/SyntX/util/languages/ltl.h
   libs/SyntX/util/languages/ltl.cc
 )
+target_link_libraries(monitor_generator ${Boost_LIBRARIES})
 
-target_link_libraries(ROSVeryfy_generator ${Boost_LIBRARIES})
+
 
 
