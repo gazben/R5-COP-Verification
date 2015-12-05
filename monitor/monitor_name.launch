@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="--monitor_name--" type="mission_cntrl_groovy" name="vel_pub" launch-prefix="xterm -e"/>
+  <node pkg="--monitor_name--" type="monitor_name" name="monitor" launch-prefix="xterm -e"/>
+</launch>

@@ -11,13 +11,14 @@ Generator::Generator()
   BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator. Made by Bence Gazder";
   arguments.add_options()
     ("help", "See available options.")
-    ("input-path", boost::program_options::value<std::string>(), "Root directory of the monitor frame source.")
-    ("output-path", boost::program_options::value<std::string>(), "Root directory, of the generated monitor.")
-    ("ros-version", boost::program_options::value<std::string>(), "ROS version codename ex.: jade")
+    ("input-path", boost::program_options::value<std::string>()->required(), "Root directory of the monitor frame source.")
+    ("output-path", boost::program_options::value<std::string>()->required(), "Root directory, of the generated monitor.")
+    ("ros-version", boost::program_options::value<std::string>()->default_value("groovy"), "ROS version codename ex.: jade. Default: groovy")
     ("debug-output", boost::program_options::value<std::string>(), "Directory of the log files, and generation information.")
-    //("language", "ex.: LTL") //possible feature
-    ("input-expression", boost::program_options::value<std::string>(), "Expression that defines, the monitor behavior.")
+    ("input-expression", boost::program_options::value<std::string>()->required(), "Expression that defines, the monitor behavior.")
+    ("monitor-name", boost::program_options::value<std::string>()->required(), "Name of the generated monitor.")
     ("no-auto-exit", "Before the program termination, the program will wait for a keystroke.")
+    //("language", "ex.: LTL") //possible feature
     //("debug-expression-tree-output", "Print out the expression optimalization. For advanced users only!")
     ;
 }
