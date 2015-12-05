@@ -95,8 +95,14 @@ Warning: The monitor is not supported on windows! You can try [win_ros](http://w
 
 You should put a sylink into the catkin_ws/src tha will lead to the generated folder.
 For example:
-  * Symlink: /home/ros/catkin_ws/src/turtle_monitor
-  * Folder: /home/ros/monitor_generator
+  * Symlink: /home/user/catkin_ws/src/monitor_generator
+  * Folder: /home/user/projects/monitor_generator/generated
+
+
+  ```
+  sudo ln -s /home/user/projects/monitor_generator/generated /home/user/catkin_ws/src/monitor_generator
+  ```
+
 
 How to run the demo:
   * Copy the package in your source folder ( ~/ros/src$ )
