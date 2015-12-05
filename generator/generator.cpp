@@ -11,7 +11,7 @@ Generator::Generator()
   BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator. Made by Bence Gazder";
   arguments.add_options()
     ("help", "See available options.")
-    ("input-path", boost::program_options::value<std::string>()->required(), "Root directory of the monitor frame source.")
+    ("source-path", boost::program_options::value<std::string>()->required(), "Root directory of the monitor frame source.")
     ("output-path", boost::program_options::value<std::string>()->required(), "Root directory, of the generated monitor.")
     ("ros-version", boost::program_options::value<std::string>()->default_value("groovy"), "ROS version codename ex.: jade. Default: groovy")
     ("debug-output", boost::program_options::value<std::string>(), "Directory of the log files, and generation information.")
@@ -42,11 +42,23 @@ void Generator::run()
   else {
     try
     {
-      std::string monitor_source_path = "D:\\Projects\\R5-COP-Verification\\monitor";
-      std::string monitor_destination_path = "D:\\Projects\\R5-COP-Verification\\generated";
+      /*
+       * Ex.:
+       *  - Linux: /home/user/projects/monitor_generator/monitor
+       *  - Windows: D:\Projects\monitor_generator\monitor
+       * */
+      std::string monitor_source_path = argument_variables["source-path"].as<std::string>();
+      /*
+       * Ex.:
+       *  - Linux:
+       *  - Windows:
+       * */
+      std::string monitor_destination_path = argument_variables["output-path"].as<std::string>();
 
-      //Example: std::string input = "G (((8 | 9) ^ 4) U (1 & 2))\n";
-      std::string input = "G(1 => (2 U 3))";
+      /*
+       * Ex.: std::string input = "G (((8 | 9) ^ 4) U (1 & 2))";
+       */
+      std::string input = argument_variables["input-expression"].as<std::string>();
 
       setMonitorDestinationPath(monitor_destination_path);
       setMonitorSourcePath(monitor_source_path);
@@ -218,7 +230,7 @@ void Generator::parseProgramArguments(int argc, char* argv[])
 
 bool Generator::str_replace(std::string& str, const std::string& from, const std::string& to)
 {
-  unsigned int start_pos = str.find(from);
+  unsigned long start_pos = str.find(from);
   if (start_pos == std::string::npos) {
     BOOST_LOG_TRIVIAL(error) << "String replace failed, \"" + from + "\" is not found in the: \" " + str.substr(10) + "...\" string";
     return false;
@@ -271,7 +283,7 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
         if (current.filename() == "property.h")
         {
           property_header_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "property.h found! Path: " << property_cpp_file_path;
+          BOOST_LOG_TRIVIAL(info) << "property.h found! Path: " << property_header_file_path;
         }
 
         if (current.filename() == "property.cpp")

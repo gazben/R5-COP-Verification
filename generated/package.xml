@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <name>Monitor Generator</name>
+  <version>0.5</version>
+  <description>This package can create a monitor component for the Robot Operating System.</description>
+
+  <maintainer email="davidmtamas@gmail.com">dmt</maintainer>
+  <maintainer email="bencegazder@gmail.com">gazben</maintainer>
+  
+  <license>GPLv2</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>turtlesim</build_depend>
+    
+  <run_depend>roscpp</run_depend>
+  <run_depend>turtlesim</run_depend>
+  
+</package>

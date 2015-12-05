@@ -1,17 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(monitor_generator)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -lboost_log -pthread -DBOOST_LOG_DYN_LINK")
 
-IF (WIN32)
-    include_directories(
-            libs/
-    )
-ELSEIF(UNIX)
-    include_directories(
-        libs/
-        /usr/include
-    )
-ENDIF()
+include_directories(
+    libs/
+    /usr/include
+)
 
 find_package(
     Boost 1.58.0 COMPONENTS
@@ -26,6 +20,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(
   monitor_generator
+  generator/generator.cpp
+  generator/generator.h
   generator/ast_node.cpp
   generator/ast_node.h
   generator/ast_optimizer.cpp
@@ -34,8 +30,6 @@ add_executable(
   generator/block_generator.h
   generator/connection_normalform_generator.cpp
   generator/connection_normalform_generator.h
-  generator/generator.h
-  generator/generator.cpp
   generator/main.cpp
 
   libs/SyntX/util/parser/alternation.cc
