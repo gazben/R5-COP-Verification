@@ -42,9 +42,11 @@ public:
 private:
   std::shared_ptr<base_rule::node> root;
 
+  std::string monitor_name_cpp_file_path;
+  std::string monitor_name_cpp_file_content;
+
   std::string property_cpp_file_path;
   std::string property_header_file_path;
-
   std::string property_cpp_file_content;
   std::string property_header_file_content;
 

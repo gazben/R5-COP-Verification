@@ -1,4 +1,4 @@
-#include "OutputState.h"
+#include "output_state.h"
 
 bool trilean::operator!=(const trilean& rhs)
 {

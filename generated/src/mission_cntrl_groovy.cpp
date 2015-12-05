@@ -1,8 +1,8 @@
 #include <ros/ros.h>
-#include <turtlesim/Velocity.h>
+#include <geometry_msgs/Twist.h>
+#include <std_msgs/String.h>
 #include <signal.h>
 #include <termios.h>
-#include "std_msgs/String.h"
 
 #define pi 3.14159265359
 
@@ -28,7 +28,7 @@ TeleopTurtle::TeleopTurtle() :
   nh_.param("scale_linear", l_scale_, l_scale_);
 
   cmd_pub_ = nh_.advertise<std_msgs::String>("turtle1/cmd", 1000);
-  vel_pub_ = nh_.advertise<turtlesim::Velocity>("turtle1/command_velocity", 1);
+  vel_pub_ = nh_.advertise<geometry_msgs::Twist>("turtle1/command_velocity", 1);
 }
 
 int kfd = 0;
@@ -129,9 +129,9 @@ void TeleopTurtle::keyLoop() {
     }
     c = commands[++i];
 
-    turtlesim::Velocity vel;
-    vel.angular = a_scale_ * angular_;
-    vel.linear = l_scale_ * linear_;
+    geometry_msgs::Twist vel;
+    vel.linear.x = a_scale_ * angular_;
+    vel.linear.y = l_scale_ * linear_;
 
     usleep(500000);
     if (dirty) {

@@ -291,7 +291,16 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
           property_cpp_file_path = std::string((destination / current.filename()).string());
           BOOST_LOG_TRIVIAL(info) << "property.cpp found! Path: " << property_cpp_file_path;
         }
-        fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
+
+        if(current.filename() == "monitor_name.cpp")
+        {
+          monitor_name_cpp_file_path = std::string((destination / current.filename()).string());
+          BOOST_LOG_TRIVIAL(info) << "monitor_name.cpp found! Path: " << monitor_name_cpp_file_path;
+          fs::copy_file(current, destination / (argument_variables["monitor-name"].as<std::string>() + ".cpp"), boost::filesystem::copy_option::overwrite_if_exists);
+        }
+
+        if(current.filename() != "monitor_name.cpp")
+          fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
       }
     }
     catch (fs::filesystem_error const & e)

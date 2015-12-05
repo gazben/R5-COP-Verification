@@ -1,4 +1,4 @@
-#include "StateRegister.h"
+#include "state_register.h"
 
 /*Static init*/
 SR_regtype StateRegister::stateRegister = 0;

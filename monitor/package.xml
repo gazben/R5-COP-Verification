@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
-  <name>Monitor Generator</name>
-  <version>0.5</version>
+  <name>monitor_generator</name>
+  <version>0.5.0</version>
   <description>This package can create a monitor component for the Robot Operating System.</description>
 
   <maintainer email="davidmtamas@gmail.com">dmt</maintainer>

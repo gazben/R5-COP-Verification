@@ -1,5 +1,6 @@
 #include <ros/ros.h>
-#include <turtlesim/Velocity.h>
+#include <geometry_msgs/Twist.h>
+#include <std_msgs/String.h>
 /* LOCAL INCLUDES */
 //#include "monitor/EventHandler.h"
 #include "monitor/property.h"
@@ -7,24 +8,25 @@
 
 Property* property1;
 
-void velMessageRecieved(const turtlesim::Velocity &msg) {
+void velMessageRecieved(const geometry_msgs::Twist &msg) {
+
   SR_regtype tempStateReg = 0;
-  if(msg.linear > 0){
+  if(msg.linear.y > 0){
     tempStateReg |= EVENT_UP;
     ROS_INFO_STREAM("UP");
   }
 
-  if(msg.linear < 0){
+  if(msg.linear.y < 0){
     tempStateReg |= EVENT_DOWN;
     ROS_INFO_STREAM("DOWN");
   }
 
-  if(msg.angular > 0){
+  if(msg.linear.x > 0){
     tempStateReg |= EVENT_LEFT;
     ROS_INFO_STREAM("LEFT");
   }
 
-  if(msg.angular < 0){
+  if(msg.linear.x < 0){
     tempStateReg |= EVENT_RIGHT;
     ROS_INFO_STREAM("RIGHT");
   }
