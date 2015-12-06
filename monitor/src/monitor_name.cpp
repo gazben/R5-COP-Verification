@@ -3,7 +3,7 @@
 
 /* INCLUDES END */
 #ifndef DEBUG_NO_ROS
-  #include <ros/ros.h>
+#include <ros/ros.h>
   #include <std_msgs/String.h>
 #endif
 #include <geometry_msgs/Twist.h>
@@ -55,10 +55,11 @@ int main(int argc, char **argv) {
 #else
   std::string commands = "xrd";
   for(auto& entry : commands){
+    ROS_INFO_STREAM("-COMMANDS-");
     geometry_msgs::Twist msg;
     switch(entry){
       case 'x':
-        ROS_INFO_STREAM("UP+RIGHT");
+        ROS_INFO_STREAM("DOWN+LEFT");
         msg.linear.y = -1.0;
         msg.linear.x = 1.0;
         break;
@@ -82,6 +83,7 @@ int main(int argc, char **argv) {
         ROS_INFO_STREAM("UNKNOWN COMMAND");
         break;
     }
+    ROS_INFO_STREAM("-COMMANDS END-");
     sleep(1);
     velMessageRecieved(msg);
   }
@@ -90,4 +92,3 @@ int main(int argc, char **argv) {
   delete property1;
   return 0;
 }
-

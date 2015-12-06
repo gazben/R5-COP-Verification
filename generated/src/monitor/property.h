@@ -11,6 +11,13 @@
 #include "state_register.h"
 /* INCLUDES END */
 
+#define DEBUG_NO_ROS
+
+#ifdef DEBUG_NO_ROS
+  #include <iostream>
+  #define ROS_INFO_STREAM(args) std::cout<<(args)<<std::endl
+#endif
+
 /* FUNCTION TYPE DEFINITIONS */
 using namespace std;
 

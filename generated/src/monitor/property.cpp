@@ -1,7 +1,7 @@
 #include "property.h"
 
 //True command
-std::string true_command = "echo megy_ez\_kiirja";
+std::string true_command = "echo megy_ez_kiirja";
 //False command
 std::string false_command = "echo fassag_az_egesz";
 
@@ -24,11 +24,9 @@ trilean Property::Evaluate()
 
   if(currentBlock->stateRegisterPtr == nullptr){
     currentBlock->stateRegisterPtr = StateRegister::getStatePointer();
-    currentBlock->stateRegisterPtr = StateRegister::getStatePointer();
   }
 
-  //Print the current block out
-  ROS_INFO_STREAM("BEFORE");
+  ROS_INFO_STREAM("Current state");
   printBlock(currentBlock);
 
   trilean result = UNKNOWN;
@@ -46,8 +44,9 @@ trilean Property::Evaluate()
   //Output of the descendant node changed. We can go up in the stack.
   if (isChanged){
     ROS_INFO_STREAM("CHANGE");
-    //Free the current node.
+
     if (currentBlock->rootNode != nullptr){
+      //Parent node exist. Move up.
       ROS_INFO_STREAM("GOING UP");
       ROS_INFO_STREAM("--");
       ROS_INFO_STREAM("AFTER");
@@ -55,7 +54,7 @@ trilean Property::Evaluate()
 
       currentBlock = currentBlock->rootNode;
       if (currentBlock->inputStates.size() != currentBlock->childrenNode->outputStates.size()){
-        //ROS_ERROR_STREAM("Invalid eval function size!");
+        ROS_INFO_STREAM("Invalid eval function size!");
       }
 
       //give the output to the upper node
@@ -69,7 +68,7 @@ trilean Property::Evaluate()
       currentBlock->Evaluate();
     }
     else{
-      //GOAL REACHED
+      //No parent node -> GOAL REACHED
       ROS_INFO_STREAM("GOAL REACHED");
       result = currentBlock->outputStates[0];
       currentBlock->freeChildrenNode();
@@ -85,10 +84,7 @@ trilean Property::Evaluate()
   else{
     level++;
     //No change happened we go deeper
-    ROS_INFO_STREAM("GOING DEEPER");
-    ROS_INFO_STREAM("--");
-    ROS_INFO_STREAM("AFTER");
-    printBlock(currentBlock);
+    ROS_INFO_STREAM("No change. Going deeper!");
 
     currentBlock->constructChildrenBlock();
     currentBlock = currentBlock->childrenNode;
