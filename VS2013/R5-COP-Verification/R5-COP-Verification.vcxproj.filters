@@ -27,39 +27,30 @@
     <ClCompile Include="..\..\monitor\src\mission_cntrl_groovy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\monitor\src\subpose.cpp">
+    <ClCompile Include="..\..\monitor\src\monitor_name.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\monitor\src\vel_monitor.cpp">
+    <ClCompile Include="..\..\monitor\src\monitor\output_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\monitor\src\monitor\main.cpp">
+    <ClCompile Include="..\..\monitor\src\monitor\property.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\monitor\src\monitor\OutputState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\monitor\src\monitor\Property.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\monitor\src\monitor\StateRegister.cpp">
+    <ClCompile Include="..\..\monitor\src\monitor\state_register.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\monitor\src\monitor\EventHandler.h">
+    <ClInclude Include="..\..\monitor\src\monitor\events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\monitor\src\monitor\Events.h">
+    <ClInclude Include="..\..\monitor\src\monitor\output_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\monitor\src\monitor\OutputState.h">
+    <ClInclude Include="..\..\monitor\src\monitor\property.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\monitor\src\monitor\Property.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\monitor\src\monitor\StateRegister.h">
+    <ClInclude Include="..\..\monitor\src\monitor\state_register.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

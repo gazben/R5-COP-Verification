@@ -14,26 +14,25 @@
     <Text Include="..\..\monitor\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\monitor\package.xml" />
+    <Xml Include="..\..\monitor\package.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\monitor\turtle_monitor.launch" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\monitor\src\mission_cntrl_groovy.cpp" />
-    <ClCompile Include="..\..\monitor\src\monitor\main.cpp" />
-    <ClCompile Include="..\..\monitor\src\monitor\OutputState.cpp" />
-    <ClCompile Include="..\..\monitor\src\monitor\Property.cpp" />
-    <ClCompile Include="..\..\monitor\src\monitor\StateRegister.cpp" />
-    <ClCompile Include="..\..\monitor\src\subpose.cpp" />
-    <ClCompile Include="..\..\monitor\src\vel_monitor.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\output_state.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\property.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor\state_register.cpp" />
+    <ClCompile Include="..\..\monitor\src\monitor_name.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\monitor\src\monitor\EventHandler.h" />
-    <ClInclude Include="..\..\monitor\src\monitor\Events.h" />
-    <ClInclude Include="..\..\monitor\src\monitor\OutputState.h" />
-    <ClInclude Include="..\..\monitor\src\monitor\Property.h" />
-    <ClInclude Include="..\..\monitor\src\monitor\StateRegister.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\events.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\output_state.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\property.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\state_register.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BBC7C97C-8581-4261-9607-35B8721BCEFE}</ProjectGuid>

@@ -18,7 +18,7 @@ Generator::Generator()
     ("monitor-name", boost::program_options::value<std::string>()->required(), "Name of the generated monitor.")
     ("true-command", boost::program_options::value<std::string>()->required(), "System call if the result is TRUE")
     ("false-command", boost::program_options::value<std::string>()->required(), "System call for the result is FALSE")
-    ("no-auto-exit", "Before the program termination, the program will wait for a keystroke.")
+    ("no-auto-exit", boost::program_options::value<std::string>()->default_value("false"),"Before the program termination, the program will wait for a keystroke.")
     //("language", "ex.: LTL") //possible feature
     //("debug-expression-tree-output", "Print out the expression optimalization. For advanced users only!")
     ;
@@ -368,7 +368,7 @@ void Generator::terminate(int error_code)
 {
   BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
 
-  if (argument_variables["no-auto-exit"].empty()) {
+  if (argument_variables["no-auto-exit"].as<std::string>() == "true") {
     BOOST_LOG_TRIVIAL(info) << "Press any key, to exit.";
     getchar();
   }
