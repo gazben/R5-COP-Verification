@@ -1,10 +1,12 @@
-#include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
-#include <std_msgs/String.h>
 /* LOCAL INCLUDES */
-//#include "monitor/EventHandler.h"
 #include "monitor/property.h"
+
 /* INCLUDES END */
+#ifndef DEBUG_NO_ROS
+  #include <ros/ros.h>
+  #include <std_msgs/String.h>
+#endif
+#include <geometry_msgs/Twist.h>
 
 Property* property1;
 
@@ -43,13 +45,49 @@ void velMessageRecieved(const geometry_msgs::Twist &msg) {
 }
 
 int main(int argc, char **argv) {
+  StateRegister::clearEvents();
+
+#ifndef DEBUG_NO_ROS
   ros::init(argc, argv, "subscribe_to_vel");
   ros::NodeHandle nh;
-
-  StateRegister::clearEvents();
   ros::Subscriber sub = nh.subscribe("turtle1/command_velocity", 1000, &velMessageRecieved);
   ros::spin();
+#else
+  std::string commands = "xrd";
+  for(auto& entry : commands){
+    geometry_msgs::Twist msg;
+    switch(entry){
+      case 'x':
+        ROS_INFO_STREAM("UP+RIGHT");
+        msg.linear.y = -1.0;
+        msg.linear.x = 1.0;
+        break;
+      case 'l':
+        ROS_INFO_STREAM("LEFT");
+        msg.linear.x = 1.0;
+        break;
+      case 'r':
+        ROS_INFO_STREAM("RIGHT");
+        msg.linear.x = -1.0;
+        break;
+      case 'u':
+        ROS_INFO_STREAM("UP");
+        msg.linear.y = 1.0;
+        break;
+      case 'd':
+        ROS_INFO_STREAM("DOWN");
+        msg.linear.y = -1.0;
+        break;
+      default:
+        ROS_INFO_STREAM("UNKNOWN COMMAND");
+        break;
+    }
+    sleep(1);
+    velMessageRecieved(msg);
+  }
+#endif
 
   delete property1;
   return 0;
 }
+
