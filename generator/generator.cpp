@@ -13,10 +13,11 @@ Generator::Generator()
     ("help", "See available options.")
     ("source-path", boost::program_options::value<std::string>()->required(), "Root directory of the monitor frame source.")
     ("output-path", boost::program_options::value<std::string>()->required(), "Root directory, of the generated monitor.")
-    ("ros-version", boost::program_options::value<std::string>()->default_value("groovy"), "ROS version codename ex.: jade. Default: groovy")
     ("debug-output", boost::program_options::value<std::string>(), "Directory of the log files, and generation information.")
     ("input-expression", boost::program_options::value<std::string>()->required(), "Expression that defines, the monitor behavior.")
     ("monitor-name", boost::program_options::value<std::string>()->required(), "Name of the generated monitor.")
+    ("true-command", boost::program_options::value<std::string>()->required(), "System call if the result is TRUE")
+    ("false-command", boost::program_options::value<std::string>()->required(), "System call for the result is FALSE")
     ("no-auto-exit", "Before the program termination, the program will wait for a keystroke.")
     //("language", "ex.: LTL") //possible feature
     //("debug-expression-tree-output", "Print out the expression optimalization. For advanced users only!")
@@ -140,12 +141,44 @@ void Generator::generateMonitor()
     BOOST_LOG_TRIVIAL(fatal) << "Property.cpp opening failed";
   property_cpp_file_content = std::string((std::istreambuf_iterator<char>(propertyCppFile_in)), std::istreambuf_iterator<char>());
 
-  std::ifstream peopertyHeaderFile(property_header_file_path);
+  std::ifstream propertyHeaderFile(property_header_file_path);
   if (propertyCppFile_in.is_open())
     BOOST_LOG_TRIVIAL(info) << "property.h is opened";
   else
     BOOST_LOG_TRIVIAL(fatal) << "property.h opening failed";
-  property_header_file_content = std::string((std::istreambuf_iterator<char>(peopertyHeaderFile)), std::istreambuf_iterator<char>());
+  property_header_file_content = std::string((std::istreambuf_iterator<char>(propertyHeaderFile)), std::istreambuf_iterator<char>());
+
+  std::ifstream cmakeListsTxtFile(cmake_txt_file_path);
+  if (propertyCppFile_in.is_open())
+    BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt is opened";
+  else
+    BOOST_LOG_TRIVIAL(fatal) << "CMakeLists.txt opening failed";
+  cmake_txt_file_content = std::string((std::istreambuf_iterator<char>(cmakeListsTxtFile)), std::istreambuf_iterator<char>());
+
+  while (str_replace(cmake_txt_file_content, "--monitor_name--", argument_variables["monitor-name"].as<std::string>()));
+  std::ofstream cmakeListsTxtFile_out(cmake_txt_file_path);
+  if (cmakeListsTxtFile_out.is_open())
+    BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt file opened for writing";
+  else
+    BOOST_LOG_TRIVIAL(fatal) << "CMakeLists.txt fille opening for writing failed";
+  cmakeListsTxtFile_out.write(cmake_txt_file_content.c_str(), cmake_txt_file_content.size());
+  cmakeListsTxtFile_out.close();
+
+  std::ifstream packageXmlFile(package_xml_file_path);
+  if (packageXmlFile.is_open())
+    BOOST_LOG_TRIVIAL(info) << "package.xml is opened";
+  else
+    BOOST_LOG_TRIVIAL(fatal) << "package.xml opening failed";
+  package_xml_file_content = std::string((std::istreambuf_iterator<char>(packageXmlFile)), std::istreambuf_iterator<char>());
+
+  while (str_replace(package_xml_file_content, "--monitor_name--", argument_variables["monitor-name"].as<std::string>()));
+  std::ofstream packageXml_out(package_xml_file_path);
+  if (packageXml_out.is_open())
+    BOOST_LOG_TRIVIAL(info) << "package.xml file opened for writing";
+  else
+    BOOST_LOG_TRIVIAL(fatal) << "CMakeLists.txt fille opening for writing failed";
+  packageXml_out.write(package_xml_file_content.c_str(), package_xml_file_content.size());
+  packageXml_out.close();
 
   if (str_replace(property_header_file_content, "//--DECLARATIONS--", block_generator.getFunctionDeclarations()))
     BOOST_LOG_TRIVIAL(info) << "Function declarations written to the property.h file";
@@ -161,6 +194,9 @@ void Generator::generateMonitor()
     BOOST_LOG_TRIVIAL(info) << "EvalFunctions written to the property.cpp file";
   else
     BOOST_LOG_TRIVIAL(fatal) << "EvalFunction writing to the property.cpp failed";
+
+  str_replace(property_cpp_file_content, "--true_command--", argument_variables["true-command"].as<std::string>());
+  str_replace(property_cpp_file_content, "--false_command--", argument_variables["false-command"].as<std::string>());
 
   std::ofstream propertyCppFile_out(property_cpp_file_path);
   if (propertyCppFile_out.is_open())
@@ -232,7 +268,7 @@ bool Generator::str_replace(std::string& str, const std::string& from, const std
 {
   unsigned long start_pos = str.find(from);
   if (start_pos == std::string::npos) {
-    BOOST_LOG_TRIVIAL(error) << "String replace failed, \"" + from + "\" is not found in the: \" " + str.substr(10) + "...\" string";
+    BOOST_LOG_TRIVIAL(error) << "String replace failed, \"" + from + "\" is not found in the: \" " + str.substr(2) + "...\" string";
     return false;
   }
   str.replace(start_pos, from.length(), to);
@@ -297,6 +333,18 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
           monitor_name_cpp_file_path = std::string((destination / current.filename()).string());
           BOOST_LOG_TRIVIAL(info) << "monitor_name.cpp found! Path: " << monitor_name_cpp_file_path;
           fs::copy_file(current, destination / (argument_variables["monitor-name"].as<std::string>() + ".cpp"), boost::filesystem::copy_option::overwrite_if_exists);
+        }
+
+        if(current.filename() == "CMakeLists.txt")
+        {
+          cmake_txt_file_path = std::string((destination / current.filename()).string());
+          BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt found! Path: " << cmake_txt_file_path;
+        }
+
+        if(current.filename() == "package.xml")
+        {
+          package_xml_file_path = std::string((destination / current.filename()).string());
+          BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt found! Path: " << package_xml_file_path;
         }
 
         if(current.filename() != "monitor_name.cpp")

@@ -42,6 +42,12 @@ public:
 private:
   std::shared_ptr<base_rule::node> root;
 
+  std::string package_xml_file_path;
+  std::string package_xml_file_content;
+
+  std::string cmake_txt_file_path;
+  std::string cmake_txt_file_content;
+
   std::string monitor_name_cpp_file_path;
   std::string monitor_name_cpp_file_content;
 
@@ -50,12 +56,12 @@ private:
   std::string property_cpp_file_content;
   std::string property_header_file_content;
 
+  std::string monitor_source_path;
+  std::string monitor_destination_path;
+
   std::string expression_input;
   BlockGenerator block_generator;
   ConnectionNormalFormGenerator converter;
-
-  std::string monitor_source_path;
-  std::string monitor_destination_path;
 
   std::shared_ptr<base_rule::node> parseInput(std::string expression_input);
   void generateMonitor();

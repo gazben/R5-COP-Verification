@@ -1,5 +1,10 @@
 #include "property.h"
 
+//True command
+std::string true_command = "echo megy_ez\_kiirja";
+//False command
+std::string false_command = "echo fassag_az_egesz";
+
 //Static field init
 unsigned int Property::currentMaxID = 0;
 unsigned int Property::level = 0;
@@ -68,6 +73,13 @@ trilean Property::Evaluate()
       ROS_INFO_STREAM("GOAL REACHED");
       result = currentBlock->outputStates[0];
       currentBlock->freeChildrenNode();
+      if (result == TRUE){
+        system(true_command.c_str());
+      }
+      if (result == FALSE){
+        system(false_command.c_str());
+      }
+
     }
   }
   else{

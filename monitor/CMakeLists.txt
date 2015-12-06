@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(monitor_generator)
+project(--monitor_name--)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 find_package(catkin REQUIRED COMPONENTS roscpp turtlesim)
@@ -17,9 +17,8 @@ add_executable(
 
 
 add_executable(
-  #--monitor_name--
-  monitor_test
-  #src/--monitor_name--.cpp
+  --monitor_name--
+  src/--monitor_name--.cpp
   src/monitor_test.cpp
   src/monitor/events.h
   src/monitor/output_state.h
@@ -31,7 +30,7 @@ add_executable(
 )
 
 target_link_libraries(mission_cntrl_groovy ${catkin_LIBRARIES})
-target_link_libraries(monitor_test ${catkin_LIBRARIES})
+target_link_libraries(--monitor_name-- ${catkin_LIBRARIES})
 
 
 
