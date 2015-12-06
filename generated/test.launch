@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="monitor_test" type="mission_cntrl_groovy" name="monitor_test_pub" launch-prefix="xterm -e"/>
-  <node pkg="monitor_test" type="monitor_test" name="monitor1" launch-prefix="xterm -e"/>
-</launch>
