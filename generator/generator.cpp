@@ -369,7 +369,7 @@ void Generator::terminate(int error_code)
   BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
 
   if (argument_variables["no-auto-exit"].as<std::string>() == "true") {
-    BOOST_LOG_TRIVIAL(info) << "Press any key, to exit.";
+    BOOST_LOG_TRIVIAL(info) << "Press enter, to exit.";
     getchar();
   }
 
