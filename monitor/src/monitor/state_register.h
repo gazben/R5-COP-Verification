@@ -8,27 +8,27 @@
 #include "events.h"
 /* INCLUDES END */
 
-class StateRegister{
+class StateRegister {
 private:
   static StateRegister * rootState;
-  SR_regtype stateRegisterValue;
+  StateRegisterType stateRegisterValue;
   StateRegister * rightNode;
   StateRegister * leftNode;
 
-  static StateRegister * insertState(SR_regtype stateReg = stateRegister, StateRegister * root = rootState);
+  static StateRegister * insertState(StateRegisterType stateReg = stateRegister, StateRegister * root = rootState);
 
 public:
-  
+
   StateRegister();
   ~StateRegister();
 
   //Global stateRegister
-  static SR_regtype stateRegister;
+  static StateRegisterType stateRegister;
   static void clearEvents();
 
   static void freeState(StateRegister *root = rootState);
 
-  static StateRegister * getStatePointer(SR_regtype StateRegisterCopy = stateRegister);
+  static StateRegister * getStatePointer(StateRegisterType StateRegisterCopy = stateRegister);
 
   friend class Property;
 };

@@ -10,27 +10,29 @@ unsigned int Property::currentMaxID = 0;
 unsigned int Property::level = 0;
 const unsigned int Property::maxDepth = 2; //will be generated
 Property* Property::currentBlock = nullptr;
+bool Property::evaluated = false;
 
-
-trilean Property::isEventFired(SR_regtype eventCode)
+trilean Property::isEventFired(StateRegisterType eventCode)
 {
   return (stateRegisterPtr->stateRegister & eventCode) ? FALSE : TRUE;
 }
 
 trilean Property::Evaluate()
 {
-  if(currentBlock == nullptr)
+  if (currentBlock == nullptr)
     currentBlock = this;
 
-  if(currentBlock->stateRegisterPtr == nullptr){
+  if (currentBlock->stateRegisterPtr == nullptr) {
     currentBlock->stateRegisterPtr = StateRegister::getStatePointer();
   }
 
-  ROS_INFO_STREAM("Current state");
+  ROS_INFO_STREAM("--Block evaluation--");
+  ROS_INFO_STREAM("-Current block state-");
   printBlock(currentBlock);
 
   trilean result = UNKNOWN;
   bool isChanged = false;
+  ROS_INFO_STREAM("-Evaluating-");
   for (int i = 0; i < currentBlock->outputStates.size(); i++)
   {
     trilean tempOutputResult = currentBlock->evalFunctions[i](currentBlock);
@@ -42,55 +44,58 @@ trilean Property::Evaluate()
   }
 
   //Output of the descendant node changed. We can go up in the stack.
-  if (isChanged){
-    ROS_INFO_STREAM("CHANGE");
+  if (isChanged) {
+    ROS_INFO_STREAM("-Block changed-");
 
-    if (currentBlock->rootNode != nullptr){
+    if (currentBlock->rootNode != nullptr) {
       //Parent node exist. Move up.
-      ROS_INFO_STREAM("GOING UP");
-      ROS_INFO_STREAM("--");
-      ROS_INFO_STREAM("AFTER");
+      ROS_INFO_STREAM("-Current block state-");
       printBlock(currentBlock);
 
       currentBlock = currentBlock->rootNode;
-      if (currentBlock->inputStates.size() != currentBlock->childrenNode->outputStates.size()){
-        ROS_INFO_STREAM("Invalid eval function size!");
-      }
 
-      //give the output to the upper node
-      //COPY right now, optimise later!
-      for (int i = 0; i < currentBlock->inputStates.size(); i++){
+
+      if (currentBlock->inputStates.size() != currentBlock->childrenNode->outputStates.size()) {
+        ROS_INFO_STREAM("Invalid input/output size on block: " + std::to_string(this->ID) + " and " + std::to_string(this->childrenNode->ID));
+        ROS_INFO_STREAM("The system will use the smaller input. This can result in wrong result!");
+      }
+      for (int i = 0;
+      i < ((currentBlock->inputStates.size() < currentBlock->childrenNode->outputStates.size()) ? currentBlock->inputStates.size() : currentBlock->childrenNode->outputStates.size());
+        i++) {
         currentBlock->inputStates[i] = currentBlock->childrenNode->outputStates[i];
       }
       currentBlock->freeChildrenNode();
+
       level--;
 
       currentBlock->Evaluate();
     }
-    else{
+    else {
       //No parent node -> GOAL REACHED
-      ROS_INFO_STREAM("GOAL REACHED");
+      ROS_INFO_STREAM("-No parent node. Goal reached!-");
+      evaluated = true;
       result = currentBlock->outputStates[0];
+      ROS_INFO_STREAM("Result: " + trilean::tostring(result));
       currentBlock->freeChildrenNode();
-      if (result == TRUE){
+      ROS_INFO_STREAM("Executing given command: " + ((result == TRUE) ? true_command : false_command));
+
+      if (result == TRUE) {
         system(true_command.c_str());
       }
-      if (result == FALSE){
+      if (result == FALSE) {
         system(false_command.c_str());
       }
-
     }
   }
-  else{
+  else {
     level++;
     //No change happened we go deeper
     ROS_INFO_STREAM("No change. Going deeper!");
 
     currentBlock->constructChildrenBlock();
     currentBlock = currentBlock->childrenNode;
-
   }
-  ROS_INFO_STREAM("Result: " + trilean::tostring(result) );
+
   return result;
 }
 
@@ -117,16 +122,16 @@ Property::~Property()
 }
 
 Property::Property()
-    :childrenNode(nullptr),
-    rootNode(nullptr),
-    stateRegisterPtr(nullptr),
-    constructChildrenNodeFunc(nullptr)
+  :childrenNode(nullptr),
+  rootNode(nullptr),
+  stateRegisterPtr(nullptr),
+  constructChildrenNodeFunc(nullptr)
 {
   ID = currentMaxID;
   currentMaxID++;
-  ROS_INFO_STREAM("BLOCK CREATED | ID " + std::to_string(ID) );
+  ROS_INFO_STREAM("BLOCK CREATED | ID " + std::to_string(ID));
   //if we reach the button, we have to initialize the inputs to false
-  if(level == maxDepth){
+  if (level == maxDepth) {
     inputStates.resize(2);
     for (auto& entry : inputStates) {
       entry = trilean(OutputState::FALSE);
