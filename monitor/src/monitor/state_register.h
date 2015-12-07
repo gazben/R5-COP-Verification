@@ -25,7 +25,7 @@ public:
   //Global stateRegister
   static StateRegisterType stateRegister;
   static void clearEvents();
-
+  static bool isEventCurrentlyFired(StateRegisterType eventCode);
   static void freeState(StateRegister *root = rootState);
 
   static StateRegister * getStatePointer(StateRegisterType StateRegisterCopy = stateRegister);

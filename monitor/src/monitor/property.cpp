@@ -14,16 +14,23 @@ bool Property::evaluated = false;
 
 trilean Property::isEventFired(StateRegisterType eventCode)
 {
-  return (stateRegisterPtr->stateRegister & eventCode) ? FALSE : TRUE;
+  return (stateRegisterPtr->stateRegister & eventCode) ? TRUE : FALSE;
 }
 
 trilean Property::Evaluate()
 {
   if (currentBlock == nullptr)
     currentBlock = this;
-
+  
   if (currentBlock->stateRegisterPtr == nullptr) {
     currentBlock->stateRegisterPtr = StateRegister::getStatePointer();
+  }
+  
+  if (currentBlock->isEventFired(EVENT_END) == TRUE) {
+    for (auto& entry : currentBlock->rootNode->inputStates) {
+      entry = trilean(OutputState::FALSE);
+    }
+    currentBlock = currentBlock->rootNode; //the strem has ended, so the last block is not valid
   }
 
   ROS_INFO_STREAM("--Block evaluation--");
@@ -54,9 +61,8 @@ trilean Property::Evaluate()
 
       currentBlock = currentBlock->rootNode;
 
-
       if (currentBlock->inputStates.size() != currentBlock->childrenNode->outputStates.size()) {
-        ROS_INFO_STREAM("Invalid input/output size on block: " + std::to_string(this->ID) + " and " + std::to_string(this->childrenNode->ID));
+        ROS_INFO_STREAM("Invalid input/output size on block: " + std::to_string(currentBlock->ID) + " and " + std::to_string(currentBlock->childrenNode->ID));
         ROS_INFO_STREAM("The system will use the smaller input. This can result in wrong result!");
       }
       for (int i = 0;
@@ -139,76 +145,26 @@ Property::Property()
   }
 }
 
-//Construct
-//--CONSTRUCTFUNCTIONS--
-
-
-//Eval
-//--EVALFUNCTIONS--
-
-/*
-trilean EVAL_s0(Property* _prop)
-{
-  return
-      NAND_3(
-          NAND_3(
-              _prop->isEventFired(EVENT_UP),
-              AND_3(
-                  NOT_3(_prop->isEventFired(EVENT_RIGHT)),
-                  NAND_3(
-                      _prop->isEventFired(EVENT_DOWN),
-                      _prop->inputStates[0])
-              )
-          ),
-          NAND_3(TRUE, _prop->inputStates[1])
-      );
-}
-
-
-trilean EVAL_s1a(Property* _prop)
-{
-  return
-      NAND_3(
-          NOT_3(_prop->isEventFired(EVENT_RIGHT)),
-          NAND_3(_prop->isEventFired(EVENT_DOWN), _prop->inputStates[1])
-      );
-}
-
-Property* construct_START(Property* _rootNode)
-{
-  _rootNode->evalFunctions.push_back(EVAL_s0);
-  _rootNode->constructChildrenNodeFunc = constructS1;
-  _rootNode->outputStates.resize(1);
-  _rootNode->inputStates.resize(2);
-  return _rootNode;
-}
-
-Property* constructS1(Property* _rootNode)
-{
-  _rootNode->evalFunctions.resize(2);
-  _rootNode->evalFunctions[0] = EVAL_s1a;
-  _rootNode->evalFunctions[1] = EVAL_s0;
-  _rootNode->constructChildrenNodeFunc = constructS1;
-  _rootNode->outputStates.resize(2);
-  _rootNode->inputStates.resize(2);
-  return _rootNode;
-}
-*/
-
 void Property::printBlock(Property *block) {
   //Print the current block out
   std::string tempOut;
   for (auto& entry : block->outputStates) {
-    tempOut += (entry == OutputState::FALSE)? "F" : (entry == OutputState::TRUE)? "T" : "U";
+    tempOut += (entry == OutputState::FALSE) ? "F" : (entry == OutputState::TRUE) ? "T" : "U";
     tempOut += " ";
   }
   std::string tempIn;
   ROS_INFO_STREAM("Out: " + tempOut);
-  ROS_INFO_STREAM( "ID: " + std::to_string(block->ID) + " level: " + std::to_string(level)
-                   + " Statereg: " + std::to_string(block->stateRegisterPtr->stateRegisterValue));
+  ROS_INFO_STREAM("ID: " + std::to_string(block->ID) + " level: " + std::to_string(level)
+    + " Statereg: " + std::to_string(block->stateRegisterPtr->stateRegisterValue));
   for (trilean& entry : block->inputStates) {
-    tempIn += (entry == OutputState::FALSE)? "F" : (entry == OutputState::TRUE)? "T" : "U";
+    tempIn += (entry == OutputState::FALSE) ? "F" : (entry == OutputState::TRUE) ? "T" : "U";
     tempIn += " ";
   }
   ROS_INFO_STREAM("In: " + tempIn);
 }
+
+//Construct
+//--CONSTRUCTFUNCTIONS--
+
+//Eval
+//--EVALFUNCTIONS--

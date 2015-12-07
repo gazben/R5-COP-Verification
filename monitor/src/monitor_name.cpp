@@ -10,6 +10,7 @@
 namespace geometry_msgs {
   struct Twist {
     struct linear {
+      linear() { clear(); }
       double x, y, z;
       void clear() { x = 0, y = 0, x = 0; }
     }linear;
@@ -23,6 +24,12 @@ Property* property1;
 void velMessageRecieved(const geometry_msgs::Twist &msg) {
   ROS_INFO_STREAM("-Processing commands-");
   StateRegisterType tempStateReg = 0;
+
+  if (msg.linear.z > 0) {
+    tempStateReg |= EVENT_END;
+    ROS_INFO_STREAM("END");
+  }
+
   if (msg.linear.y > 0) {
     tempStateReg |= EVENT_UP;
     ROS_INFO_STREAM("UP");
@@ -97,8 +104,12 @@ int main(int argc, char **argv) {
     ROS_INFO_STREAM("-Signalling commands finished-");
     velMessageRecieved(msg);
   }
+  ROS_INFO_STREAM("END_OF_STREAM");
+  geometry_msgs::Twist end_msg;
+  end_msg.linear.z = 1;
+  velMessageRecieved(end_msg);
 #endif
-
+  getchar();
   delete property1;
   return 0;
 }

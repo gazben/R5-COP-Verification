@@ -1,10 +1,10 @@
 #include "state_register.h"
 
 /*Static init*/
-SR_regtype StateRegister::stateRegister = 0;
+StateRegisterType StateRegister::stateRegister = 0;
 StateRegister *StateRegister::rootState = nullptr;
 
-StateRegister *StateRegister::getStatePointer(SR_regtype StateRegisterCopy /*= stateRegister*/)
+StateRegister *StateRegister::getStatePointer(StateRegisterType StateRegisterCopy /*= stateRegister*/)
 {
   if (rootState == nullptr){
     rootState = insertState();
@@ -53,7 +53,7 @@ StateRegister::StateRegister()
   stateRegisterValue = stateRegister;
 }
 
-StateRegister *StateRegister::insertState(SR_regtype stateReg /*= stateRegister*/, StateRegister * root /*= rootState*/)
+StateRegister *StateRegister::insertState(StateRegisterType stateReg /*= stateRegister*/, StateRegister * root /*= rootState*/)
 {
   if (root == nullptr) {
     StateRegister *temp = new StateRegister();
@@ -75,4 +75,9 @@ StateRegister *StateRegister::insertState(SR_regtype stateReg /*= stateRegister*
 
 void StateRegister::clearEvents() {
   stateRegister = 0;
+}
+
+bool StateRegister::isEventCurrentlyFired(StateRegisterType eventCode)
+{
+  return (stateRegister & eventCode) ? true : false;
 }
