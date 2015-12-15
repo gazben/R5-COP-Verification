@@ -20,7 +20,7 @@ The package contains a demo of a monitor code generator and the generated monito
 [Download boost 1.58](http://www.boost.org/users/history/version_1_58_0.html)
 
   ```
-  git checkout https://github.com/gazben/monitor_generator.git
+  git clone https://github.com/gazben/monitor_generator.git
   sudo apt-get update
   sudo apt-get upgrade
   sudo apt-get install build-essential
@@ -34,7 +34,6 @@ The package contains a demo of a monitor code generator and the generated monito
   cd ~/Downloads/
   tar --bzip2 -xf boost_1_58_0.tar.bz2
   cd boost_1_58_0/
-  ./bootstrap.sh
   sudo ./bootstrap.sh --prefix=/usr/local
   sudo ./b2 install
   ```
