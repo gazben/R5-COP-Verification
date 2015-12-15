@@ -85,7 +85,7 @@ The generator can be controlled with command line arguments.
 
 ####Example:
   ```
-  monitor_generator --input-expression="G(1 => (2 U 3))" --source-path="/home/user/projects/monitor_generator/monitor" --output-path="/home/user/projects/monitor_generator/generated" --monitor-name="monitor_test"  --no-auto-exit --true-command="echo The result is TRUE!" --false-command="echo The result is FALSE!"
+  monitor_generator --input-expression="G(1 => (2 U 3))" --source-path="/home/user/projects/monitor_generator/monitor" --output-path="/home/user/projects/monitor_generator/generated" --monitor-name="monitor_test" --true-command="echo The result is TRUE!" --false-command="echo The result is FALSE!"
   ```
 
 ##Monitor
