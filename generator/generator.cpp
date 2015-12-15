@@ -18,9 +18,6 @@ Generator::Generator()
     ("monitor-name", boost::program_options::value<std::string>()->required(), "Name of the generated monitor.")
     ("true-command", boost::program_options::value<std::string>()->required(), "System call if the result is TRUE")
     ("false-command", boost::program_options::value<std::string>()->required(), "System call for the result is FALSE")
-    ("no-auto-exit", boost::program_options::value<std::string>()->default_value("false"),"Before the program termination, the program will wait for a keystroke.")
-    //("language", "ex.: LTL") //possible feature
-    //("debug-expression-tree-output", "Print out the expression optimalization. For advanced users only!")
     ;
 }
 
@@ -249,15 +246,22 @@ void Generator::parseProgramArguments(int argc, char* argv[])
 {
   boost::program_options::store(boost::program_options::parse_command_line(argc, argv, arguments), argument_variables);
   
-  if (!argument_variables["help"].empty())
+  if (!argument_variables["help"].empty() || argument_variables.empty())
   {
     BOOST_LOG_TRIVIAL(info) << "Displaying help options.";
     std::cout << arguments;
     terminate();
   }
 
-  boost::program_options::notify(argument_variables);
-
+  try {
+    boost::program_options::notify(argument_variables);
+  }
+  catch(...){
+    BOOST_LOG_TRIVIAL(fatal) << "Error during the command line argument parsing!";
+    setErrorCode(1);
+    terminate();
+  }
+  
   BOOST_LOG_TRIVIAL(info) << "Given parameters count: " << std::to_string(argc);
   for (auto entry : argument_variables)
   {
@@ -368,11 +372,5 @@ void Generator::terminate()
 void Generator::terminate(int error_code)
 {
   BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
-
-  if (argument_variables["no-auto-exit"].as<std::string>() == "true") {
-    BOOST_LOG_TRIVIAL(info) << "Press enter, to exit.";
-    getchar();
-  }
-
   std::exit(error_code);
 }
