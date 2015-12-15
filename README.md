@@ -2,25 +2,24 @@
 This project is a realtime verification software for the R5-COP project. Project website: http://www.r5-cop.eu/en/
 The package contains a demo of a monitor code generator and the generated monitor frame which subscribes to the velocity commands of a turtlesim turtle.
 
-###Currently supported IDE-s:
+###Currently supported IDE-s
 
   * Visual Studio 2015 - Generator (compile/run)
   * CLion - Generator(compile/run), Monitor(compile/run)
 
 ##GENERATOR
 
-###Required Software:
+###Required Software
 
   * C++11 compatible C++ compiler
   * Boost 1.58 library
   * CMake
 
-###Getting all the stuff for the Generator (Linux):
+###Getting all the stuff for the Generator (Linux)
 
 [Download boost 1.58](http://www.boost.org/users/history/version_1_58_0.html)
 
   ```
-  git clone https://github.com/gazben/monitor_generator.git
   sudo apt-get update
   sudo apt-get upgrade
   sudo apt-get install build-essential
@@ -38,7 +37,7 @@ The package contains a demo of a monitor code generator and the generated monito
   sudo ./b2 install
   ```
 
-###Getting all the stuff for the Generator (Windows):
+###Getting all the stuff for the Generator (Windows)
 - [cmake](https://cmake.org/download)
 - Download a C++11 compatible compiler and IDE:
  - IDE + Compiler: 
@@ -49,12 +48,44 @@ The package contains a demo of a monitor code generator and the generated monito
     - [gcc/g++](https://gcc.gnu.org)
 
 
-Open up an admin command line.
+Open up an admin command line
   ```
-  git checkout https://github.com/gazben/monitor_generator.git
+  git clone https://github.com/gazben/monitor_generator.git
   cd <unzipped boost library>
   bootstrap.bat
   b2 install toolset=gcc
+  ```
+
+###Compiling the generator
+
+Before, you can run a monitor instance, you have to generate one first. The monitor, is only available, after running the generator.
+
+  ```
+  git clone https://github.com/gazben/monitor_generator.git
+  cd monitor_generator
+  mkdir generator_build
+  cd generator_build
+  cmake ..
+  make
+  ```
+
+###Running the generator
+
+The generator can be controlled with command line arguments. 
+  --help                 See available options.
+  --source-path arg      Root directory of the monitor frame source.
+  --output-path arg      Root directory, of the generated monitor.
+  --debug-output arg     Directory of the log files, and generation 
+                         information.
+  --input-expression arg Expression that defines, the monitor behavior.
+  --monitor-name arg     Name of the generated monitor.
+  --true-command arg     System call if the result is TRUE
+  --false-command arg    System call for the result is FALSE
+
+
+####Example:
+  ```
+  monitor_generator --input-expression="G(1 => (2 U 3))" --source-path="/home/user/projects/monitor_generator/monitor" --output-path="/home/user/projects/monitor_generator/generated" --monitor-name="monitor_test"  --no-auto-exit --true-command="echo The result is TRUE!" --false-command="echo The result is FALSE!"
   ```
 
 ##Monitor
