@@ -96,7 +96,7 @@ The generator can be controlled with command line arguments.
   * [turtlesim](http://wiki.ros.org/turtlesim)
   * C++11 compatible compiler
 
-The monitor will only run on Ubuntu 12.04!
+The monitor will only run on Ubuntu 12.04, but you can debug it on windows, by adding the DEBUG_NO_ROS define to the preprocessor defines!
 
 Getting all the stuff for the monitor:
 Warning: The monitor is not supported on windows! You can try [win_ros](http://wiki.ros.org/win_ros) but it's not supported.
