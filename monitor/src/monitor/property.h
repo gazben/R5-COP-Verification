@@ -1,8 +1,6 @@
 #ifndef Property_h__
 #define Property_h__
 
-#define DEBUG_NO_ROS
-
 #ifdef DEBUG_NO_ROS
 #include <iostream>
 #define ROS_INFO_STREAM(args) std::cout<<(args)<<std::endl
