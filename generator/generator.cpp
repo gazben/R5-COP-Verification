@@ -35,12 +35,6 @@ Generator::~Generator()
 
 void Generator::run()
 {
-  if (!argument_variables["help"].empty())
-  {
-    BOOST_LOG_TRIVIAL(info) << "Displaying help options.";
-    std::cout << arguments;
-  }
-  else {
     try
     {
       /*
@@ -94,7 +88,6 @@ void Generator::run()
         }
       }();
     }
-  }
   terminate();
 }
 
@@ -255,6 +248,14 @@ void Generator::setRoot(std::shared_ptr<base_rule::node> root)
 void Generator::parseProgramArguments(int argc, char* argv[])
 {
   boost::program_options::store(boost::program_options::parse_command_line(argc, argv, arguments), argument_variables);
+  
+  if (!argument_variables["help"].empty())
+  {
+    BOOST_LOG_TRIVIAL(info) << "Displaying help options.";
+    std::cout << arguments;
+    terminate();
+  }
+
   boost::program_options::notify(argument_variables);
 
   BOOST_LOG_TRIVIAL(info) << "Given parameters count: " << std::to_string(argc);
