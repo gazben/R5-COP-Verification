@@ -8,31 +8,38 @@ std::string false_command = "--false_command--";
 //Static field init
 unsigned int Property::currentMaxID = 0;
 unsigned int Property::level = 0;
-const unsigned int Property::maxDepth = 2; //will be generated
 Property* Property::currentBlock = nullptr;
 bool Property::evaluated = false;
 
 trilean Property::isEventFired(StateRegisterType eventCode)
 {
-  return (stateRegisterPtr->stateRegister & eventCode) ? TRUE : FALSE;
+  return (stateRegisterPtr->stateRegisterValue & eventCode) ? TRUE : FALSE;
 }
 
 trilean Property::Evaluate()
 {
+  //Initial block
   if (currentBlock == nullptr)
     currentBlock = this;
   
+  //Get the current state register for uninitialized block
   if (currentBlock->stateRegisterPtr == nullptr) {
     currentBlock->stateRegisterPtr = StateRegister::getStatePointer();
   }
-  
+
+  //STOP signal handling
   if (currentBlock->isEventFired(EVENT_END) == TRUE) {
-    for (auto& entry : currentBlock->rootNode->inputStates) {
+    ROS_INFO_STREAM("--END signal found. All input values are FALSE--");
+    currentBlock = currentBlock->rootNode;
+    currentBlock->freeChildrenNode();
+
+    for (auto& entry : currentBlock->inputStates) {
       entry = trilean(OutputState::FALSE);
     }
-    currentBlock = currentBlock->rootNode; //the strem has ended, so the last block is not valid
+    level--;
   }
 
+  //Begin normal evaluation
   ROS_INFO_STREAM("--Block evaluation--");
   ROS_INFO_STREAM("-Current block state-");
   printBlock(currentBlock);
@@ -136,13 +143,6 @@ Property::Property()
   ID = currentMaxID;
   currentMaxID++;
   ROS_INFO_STREAM("BLOCK CREATED | ID " + std::to_string(ID));
-  //if we reach the button, we have to initialize the inputs to false
-  if (level == maxDepth) {
-    inputStates.resize(2);
-    for (auto& entry : inputStates) {
-      entry = trilean(OutputState::FALSE);
-    }
-  }
 }
 
 void Property::printBlock(Property *block) {

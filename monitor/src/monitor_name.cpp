@@ -70,12 +70,16 @@ int main(int argc, char **argv) {
   ros::Subscriber sub = nh.subscribe("turtle1/command_velocity", 1000, &velMessageRecieved);
   ros::spin();
 #else
-  std::string commands = "xrd";
+  std::string commands = "xrds";
   for (auto& entry : commands) {
     ROS_INFO_STREAM("-Signalling commands-");
     geometry_msgs::Twist msg;
     msg.linear.clear();
     switch (entry) {
+    case 's':
+      ROS_INFO_STREAM("STOP");
+      msg.linear.z = 1.0;
+      break;
     case 'x':
       ROS_INFO_STREAM("DOWN+LEFT");
       msg.linear.y = -1.0;
@@ -104,10 +108,6 @@ int main(int argc, char **argv) {
     ROS_INFO_STREAM("-Signalling commands finished-");
     velMessageRecieved(msg);
   }
-  ROS_INFO_STREAM("END_OF_STREAM");
-  geometry_msgs::Twist end_msg;
-  end_msg.linear.z = 1;
-  velMessageRecieved(end_msg);
 #endif
   getchar();
   delete property1;

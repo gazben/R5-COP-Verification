@@ -14,7 +14,7 @@ public:
 
 private:
   ros::NodeHandle nh_;
-  double linear_, angular_, l_scale_, a_scale_;
+  double z_value_,linear_, angular_, l_scale_, a_scale_;
   ros::Publisher vel_pub_;
   ros::Publisher cmd_pub_;
 };
@@ -22,6 +22,7 @@ private:
 TeleopTurtle::TeleopTurtle() :
     linear_(0),
     angular_(0),
+    z_value_(0),
     l_scale_(1.0),
     a_scale_(pi / 2) {
   nh_.param("scale_angular", a_scale_, a_scale_);
@@ -37,7 +38,7 @@ struct termios cooked, raw;
 
 //command string; l=left, u=up, r=right, d=down, s=stop, w=wait, x=up+right
 //std::string commands = "uuluruuluud";
-std::string commands = "xrd";
+std::string commands = "xrds";
 
 void quit(int sig) {
   tcsetattr(kfd, TCSANOW, &cooked);
@@ -117,9 +118,10 @@ void TeleopTurtle::keyLoop() {
         cmd.data = ss.str();
         break;
       case 's':
-        ROS_INFO_STREAM("STOP");
+        ROS_INFO_STREAM("END");
         angular_ = 0.0;
         linear_ = 0.0;
+        z_value_ = 1.0;
         dirty = true;
         ss << "key STOP\n\r";
         cmd.data = ss.str();
@@ -132,6 +134,7 @@ void TeleopTurtle::keyLoop() {
     geometry_msgs::Twist vel;
     vel.linear.x = a_scale_ * angular_;
     vel.linear.y = l_scale_ * linear_;
+    vel.linear.z = z_value_;
 
     usleep(500000);
     if (dirty) {
