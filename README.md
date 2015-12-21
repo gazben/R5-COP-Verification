@@ -156,13 +156,13 @@ How to run the demo:
     or
 
     ```  
-    catkin_make install --only-pkg-with-deps turtle_monitor
+    catkin_make install --only-pkg-with-deps <monitor_name>
     ```
 
   * By running the following command the launchfile will set up the demo:
 
     ``` 
-    roslaunch turtle_monitor turtle_monitor.launch
+    roslaunch <monitor_name> test.launch
     ```
 
 If any of the expressions above are new to you, search them on http://wiki.ros.org/
