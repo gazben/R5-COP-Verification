@@ -129,13 +129,6 @@ void Generator::generateMonitor()
     terminate();
   }
 
-  /*
-  gen_files["gen_commands.h"] = std::make_tuple("", "");
-  gen_files["gen_blocks.h"] = std::make_tuple("", "");
-  gen_files["CMakeLists.txt"] = std::make_tuple("", "");
-  gen_files["package.xml"] = std::make_tuple("", "");
-  */
-
   //modify the content
   BOOST_LOG_TRIVIAL(info) << "Processing package.xml...";
   string_replace_all(std::get<1>(gen_files["package.xml"]), 
