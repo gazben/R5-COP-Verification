@@ -244,14 +244,17 @@ void Generator::parseProgramArguments(int argc, char* argv[])
 
 int Generator::string_replace_all(std::string& str, const std::string& from, const std::string& to)
 {
-  unsigned int replace_count = 0;
+  int replace_count = 0;
   unsigned long start_pos = str.find(from);
-  while (start_pos != std::string::npos) {
-    str.replace(start_pos, from.length(), to);
-    start_pos += to.length(); 
-    replace_count++;
+
+  size_t pos = 0;
+  while ((pos = str.find(from, pos)) != std::string::npos) {
+    str.replace(pos, from.length(), to);
+    pos += to.length();
+    replace_count = replace_count + 1;
   }
-  BOOST_LOG_TRIVIAL(info) << from << " replaced " + std::to_string(replace_count) + " times with " + to.substr(0, 10) + "...";
+
+  BOOST_LOG_TRIVIAL(info) << from << " replaced " + std::to_string(replace_count) + " times with " + to.substr(0, 20) + "...";
   return replace_count;
 }
 
@@ -326,6 +329,8 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
 
 void Generator::terminate()
 {
+  #include <stdio.h>
+  getchar();
   terminate(getErrorCode());
 }
 
