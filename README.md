@@ -135,9 +135,8 @@ For example:
 
 
 How to run the demo:
-  * Copy the package in your source folder ( ~/ros/src$ )
-  * Open a terminal window, change your directiory to your workspace directory
-  * Start roscore:  
+  * Open a terminal in the catkin_ws folder (/home/user/catkin_ws
+  * Create the symlink to the /src folder by running the ln -s command above
   
   ```
  roscore 
