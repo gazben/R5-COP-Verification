@@ -30,6 +30,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\monitor\src\monitor\events.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\gen_blocks.h" />
+    <ClInclude Include="..\..\monitor\src\monitor\gen_commands.h" />
     <ClInclude Include="..\..\monitor\src\monitor\output_state.h" />
     <ClInclude Include="..\..\monitor\src\monitor\property.h" />
     <ClInclude Include="..\..\monitor\src\monitor\state_register.h" />

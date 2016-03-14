@@ -53,5 +53,11 @@
     <ClInclude Include="..\..\monitor\src\monitor\state_register.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\monitor\src\monitor\gen_blocks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\monitor\src\monitor\gen_commands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

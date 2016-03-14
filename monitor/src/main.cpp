@@ -55,10 +55,10 @@ void velMessageRecieved(const geometry_msgs::Twist &msg) {
   StateRegister::stateRegister = tempStateReg;
   if (property1 == nullptr) {
     property1 = new Property();
-    property1->constructChildrenNodeFunc = construct_block0;
+    property1->construct_children_node_func = construct_block0;
     construct_block0(property1);
   }
-  property1->Evaluate();
+  property1->evaluate();
 }
 
 int main(int argc, char **argv) {

@@ -1,39 +1,34 @@
 #include "property.h"
 
-//True command
-std::string true_command = "--true_command--";
-//False command
-std::string false_command = "--false_command--";
-
 //Static field init
-unsigned int Property::currentMaxID = 0;
+unsigned int Property::current_max_id = 0;
 unsigned int Property::level = 0;
-Property* Property::currentBlock = nullptr;
+Property* Property::current_block = nullptr;
 bool Property::evaluated = false;
 
 trilean Property::isEventFired(StateRegisterType eventCode)
 {
-  return (stateRegisterPtr->stateRegisterValue & eventCode) ? TRUE : FALSE;
+  return (state_register_ptr->stateRegisterValue & eventCode) ? TRUE : FALSE;
 }
 
-trilean Property::Evaluate()
+trilean Property::evaluate()
 {
   //Initial block
-  if (currentBlock == nullptr)
-    currentBlock = this;
+  if (current_block == nullptr)
+    current_block = this;
   
   //Get the current state register for uninitialized block
-  if (currentBlock->stateRegisterPtr == nullptr) {
-    currentBlock->stateRegisterPtr = StateRegister::getStatePointer();
+  if (current_block->state_register_ptr == nullptr) {
+    current_block->state_register_ptr = StateRegister::getStatePointer();
   }
 
   //STOP signal handling
-  if (currentBlock->isEventFired(EVENT_END) == TRUE) {
+  if (current_block->isEventFired(EVENT_END) == TRUE) {
     ROS_INFO_STREAM("--END signal found. All input values are FALSE--");
-    currentBlock = currentBlock->rootNode;
-    currentBlock->freeChildrenNode();
+    current_block = current_block->root_node;
+    current_block->freeChildrenNode();
 
-    for (auto& entry : currentBlock->inputStates) {
+    for (auto& entry : current_block->input_states) {
       entry = trilean(OutputState::FALSE);
     }
     level--;
@@ -42,18 +37,18 @@ trilean Property::Evaluate()
   //Begin normal evaluation
   ROS_INFO_STREAM("--Block evaluation--");
   ROS_INFO_STREAM("-Current block state-");
-  printBlock(currentBlock);
+  printBlock(current_block);
 
   trilean result = UNKNOWN;
   bool isChanged = false;
   ROS_INFO_STREAM("-Evaluating-");
-  for (int i = 0; i < currentBlock->outputStates.size(); i++)
+  for (int i = 0; i < current_block->output_states.size(); i++)
   {
-    trilean tempOutputResult = currentBlock->evalFunctions[i](currentBlock);
-    if (tempOutputResult != currentBlock->outputStates[i])
+    trilean tempOutputResult = current_block->eval_functions[i](current_block);
+    if (tempOutputResult != current_block->output_states[i])
     {
       isChanged = true;
-      currentBlock->outputStates[i] = tempOutputResult;
+      current_block->output_states[i] = tempOutputResult;
     }
   }
 
@@ -61,35 +56,35 @@ trilean Property::Evaluate()
   if (isChanged) {
     ROS_INFO_STREAM("-Block changed-");
 
-    if (currentBlock->rootNode != nullptr) {
+    if (current_block->root_node != nullptr) {
       //Parent node exist. Move up.
       ROS_INFO_STREAM("-Current block state-");
-      printBlock(currentBlock);
+      printBlock(current_block);
 
-      currentBlock = currentBlock->rootNode;
+      current_block = current_block->root_node;
 
-      if (currentBlock->inputStates.size() != currentBlock->childrenNode->outputStates.size()) {
-        ROS_INFO_STREAM("Invalid input/output size on block: " + std::to_string(currentBlock->ID) + " and " + std::to_string(currentBlock->childrenNode->ID));
+      if (current_block->input_states.size() != current_block->children_node->output_states.size()) {
+        ROS_INFO_STREAM("Invalid input/output size on block: " + std::to_string(current_block->id) + " and " + std::to_string(current_block->children_node->id));
         ROS_INFO_STREAM("The system will use the smaller input. This can result in wrong result!");
       }
       for (int i = 0;
-      i < ((currentBlock->inputStates.size() < currentBlock->childrenNode->outputStates.size()) ? currentBlock->inputStates.size() : currentBlock->childrenNode->outputStates.size());
+      i < ((current_block->input_states.size() < current_block->children_node->output_states.size()) ? current_block->input_states.size() : current_block->children_node->output_states.size());
         i++) {
-        currentBlock->inputStates[i] = currentBlock->childrenNode->outputStates[i];
+        current_block->input_states[i] = current_block->children_node->output_states[i];
       }
-      currentBlock->freeChildrenNode();
+      current_block->freeChildrenNode();
 
       level--;
 
-      currentBlock->Evaluate();
+      current_block->evaluate();
     }
     else {
       //No parent node -> GOAL REACHED
       ROS_INFO_STREAM("-No parent node. Goal reached!-");
       evaluated = true;
-      result = currentBlock->outputStates[0];
+      result = current_block->output_states[0];
       ROS_INFO_STREAM("Result: " + trilean::tostring(result));
-      currentBlock->freeChildrenNode();
+      current_block->freeChildrenNode();
       ROS_INFO_STREAM("Executing given command: " + ((result == TRUE) ? true_command : false_command));
 
       if (result == TRUE) {
@@ -105,8 +100,8 @@ trilean Property::Evaluate()
     //No change happened we go deeper
     ROS_INFO_STREAM("No change. Going deeper!");
 
-    currentBlock->constructChildrenBlock();
-    currentBlock = currentBlock->childrenNode;
+    current_block->constructChildrenBlock();
+    current_block = current_block->children_node;
   }
 
   return result;
@@ -114,57 +109,50 @@ trilean Property::Evaluate()
 
 void Property::freeChildrenNode()
 {
-  delete currentBlock->childrenNode;
-  currentBlock->childrenNode = nullptr;
+  delete current_block->children_node;
+  current_block->children_node = nullptr;
 }
 
 Property* Property::constructChildrenBlock()
 {
   Property* childrenBlockTemp = new Property();
-  childrenBlockTemp->rootNode = this;
-  childrenNode = constructChildrenNodeFunc(childrenBlockTemp);
+  childrenBlockTemp->root_node = this;
+  children_node = construct_children_node_func(childrenBlockTemp);
   return childrenBlockTemp;
 }
 
 Property::~Property()
 {
-  delete childrenNode;
+  delete children_node;
 
-  if (rootNode != nullptr)
-    rootNode->childrenNode = nullptr;
+  if (root_node != nullptr)
+    root_node->children_node = nullptr;
 }
 
 Property::Property()
-  :childrenNode(nullptr),
-  rootNode(nullptr),
-  stateRegisterPtr(nullptr),
-  constructChildrenNodeFunc(nullptr)
+  :children_node(nullptr),
+  root_node(nullptr),
+  state_register_ptr(nullptr),
+  construct_children_node_func(nullptr)
 {
-  ID = currentMaxID;
-  currentMaxID++;
-  ROS_INFO_STREAM("BLOCK CREATED | ID " + std::to_string(ID));
+  id = current_max_id;
+  current_max_id++;
+  ROS_INFO_STREAM("BLOCK CREATED | ID " + std::to_string(id));
 }
 
 void Property::printBlock(Property *block) {
-  //Print the current block out
   std::string tempOut;
-  for (auto& entry : block->outputStates) {
+  for (auto& entry : block->output_states) {
     tempOut += (entry == OutputState::FALSE) ? "F" : (entry == OutputState::TRUE) ? "T" : "U";
     tempOut += " ";
   }
   std::string tempIn;
   ROS_INFO_STREAM("Out: " + tempOut);
-  ROS_INFO_STREAM("ID: " + std::to_string(block->ID) + " level: " + std::to_string(level)
-    + " Statereg: " + std::to_string(block->stateRegisterPtr->stateRegisterValue));
-  for (trilean& entry : block->inputStates) {
+  ROS_INFO_STREAM("ID: " + std::to_string(block->id) + " level: " + std::to_string(level)
+    + " Statereg: " + std::to_string(block->state_register_ptr->stateRegisterValue));
+  for (trilean& entry : block->input_states) {
     tempIn += (entry == OutputState::FALSE) ? "F" : (entry == OutputState::TRUE) ? "T" : "U";
     tempIn += " ";
   }
   ROS_INFO_STREAM("In: " + tempIn);
 }
-
-//Construct
-//--CONSTRUCTFUNCTIONS--
-
-//Eval
-//--EVALFUNCTIONS--

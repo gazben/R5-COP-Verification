@@ -1,6 +1,7 @@
 #ifndef Generator_h__
 #define Generator_h__
 
+/* GLOBAL INCLUDES */
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -14,9 +15,17 @@
 
 #include <SyntX/util/languages/ltl.h>
 #include <SyntX/util/parser/parser.h>
+
+/* LOCAL INCLUDES */
 #include "block_generator.h"
 #include "connection_normalform_generator.h"
 #include "ast_optimizer.h"
+/* INCLUDES END */
+
+//0. filename (key) - entry.first 
+//1. destination path - std::get<0>(entry.second)
+//2. file content - std::get<1>(entry.second)
+using FilePathContentMap = std::map<std::string, std::tuple<std::string, std::string>>;
 
 class Generator
 {
@@ -41,31 +50,16 @@ public:
 
 private:
   std::shared_ptr<base_rule::node> root;
-
-  std::string package_xml_file_path;
-  std::string package_xml_file_content;
-
-  std::string cmake_txt_file_path;
-  std::string cmake_txt_file_content;
-
-  std::string monitor_name_cpp_file_path;
-  std::string monitor_name_cpp_file_content;
-
-  std::string property_cpp_file_path;
-  std::string property_header_file_path;
-  std::string property_cpp_file_content;
-  std::string property_header_file_content;
-
   std::string monitor_source_path;
   std::string monitor_destination_path;
-
+  FilePathContentMap gen_files;
   std::string expression_input;
   BlockGenerator block_generator;
   ConnectionNormalFormGenerator converter;
 
   std::shared_ptr<base_rule::node> parseInput(std::string expression_input);
   void generateMonitor();
-  bool str_replace(std::string& str, const std::string& from, const std::string& to);
+  int string_replace_all(std::string& str, const std::string& from, const std::string& to);
   bool copyDir(boost::filesystem::path const & source, boost::filesystem::path const & destination);
 
   static void terminate(int error_code);

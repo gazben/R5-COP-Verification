@@ -19,6 +19,13 @@ Generator::Generator()
     ("true-command", boost::program_options::value<std::string>()->required(), "System call if the result is TRUE")
     ("false-command", boost::program_options::value<std::string>()->required(), "System call for the result is FALSE")
     ;
+
+  //add the wanted filenames for generation
+  gen_files["gen_commands.h"] = std::make_tuple("", "");
+  gen_files["gen_blocks.h"] = std::make_tuple("", "");
+  gen_files["CMakeLists.txt"] = std::make_tuple("", "");
+  gen_files["package.xml"] = std::make_tuple("", "");
+
 }
 
 Generator::Generator(int argc, char* argv[]) :Generator()
@@ -113,96 +120,69 @@ void Generator::setMonitorDestinationPath(std::string monitor_destination_path)
 
 void Generator::generateMonitor()
 {
+  //copy the code skeleton to the 
   if (copyDir(boost::filesystem::path(monitor_source_path), boost::filesystem::path(monitor_destination_path)))
-    BOOST_LOG_TRIVIAL(info) << "Source code directory copied";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "Error during the source code directory copying";
+    BOOST_LOG_TRIVIAL(info) << monitor_source_path + " directory successfully copied to " + monitor_destination_path;
+  else {
+    BOOST_LOG_TRIVIAL(fatal) << "Error during source code directory copy. From: " 
+      + monitor_source_path + " to " + monitor_destination_path;
+    terminate();
+  }
 
-  if (property_cpp_file_path.empty())
-    BOOST_LOG_TRIVIAL(fatal) << "property.cpp is NOT found!";
+  /*
+  gen_files["gen_commands.h"] = std::make_tuple("", "");
+  gen_files["gen_blocks.h"] = std::make_tuple("", "");
+  gen_files["CMakeLists.txt"] = std::make_tuple("", "");
+  gen_files["package.xml"] = std::make_tuple("", "");
+  */
 
-  if (property_header_file_path.empty())
-    BOOST_LOG_TRIVIAL(fatal) << "property.h is NOT found!";
+  //modify the content
+  BOOST_LOG_TRIVIAL(info) << "Processing package.xml...";
+  string_replace_all(std::get<1>(gen_files["package.xml"]), 
+    "--monitor_name--",
+    argument_variables["monitor-name"].as<std::string>()
+  );
 
-  std::ifstream propertyCppFile_in(property_cpp_file_path);
-  if (propertyCppFile_in.is_open())
-    BOOST_LOG_TRIVIAL(info) << "property.cpp is opened";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "Property.cpp opening failed";
-  property_cpp_file_content = std::string((std::istreambuf_iterator<char>(propertyCppFile_in)), std::istreambuf_iterator<char>());
+  BOOST_LOG_TRIVIAL(info) << "Processing CMakeLists.txt...";
+  string_replace_all(std::get<1>(gen_files["CMakeLists.txt"]),
+    "--monitor_name--",
+    argument_variables["monitor-name"].as<std::string>()
+    );
 
-  std::ifstream propertyHeaderFile(property_header_file_path);
-  if (propertyCppFile_in.is_open())
-    BOOST_LOG_TRIVIAL(info) << "property.h is opened";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "property.h opening failed";
-  property_header_file_content = std::string((std::istreambuf_iterator<char>(propertyHeaderFile)), std::istreambuf_iterator<char>());
+  BOOST_LOG_TRIVIAL(info) << "Processing gen_blocks.h...";
+  string_replace_all(std::get<1>(gen_files["gen_blocks.h"]),
+    "//--DECLARATIONS--",
+    block_generator.getFunctionDeclarations()
+  );
+  string_replace_all(std::get<1>(gen_files["gen_blocks.h"]),
+    "//--CONSTRUCTFUNCTIONS--",
+    block_generator.getConstructFunctions()
+  );
+  string_replace_all(std::get<1>(gen_files["gen_blocks.h"]),
+    "//--EVALFUNCTIONS--", 
+    block_generator.getFunctions()
+  );
+  
+  BOOST_LOG_TRIVIAL(info) << "Processing gen_commands.h...";
+  string_replace_all(std::get<1>(gen_files["gen_commands.h"]), 
+    "--true_command--", 
+    argument_variables["true-command"].as<std::string>()
+  );
+  string_replace_all(std::get<1>(gen_files["gen_commands.h"]),
+    "--false_command--", 
+    argument_variables["false-command"].as<std::string>()
+  );
 
-  std::ifstream cmakeListsTxtFile(cmake_txt_file_path);
-  if (propertyCppFile_in.is_open())
-    BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt is opened";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "CMakeLists.txt opening failed";
-  cmake_txt_file_content = std::string((std::istreambuf_iterator<char>(cmakeListsTxtFile)), std::istreambuf_iterator<char>());
-
-  while (str_replace(cmake_txt_file_content, "--monitor_name--", argument_variables["monitor-name"].as<std::string>()));
-  std::ofstream cmakeListsTxtFile_out(cmake_txt_file_path);
-  if (cmakeListsTxtFile_out.is_open())
-    BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt file opened for writing";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "CMakeLists.txt fille opening for writing failed";
-  cmakeListsTxtFile_out.write(cmake_txt_file_content.c_str(), cmake_txt_file_content.size());
-  cmakeListsTxtFile_out.close();
-
-  std::ifstream packageXmlFile(package_xml_file_path);
-  if (packageXmlFile.is_open())
-    BOOST_LOG_TRIVIAL(info) << "package.xml is opened";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "package.xml opening failed";
-  package_xml_file_content = std::string((std::istreambuf_iterator<char>(packageXmlFile)), std::istreambuf_iterator<char>());
-
-  while (str_replace(package_xml_file_content, "--monitor_name--", argument_variables["monitor-name"].as<std::string>()));
-  std::ofstream packageXml_out(package_xml_file_path);
-  if (packageXml_out.is_open())
-    BOOST_LOG_TRIVIAL(info) << "package.xml file opened for writing";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "CMakeLists.txt fille opening for writing failed";
-  packageXml_out.write(package_xml_file_content.c_str(), package_xml_file_content.size());
-  packageXml_out.close();
-
-  if (str_replace(property_header_file_content, "//--DECLARATIONS--", block_generator.getFunctionDeclarations()))
-    BOOST_LOG_TRIVIAL(info) << "Function declarations written to the property.h file";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "Function declaration writing to the property.h file failed!";
-
-  if (str_replace(property_cpp_file_content, "//--CONSTRUCTFUNCTIONS--", block_generator.getConstructFunctions()))
-    BOOST_LOG_TRIVIAL(info) << "Construct functions written to the property.cpp file";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "Construct functions writing to the property.cpp file failed!";
-
-  if (str_replace(property_cpp_file_content, "//--EVALFUNCTIONS--", block_generator.getFunctions()))
-    BOOST_LOG_TRIVIAL(info) << "EvalFunctions written to the property.cpp file";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "EvalFunction writing to the property.cpp failed";
-
-  str_replace(property_cpp_file_content, "--true_command--", argument_variables["true-command"].as<std::string>());
-  str_replace(property_cpp_file_content, "--false_command--", argument_variables["false-command"].as<std::string>());
-
-  std::ofstream propertyCppFile_out(property_cpp_file_path);
-  if (propertyCppFile_out.is_open())
-    BOOST_LOG_TRIVIAL(info) << "property.cpp file opened for writing";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "property.cpp fille opening for writing failed";
-  propertyCppFile_out.write(property_cpp_file_content.c_str(), property_cpp_file_content.size());
-  propertyCppFile_out.close();
-
-  std::ofstream propertyHeaderFile_out(property_header_file_path);
-  if (propertyHeaderFile_out.is_open())
-    BOOST_LOG_TRIVIAL(info) << "property.h file opened for writing";
-  else
-    BOOST_LOG_TRIVIAL(fatal) << "property.h file opening for writing failed";
-  propertyHeaderFile_out.write(property_header_file_content.c_str(), property_header_file_content.size());
-  propertyHeaderFile_out.close();
+  //write out the files
+  for (auto& entry : gen_files) {
+    std::ofstream file_out(std::get<0>(entry.second));
+    if (file_out.is_open())
+      BOOST_LOG_TRIVIAL(info) << std::get<0>(entry.second) + " file opened for writing";
+    else
+      BOOST_LOG_TRIVIAL(fatal) << "property.h file opening for writing failed";
+    file_out.write(std::get<1>(entry.second).c_str(), std::get<1>(entry.second).size());
+    file_out.close();
+  }
 }
 
 std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_input)
@@ -269,15 +249,17 @@ void Generator::parseProgramArguments(int argc, char* argv[])
   }
 }
 
-bool Generator::str_replace(std::string& str, const std::string& from, const std::string& to)
+int Generator::string_replace_all(std::string& str, const std::string& from, const std::string& to)
 {
+  unsigned int replace_count = 0;
   unsigned long start_pos = str.find(from);
-  if (start_pos == std::string::npos) {
-    BOOST_LOG_TRIVIAL(error) << "String replace failed, \"" + from + "\" is not found in the: \" " + str.substr(2) + "...\" string";
-    return false;
+  while (start_pos != std::string::npos) {
+    str.replace(start_pos, from.length(), to);
+    start_pos += to.length(); 
+    replace_count++;
   }
-  str.replace(start_pos, from.length(), to);
-  return true;
+  BOOST_LOG_TRIVIAL(info) << from << " replaced " + std::to_string(replace_count) + " times with " + to.substr(0, 10) + "...";
+  return replace_count;
 }
 
 bool Generator::copyDir(boost::filesystem::path const & source, boost::filesystem::path const & destination)
@@ -321,39 +303,24 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
       }
       else
       {
-        if (current.filename() == "property.h")
-        {
-          property_header_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "property.h found! Path: " << property_header_file_path;
+        //get the wanted files path and content
+        for (auto& entry : gen_files) {
+          if (current.filename() == std::get<0>(entry))
+          {
+            //path
+            std::get<0>(entry.second) = std::string((destination / current.filename()).string());
+            BOOST_LOG_TRIVIAL(info) << entry.first + " found! Path: " << std::get<0>(entry.second);
+            //content
+            std::ifstream file_in(std::get<0>(entry.second));
+            if (file_in.is_open())
+              BOOST_LOG_TRIVIAL(info) << std::get<0>(entry.second) + " is opened";
+            else
+              BOOST_LOG_TRIVIAL(fatal) << std::get<0>(entry.second) + " file opening failed";
+            std::get<1>(entry.second) = std::string((std::istreambuf_iterator<char>(file_in)), std::istreambuf_iterator<char>());
+          }
         }
-
-        if (current.filename() == "property.cpp")
-        {
-          property_cpp_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "property.cpp found! Path: " << property_cpp_file_path;
-        }
-
-        if(current.filename() == "monitor_name.cpp")
-        {
-          monitor_name_cpp_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "monitor_name.cpp found! Path: " << monitor_name_cpp_file_path;
-          fs::copy_file(current, destination / (argument_variables["monitor-name"].as<std::string>() + ".cpp"), boost::filesystem::copy_option::overwrite_if_exists);
-        }
-
-        if(current.filename() == "CMakeLists.txt")
-        {
-          cmake_txt_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt found! Path: " << cmake_txt_file_path;
-        }
-
-        if(current.filename() == "package.xml")
-        {
-          package_xml_file_path = std::string((destination / current.filename()).string());
-          BOOST_LOG_TRIVIAL(info) << "CMakeLists.txt found! Path: " << package_xml_file_path;
-        }
-
-        if(current.filename() != "monitor_name.cpp")
-          fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
+        //copy the files
+        fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
       }
     }
     catch (fs::filesystem_error const & e)

@@ -18,7 +18,7 @@ add_executable(
 
 add_executable(
   --monitor_name--
-  src/--monitor_name--.cpp
+  src/main.cpp
   src/monitor_test.cpp
   src/monitor/events.h
   src/monitor/output_state.h
