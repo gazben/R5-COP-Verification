@@ -18,37 +18,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b4e791a-d006-4e16-85fd-b2370d0a9707" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/generated/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/monitor/test.launch" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/monitor_name.launch" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/Events.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/OutputState.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/Property.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/Property.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/StateRegister.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/StateRegister.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor/main.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/generated/src/monitor_name.cpp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/monitor/monitor_name.launch" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/monitor/src/monitor/main.cpp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/R5-COP-Verification.iml" afterPath="$PROJECT_DIR$/.idea/R5-COP-Verification.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generated/CMakeLists.txt" afterPath="$PROJECT_DIR$/generated/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generated/package.xml" afterPath="$PROJECT_DIR$/generated/package.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generated/src/mission_cntrl_groovy.cpp" afterPath="$PROJECT_DIR$/generated/src/mission_cntrl_groovy.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generated/src/monitor/output_state.cpp" afterPath="$PROJECT_DIR$/generated/src/monitor/output_state.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generated/src/monitor/state_register.cpp" afterPath="$PROJECT_DIR$/generated/src/monitor/state_register.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generated/src/monitor/state_register.h" afterPath="$PROJECT_DIR$/generated/src/monitor/state_register.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generator/generator.cpp" afterPath="$PROJECT_DIR$/generator/generator.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generator/generator.h" afterPath="$PROJECT_DIR$/generator/generator.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/CMakeLists.txt" afterPath="$PROJECT_DIR$/monitor/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/package.xml" afterPath="$PROJECT_DIR$/monitor/package.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/src/mission_cntrl_groovy.cpp" afterPath="$PROJECT_DIR$/monitor/src/mission_cntrl_groovy.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/src/monitor/output_state.cpp" afterPath="$PROJECT_DIR$/monitor/src/monitor/output_state.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/src/monitor/state_register.cpp" afterPath="$PROJECT_DIR$/monitor/src/monitor/state_register.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/src/monitor/state_register.h" afterPath="$PROJECT_DIR$/monitor/src/monitor/state_register.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monitor/src/monitor_name.cpp" afterPath="$PROJECT_DIR$/monitor/src/monitor_name.cpp" />
     </list>
     <ignored path="R5-COP-Verification.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -79,16 +52,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="monitor_name.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/monitor/src/monitor_name.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.0">
-              <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="test.launch" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/test.launch">
           <provider selected="true" editor-type-id="text-editor">
@@ -99,11 +62,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16216215">
-              <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.4">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -112,7 +85,7 @@
       <file leaf-file-name="package.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/package.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.0">
+            <state vertical-scroll-proportion="0.0">
               <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
               <folding />
             </state>
@@ -122,8 +95,8 @@
       <file leaf-file-name="mission_cntrl_groovy.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/src/mission_cntrl_groovy.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.214285">
-              <caret line="132" column="16" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -139,33 +112,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="property.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/monitor/src/monitor/property.cpp">
+      <file leaf-file-name="property.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/monitor/src/monitor/property.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="property.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/monitor/src/monitor/property.h">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/monitor/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.22429906">
+              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
               <folding>
-                <element signature="e#167#192#0" expanded="true" />
+                <element signature="e#1592#2475#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="state_register.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/monitor/src/monitor/state_register.h">
+      <file leaf-file-name="events.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/monitor/src/monitor/events.h">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+              <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -208,7 +181,6 @@
         <option value="$PROJECT_DIR$/generator/Generator.h" />
         <option value="$PROJECT_DIR$/generator/Generator.cpp" />
         <option value="$PROJECT_DIR$/monitor/src/monitor/Property.cpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/monitor/monitor_name.launch" />
         <option value="$PROJECT_DIR$/generator/generator.h" />
         <option value="$PROJECT_DIR$/generator/generator.cpp" />
@@ -216,11 +188,12 @@
         <option value="$PROJECT_DIR$/monitor/src/monitor/output_state.cpp" />
         <option value="$PROJECT_DIR$/monitor/src/monitor/state_register.cpp" />
         <option value="$PROJECT_DIR$/monitor/src/monitor/state_register.h" />
-        <option value="$PROJECT_DIR$/monitor/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/monitor/src/monitor/output_state.h" />
         <option value="$PROJECT_DIR$/monitor/src/mission_cntrl_groovy.cpp" />
         <option value="$PROJECT_DIR$/monitor/src/monitor_name.cpp" />
         <option value="$PROJECT_DIR$/monitor/test.launch" />
+        <option value="$PROJECT_DIR$/monitor/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
       </list>
     </option>
   </component>
@@ -231,9 +204,9 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1023" />
-    <option name="width" value="1026" />
-    <option name="height" value="1255" />
+    <option name="x" value="-1" />
+    <option name="width" value="1602" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -369,6 +342,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/generated" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -403,7 +377,7 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="monitor_generator_dbg" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--input-expression=&quot;G(1 =&gt; (2 U 3))&quot; --source-path=&quot;/home/gazben/projects/monitor_generator/monitor&quot; --output-path=&quot;/home/gazben/projects/monitor_generator/generated&quot; --monitor-name=&quot;monitor_test&quot; --no-auto-exit" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="monitor_generator" TARGET_NAME="monitor_generator" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="monitor_generator" RUN_TARGET_NAME="monitor_generator">
+    <configuration default="false" name="monitor_generator_dbg" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--input-expression=&quot;G(event1 =&gt; (event2 U event3))&quot; --source-path=&quot;/home/gazben/Projects/monitor_generator/monitor&quot;--output-path=&quot;/home/gazben/Projects/monitor_generator/generated&quot; --monitor-name=&quot;monitor_test&quot;  --true-command=&quot;echo megy_ez!&quot; --false-command=&quot;echo ez_bizony_hamis&quot;" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="monitor_generator" TARGET_NAME="monitor_generator" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="monitor_generator" RUN_TARGET_NAME="monitor_generator">
       <envs />
       <method />
     </configuration>
@@ -425,17 +399,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1023" y="0" width="1026" height="1255" extended-state="6" />
+    <frame x="-1" y="0" width="1602" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27539062" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35350043" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35332465" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22039758" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929993" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30337077" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12516297" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -445,6 +418,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929993" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -466,6 +440,14 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/monitor/src/monitor/state_register.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/libs/SyntX/util/parser/repetition_or_epsilon.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -701,7 +683,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -709,23 +690,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="493" column="7" selection-start-line="493" selection-start-column="7" selection-end-line="493" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/src/subpose.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -733,9 +697,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="39" column="65" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="65" />
-          <folding>
-            <element signature="e#45#62#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -743,15 +704,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="293" column="0" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/src/monitor/events.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -759,7 +711,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="17" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -768,16 +719,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/src/monitor/property.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-          <folding>
-            <element signature="e#167#192#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -805,25 +746,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/src/monitor_name.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.0">
-          <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/monitor/src/mission_cntrl_groovy.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.214285">
-          <caret line="132" column="16" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/monitor/package.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.0">
+        <state vertical-scroll-proportion="0.0">
           <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
           <folding />
         </state>
@@ -837,11 +770,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.4">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/monitor/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16216215">
-          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/monitor/src/monitor/property.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/monitor/src/monitor/events.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/monitor/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22429906">
+          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
+          <folding>
+            <element signature="e#1592#2475#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

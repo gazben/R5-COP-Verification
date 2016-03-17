@@ -27,6 +27,8 @@ add_executable(
   src/monitor/property.cpp
   src/monitor/state_register.h
   src/monitor/state_register.cpp
+  src/monitor/gen_blocks.h
+  src/monitor/gen_commands.h
 )
 
 target_link_libraries(mission_cntrl_groovy ${catkin_LIBRARIES})

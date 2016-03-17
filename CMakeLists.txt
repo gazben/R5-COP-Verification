@@ -78,7 +78,7 @@ add_executable(
   libs/SyntX/util/languages/language.h
   libs/SyntX/util/languages/ltl.h
   libs/SyntX/util/languages/ltl.cc
-  monitor/src/monitor/output_state.h)
+  )
 target_link_libraries(monitor_generator ${Boost_LIBRARIES})
 
 
