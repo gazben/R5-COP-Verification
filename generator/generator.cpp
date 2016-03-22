@@ -225,6 +225,7 @@ void Generator::setRoot(std::shared_ptr<base_rule::node> root)
 
 void Generator::parseProgramArguments(int argc, char* argv[])
 {
+  //wait flag check, before the parsing can fail
   for (auto& entry : program_arguments)
   {
     if (entry == "--wait")
@@ -249,6 +250,7 @@ void Generator::parseProgramArguments(int argc, char* argv[])
     terminate();
   }
 
+  //if the parsing is done, see if the wait flag is added (double check)
   if(!wait_for_key_on_exit)
     wait_for_key_on_exit = (argument_variables.count("wait") > 0) ? true : false;
 
