@@ -2,6 +2,7 @@
 #define Generator_h__
 
 /* GLOBAL INCLUDES */
+#include <stdio.h>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -33,6 +34,8 @@ public:
   Generator();
   Generator(int argc, char* argv[]);
   ~Generator();
+
+  bool wait = false;
 
   void run();
   void setExpressionInput(std::string expression_input);

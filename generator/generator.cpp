@@ -11,6 +11,7 @@ Generator::Generator()
   BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator. Made by Bence Gazder";
   arguments.add_options()
     ("help", "See available options.")
+    ("wait", boost::program_options::bool_switch(&wait)->default_value(false), "Wait for a key press before termination.")
     ("source-path", boost::program_options::value<std::string>()->required(), "Root directory of the monitor frame source.")
     ("output-path", boost::program_options::value<std::string>()->required(), "Root directory, of the generated monitor.")
     ("debug-output", boost::program_options::value<std::string>(), "Directory of the log files, and generation information.")
@@ -329,13 +330,16 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
 
 void Generator::terminate()
 {
-  #include <stdio.h>
-  getchar();
   terminate(getErrorCode());
 }
 
 void Generator::terminate(int error_code)
 {
   BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
+
+  if (argument_variables["wait"].as<bool>() == true) {
+    BOOST_LOG_TRIVIAL(info) << "Press any key to quit.";
+    getchar();
+  }
   std::exit(error_code);
 }
