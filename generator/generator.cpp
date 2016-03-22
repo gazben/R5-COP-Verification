@@ -4,6 +4,8 @@
 boost::program_options::options_description Generator::arguments = boost::program_options::options_description();
 boost::program_options::variables_map Generator::argument_variables = boost::program_options::variables_map();
 
+bool Generator::wait_for_key_on_exit = false;
+
 
 Generator::Generator()
   :error_code(0)
@@ -11,7 +13,7 @@ Generator::Generator()
   BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator. Made by Bence Gazder";
   arguments.add_options()
     ("help", "See available options.")
-    ("wait", boost::program_options::bool_switch(&wait)->default_value(false), "Wait for a key press before termination.")
+    ("wait", "Wait for a key press before termination.")
     ("source-path", boost::program_options::value<std::string>()->required(), "Root directory of the monitor frame source.")
     ("output-path", boost::program_options::value<std::string>()->required(), "Root directory, of the generated monitor.")
     ("debug-output", boost::program_options::value<std::string>(), "Directory of the log files, and generation information.")
@@ -31,6 +33,12 @@ Generator::Generator()
 
 Generator::Generator(int argc, char* argv[]) :Generator()
 {
+  for (int i = 0; i < argc; i++)
+  {
+    std::string argument(argv[i]);
+    program_arguments.push_back(argument);
+  }
+
   parseProgramArguments(argc, argv);
 }
 
@@ -56,7 +64,7 @@ void Generator::run()
       std::string monitor_destination_path = argument_variables["output-path"].as<std::string>();
 
       /*
-       * Ex.: std::string input = "G (((8 | 9) ^ 4) U (1 & 2))";
+       * Ex.: std::string input = "G (((event1 | event2) ^ 4) U (event3 & event4))";
        */
       std::string input = argument_variables["input-expression"].as<std::string>();
 
@@ -71,7 +79,6 @@ void Generator::run()
       block_generator.createBlocks();
       generateMonitor();
       BOOST_LOG_TRIVIAL(info) << "Generation completed!";
-      BOOST_LOG_TRIVIAL(info) << "Press enter to quit.";
     }
     catch (std::exception& e) {
       BOOST_LOG_TRIVIAL(fatal) << e.what();
@@ -121,7 +128,7 @@ void Generator::setMonitorDestinationPath(std::string monitor_destination_path)
 
 void Generator::generateMonitor()
 {
-  //copy the code skeleton to the 
+  //copy the code skeleton to the destination directory
   if (copyDir(boost::filesystem::path(monitor_source_path), boost::filesystem::path(monitor_destination_path)))
     BOOST_LOG_TRIVIAL(info) << monitor_source_path + " directory successfully copied to " + monitor_destination_path;
   else {
@@ -218,8 +225,15 @@ void Generator::setRoot(std::shared_ptr<base_rule::node> root)
 
 void Generator::parseProgramArguments(int argc, char* argv[])
 {
+  for (auto& entry : program_arguments)
+  {
+    if (entry == "--wait")
+      wait_for_key_on_exit = true;
+  }
+
+  try {
   boost::program_options::store(boost::program_options::parse_command_line(argc, argv, arguments), argument_variables);
-  
+
   if (!argument_variables["help"].empty() || argument_variables.empty())
   {
     BOOST_LOG_TRIVIAL(info) << "Displaying help options.";
@@ -227,20 +241,17 @@ void Generator::parseProgramArguments(int argc, char* argv[])
     terminate();
   }
 
-  try {
     boost::program_options::notify(argument_variables);
   }
-  catch(...){
-    BOOST_LOG_TRIVIAL(fatal) << "Error during the command line argument parsing!";
+  catch(boost::program_options::error& e){
+    BOOST_LOG_TRIVIAL(fatal) << "Error during the command line argument parsing, " << e.what();
     setErrorCode(1);
     terminate();
   }
-  
-  BOOST_LOG_TRIVIAL(info) << "Given parameters count: " << std::to_string(argc);
-  for (auto entry : argument_variables)
-  {
-    BOOST_LOG_TRIVIAL(info) << entry.first << " " << entry.second.as<std::string>();
-  }
+
+  if(!wait_for_key_on_exit)
+    wait_for_key_on_exit = (argument_variables.count("wait") > 0) ? true : false;
+
 }
 
 int Generator::string_replace_all(std::string& str, const std::string& from, const std::string& to)
@@ -337,7 +348,7 @@ void Generator::terminate(int error_code)
 {
   BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
 
-  if (argument_variables["wait"].as<bool>() == true) {
+  if (wait_for_key_on_exit) {
     BOOST_LOG_TRIVIAL(info) << "Press any key to quit.";
     getchar();
   }

@@ -3,6 +3,7 @@
 
 /* GLOBAL INCLUDES */
 #include <stdio.h>
+#include <vector>
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -35,8 +36,6 @@ public:
   Generator(int argc, char* argv[]);
   ~Generator();
 
-  bool wait = false;
-
   void run();
   void setExpressionInput(std::string expression_input);
   std::string getExpressionInput();
@@ -67,7 +66,10 @@ private:
 
   static void terminate(int error_code);
   void terminate();
-  
+
+  std::vector<std::string> program_arguments;
+
   int error_code;
+  static bool wait_for_key_on_exit;
 };
 #endif
