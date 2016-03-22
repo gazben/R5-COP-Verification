@@ -71,7 +71,7 @@ void BlockGenerator::cutAST(AstNode* node /*= nullptr*/)
     return;
 
   if ((node->the_type == base_rule::node::type::named_rule && node->the_value == "Next")
-    && node->block_id <= (generator.getUntilDeepness() - 1)
+    && (node->block_id <= (generator.getUntilDeepness() - 1))
     )
   {
     AstNode::global_interface_id = 0;
@@ -152,7 +152,7 @@ void BlockGenerator::createBlocks()
     currentBlockNumber++;
   }
 
-  for (int i = 0; i < eval_blocks.size(); i++)
+  for (unsigned int i = 0; i < eval_blocks.size(); i++)
     eval_blocks[i].block_id = i;
 }
 
@@ -256,7 +256,7 @@ std::string block::getFunctionString()
     functionBodys.push_back(std::get<1>(blockEntry)->getFunctionString());
   }
 
-  for (int i = 0; i < block_roots.size(); i++)
+  for (unsigned int i = 0; i < block_roots.size(); i++)
   {
     results.push_back(signatures[i] + "{ return " + functionBodys[i] + ";}");
   }

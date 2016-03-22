@@ -15,10 +15,10 @@
 #include <boost/filesystem.hpp>
 #include <boost/log/trivial.hpp>
 
-#include <SyntX/util/languages/ltl.h>
-#include <SyntX/util/parser/parser.h>
-
 /* LOCAL INCLUDES */
+#include "syntx/ltl.h"
+#include "syntx/parser.h"
+
 #include "block_generator.h"
 #include "connection_normalform_generator.h"
 #include "ast_optimizer.h"

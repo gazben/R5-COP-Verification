@@ -1,9 +1,10 @@
 #ifndef ast_node_h__
 #define ast_node_h__
 
-#include <SyntX/util/parser/parser.h>
 #include <string>
 #include <memory>
+
+#include "syntx/parser.h"
 
 /*
 Structure used for the Connection Normal form generation.

@@ -17,26 +17,26 @@
     <ClCompile Include="..\..\generator\connection_normalform_generator.cpp" />
     <ClCompile Include="..\..\generator\generator.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
-    <ClCompile Include="..\..\libs\SyntX\util\languages\ltl.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\alternation.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\base_rule.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\character.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\concatenation.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\eol.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\identifier.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\integer.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\keyword.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\option.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\range.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\real.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\repetition.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\repetition_or_epsilon.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\rule.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\search.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\string.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\substring.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace.cc" />
-    <ClCompile Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.cc" />
+    <ClCompile Include="..\..\generator\syntx\alternation.cc" />
+    <ClCompile Include="..\..\generator\syntx\base_rule.cc" />
+    <ClCompile Include="..\..\generator\syntx\character.cc" />
+    <ClCompile Include="..\..\generator\syntx\concatenation.cc" />
+    <ClCompile Include="..\..\generator\syntx\eol.cc" />
+    <ClCompile Include="..\..\generator\syntx\identifier.cc" />
+    <ClCompile Include="..\..\generator\syntx\integer.cc" />
+    <ClCompile Include="..\..\generator\syntx\keyword.cc" />
+    <ClCompile Include="..\..\generator\syntx\ltl.cc" />
+    <ClCompile Include="..\..\generator\syntx\option.cc" />
+    <ClCompile Include="..\..\generator\syntx\range.cc" />
+    <ClCompile Include="..\..\generator\syntx\real.cc" />
+    <ClCompile Include="..\..\generator\syntx\repetition.cc" />
+    <ClCompile Include="..\..\generator\syntx\repetition_or_epsilon.cc" />
+    <ClCompile Include="..\..\generator\syntx\rule.cc" />
+    <ClCompile Include="..\..\generator\syntx\search.cc" />
+    <ClCompile Include="..\..\generator\syntx\string.cc" />
+    <ClCompile Include="..\..\generator\syntx\substring.cc" />
+    <ClCompile Include="..\..\generator\syntx\whitespace.cc" />
+    <ClCompile Include="..\..\generator\syntx\whitespace_not_newline.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\generator\ast_node.h" />
@@ -44,32 +44,32 @@
     <ClInclude Include="..\..\generator\block_generator.h" />
     <ClInclude Include="..\..\generator\connection_normalform_generator.h" />
     <ClInclude Include="..\..\generator\generator.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\enum_set.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\languages\language.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\languages\ltl.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\alternation.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\ast_draw.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\base_rule.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\character.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\concatenation.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\debug_action.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\eol.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\epsilon.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\identifier.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\integer.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\keyword.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\option.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\parser.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\range.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\real.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\repetition.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\repetition_or_epsilon.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\rule.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\search.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\string.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\substring.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\whitespace.h" />
-    <ClInclude Include="..\..\libs\SyntX\util\parser\whitespace_not_newline.h" />
+    <ClInclude Include="..\..\generator\syntx\alternation.h" />
+    <ClInclude Include="..\..\generator\syntx\ast_draw.h" />
+    <ClInclude Include="..\..\generator\syntx\base_rule.h" />
+    <ClInclude Include="..\..\generator\syntx\character.h" />
+    <ClInclude Include="..\..\generator\syntx\concatenation.h" />
+    <ClInclude Include="..\..\generator\syntx\debug_action.h" />
+    <ClInclude Include="..\..\generator\syntx\enum_set.h" />
+    <ClInclude Include="..\..\generator\syntx\eol.h" />
+    <ClInclude Include="..\..\generator\syntx\epsilon.h" />
+    <ClInclude Include="..\..\generator\syntx\identifier.h" />
+    <ClInclude Include="..\..\generator\syntx\integer.h" />
+    <ClInclude Include="..\..\generator\syntx\keyword.h" />
+    <ClInclude Include="..\..\generator\syntx\language.h" />
+    <ClInclude Include="..\..\generator\syntx\ltl.h" />
+    <ClInclude Include="..\..\generator\syntx\option.h" />
+    <ClInclude Include="..\..\generator\syntx\parser.h" />
+    <ClInclude Include="..\..\generator\syntx\range.h" />
+    <ClInclude Include="..\..\generator\syntx\real.h" />
+    <ClInclude Include="..\..\generator\syntx\repetition.h" />
+    <ClInclude Include="..\..\generator\syntx\repetition_or_epsilon.h" />
+    <ClInclude Include="..\..\generator\syntx\rule.h" />
+    <ClInclude Include="..\..\generator\syntx\search.h" />
+    <ClInclude Include="..\..\generator\syntx\string.h" />
+    <ClInclude Include="..\..\generator\syntx\substring.h" />
+    <ClInclude Include="..\..\generator\syntx\whitespace.h" />
+    <ClInclude Include="..\..\generator\syntx\whitespace_not_newline.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5DD03B7F-B6BF-4456-9BF5-BF7DCC89E7CB}</ProjectGuid>
@@ -108,7 +108,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Projects\R5-COP-Verification\libs;D:\Sdk;D:\Sdk\boost_1_58_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Sdk;D:\Sdk\boost_1_58_0</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
       <CallingConvention>Cdecl</CallingConvention>

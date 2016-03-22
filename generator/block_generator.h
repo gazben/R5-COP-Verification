@@ -6,7 +6,7 @@
 #include <tuple>
 #include <boost/log/trivial.hpp>
 
-#include <SyntX/util/parser/parser.h>
+#include "syntx/parser.h"
 #include "connection_normalform_generator.h"
 
 // "Top" interface of a block

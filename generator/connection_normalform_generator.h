@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <SyntX/util/parser/parser.h>
+#include "syntx/parser.h"
 #include "ast_node.h"
 /*
 This class takes an AST and builds up a new AST with ConnectionNormalForm
