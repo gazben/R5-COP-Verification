@@ -4,12 +4,15 @@ int ConnectionNormalFormGenerator::until_node_deepness = 2;
 
 AstNode* ConnectionNormalFormGenerator::copyAST(std::shared_ptr<base_rule::node> node, AstNode* parent /*= nullptr*/)
 {
-  AstNode* result = new AstNode(node->the_type, node->the_value);
-  result->parent = parent;
-  if (node->right_children())
-    result->right_children = copyAST(node->right_children(), result);
-  if (node->left_children())
-    result->left_children = copyAST(node->left_children(), result);
+  AstNode* result = nullptr;
+  if (node) {
+    result = new AstNode(node->the_type, node->the_value);
+    result->parent = parent;
+    if (node->right_children())
+      result->right_children = copyAST(node->right_children(), result);
+    if (node->left_children())
+      result->left_children = copyAST(node->left_children(), result);
+  }
 
   return result;
 }
