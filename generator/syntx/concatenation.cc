@@ -40,8 +40,12 @@ namespace util {
           ast_root = std::make_shared<base_rule::node>(base_rule::node::type::concatenation);
           ast_root->children.push_back(first_child);
           ast_root->children.push_back(second_child);
-          first_child->parent = ast_root;
-          second_child->parent = ast_root;
+          
+          if(first_child)
+            first_child->parent = ast_root;
+          
+          if(second_child)
+            second_child->parent = ast_root;
         }
 
         return true;
