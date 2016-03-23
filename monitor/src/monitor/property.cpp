@@ -42,7 +42,7 @@ trilean Property::evaluate()
   trilean result = UNKNOWN;
   bool isChanged = false;
   ROS_INFO_STREAM("-Evaluating-");
-  for (int i = 0; i < current_block->output_states.size(); i++)
+  for (unsigned int i = 0; i < current_block->output_states.size(); i++)
   {
     trilean tempOutputResult = current_block->eval_functions[i](current_block);
     if (tempOutputResult != current_block->output_states[i])
@@ -67,7 +67,7 @@ trilean Property::evaluate()
         ROS_INFO_STREAM("Invalid input/output size on block: " + std::to_string(current_block->id) + " and " + std::to_string(current_block->children_node->id));
         ROS_INFO_STREAM("The system will use the smaller input. This can result in wrong result!");
       }
-      for (int i = 0;
+      for (unsigned int i = 0;
       i < ((current_block->input_states.size() < current_block->children_node->output_states.size()) ? current_block->input_states.size() : current_block->children_node->output_states.size());
         i++) {
         current_block->input_states[i] = current_block->children_node->output_states[i];
