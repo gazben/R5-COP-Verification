@@ -57,7 +57,7 @@ namespace util {
 
     void string::insert_failure_entry(std::string::const_iterator const &position) const {
       std::stringstream stream;
-      stream << "a string";
+      stream << "a string with delimiter: {" + std::string(1,delimiter) + "}";
       the_failure_log.insert(base_rule::failure_entry(position, base_rule::rule_type::terminal_rule, stream.str()));
     }
   }
