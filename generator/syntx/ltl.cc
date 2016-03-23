@@ -28,7 +28,8 @@ bool ltl::match(base_rule::match_range& context, base_rule::match_range& result,
   rule RPAR;
   RPAR <<= character(")");
   rule AtomicProposition;
-  AtomicProposition <<= +(range('a', 'z')) << *(range('a', 'z') | range('A', 'Z') | (range('0', '9')));
+  //AtomicProposition <<= +(range('a', 'z')) << *(range('a', 'z') | range('A', 'Z') | (range('0', '9')));
+  AtomicProposition <<= +string('\'');
 
   rule OperatorTwoOp;
   OperatorTwoOp <<=
