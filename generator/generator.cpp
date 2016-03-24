@@ -75,8 +75,17 @@ void Generator::run()
 
       auto tree_root = getRoot();
       AstOptimizer::optimizeAst(tree_root);   //remove the unnecessary parts of the AST
-      block_generator.setAstRootNode(converter.convertToConnectionNormalForm(root));
+      auto clonedTree = converter.convertToConnectionNormalForm(root);
+      block_generator.setAstRootNode(clonedTree);
       block_generator.createBlocks();
+
+      /* if you want to write out the optimised AST with the blocks
+      #include "syntx/ast_draw.h"
+      ast_draw<decltype(clonedTree)>  drawer(clonedTree);
+      drawer.to_formatted_string();
+      terminate();
+      */
+
       generateMonitor();
       BOOST_LOG_TRIVIAL(info) << "Generation completed!";
     }
@@ -194,12 +203,26 @@ std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_in
   base_rule::match_range result_range;
 
   BOOST_LOG_TRIVIAL(info) << "Parsing the given expression...";
-  if (ltl().match(context, result_range, result_root)) {
-    BOOST_LOG_TRIVIAL(info) << "Expression parsed!";
+  
+  try
+  {
+    auto match_result = ltl().match(context, result_range, result_root);
+    std::string match_error_string = base_rule::get_error_message(context);
+
+    if (match_result == true && match_error_string.empty()) {
+      BOOST_LOG_TRIVIAL(info) << "Expression parsed!";
+    }
+    else {
+      BOOST_LOG_TRIVIAL(fatal) << match_error_string;
+      terminate();
+    }
   }
-  else {
-    BOOST_LOG_TRIVIAL(fatal) << "Expression parsing failed. Given expression is not valid!";
+  catch (rule::undefined_rule ex)
+  {
+    BOOST_LOG_TRIVIAL(error) << "Error during the expression parsing: " << ex.what();
+    BOOST_LOG_TRIVIAL(error) <<  base_rule::get_error_message(context);
   }
+
   return result_root;
 }
 
