@@ -16,6 +16,7 @@
     <ClCompile Include="..\..\generator\block_generator.cpp" />
     <ClCompile Include="..\..\generator\connection_normalform_generator.cpp" />
     <ClCompile Include="..\..\generator\generator.cpp" />
+    <ClCompile Include="..\..\generator\generator_framework.cpp" />
     <ClCompile Include="..\..\generator\main.cpp" />
     <ClCompile Include="..\..\generator\syntx\alternation.cc" />
     <ClCompile Include="..\..\generator\syntx\base_rule.cc" />
@@ -44,6 +45,7 @@
     <ClInclude Include="..\..\generator\block_generator.h" />
     <ClInclude Include="..\..\generator\connection_normalform_generator.h" />
     <ClInclude Include="..\..\generator\generator.h" />
+    <ClInclude Include="..\..\generator\generator_framework.h" />
     <ClInclude Include="..\..\generator\syntx\alternation.h" />
     <ClInclude Include="..\..\generator\syntx\ast_draw.h" />
     <ClInclude Include="..\..\generator\syntx\base_rule.h" />

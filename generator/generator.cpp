@@ -4,11 +4,8 @@
 boost::program_options::options_description Generator::arguments = boost::program_options::options_description();
 boost::program_options::variables_map Generator::argument_variables = boost::program_options::variables_map();
 
-bool Generator::wait_for_key_on_exit = false;
-
 
 Generator::Generator()
-  :error_code(0)
 {
   BOOST_LOG_TRIVIAL(info) << "ROS runtime monitor generator. Made by Bence Gazder";
   arguments.add_options()
@@ -109,7 +106,7 @@ void Generator::run()
         }
       }();
     }
-  terminate();
+    monitor_generator::terminate();
 }
 
 void Generator::setExpressionInput(std::string expression_input)
@@ -143,10 +140,10 @@ void Generator::generateMonitor()
   else {
     BOOST_LOG_TRIVIAL(fatal) << "Error during source code directory copy. From: " 
       + monitor_source_path + " to " + monitor_destination_path;
-    terminate();
+    monitor_generator::terminate();
   }
 
-  //modify the content
+  //modify the gen_* file content
   BOOST_LOG_TRIVIAL(info) << "Processing package.xml...";
   string_replace_all(std::get<1>(gen_files["package.xml"]), 
     "--monitor_name--",
@@ -217,7 +214,7 @@ std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_in
     }
     else {
       BOOST_LOG_TRIVIAL(fatal) << match_error_string;
-      terminate();
+      monitor_generator::terminate();
     }
   }
   catch (rule::undefined_rule ex)
@@ -229,15 +226,6 @@ std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_in
   return result_root;
 }
 
-int Generator::getErrorCode()
-{
-  return error_code;
-}
-
-void Generator::setErrorCode(int error_code)
-{
-  this->error_code = error_code;
-}
 
 std::shared_ptr<base_rule::node> Generator::getRoot()
 {
@@ -255,7 +243,7 @@ void Generator::parseProgramArguments(int argc, char* argv[])
   for (auto& entry : program_arguments)
   {
     if (entry == "--wait")
-      wait_for_key_on_exit = true;
+      monitor_generator::wait_for_key_on_exit = true;
   }
 
   try {
@@ -265,20 +253,19 @@ void Generator::parseProgramArguments(int argc, char* argv[])
   {
     BOOST_LOG_TRIVIAL(info) << "Displaying help options.";
     std::cout << arguments;
-    terminate();
+    monitor_generator::terminate();
   }
 
     boost::program_options::notify(argument_variables);
   }
   catch(boost::program_options::error& e){
     BOOST_LOG_TRIVIAL(fatal) << "Error during the command line argument parsing, " << e.what();
-    setErrorCode(1);
-    terminate();
+    monitor_generator::terminate(1);
   }
 
   //if the parsing is done, see if the wait flag is added (double check)
-  if(!wait_for_key_on_exit)
-    wait_for_key_on_exit = (argument_variables.count("wait") > 0) ? true : false;
+  if(!monitor_generator::wait_for_key_on_exit)
+    monitor_generator::wait_for_key_on_exit = (argument_variables.count("wait") > 0) ? true : false;
 
 }
 
@@ -365,20 +352,4 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
     }
   }
   return true;
-}
-
-void Generator::terminate()
-{
-  terminate(getErrorCode());
-}
-
-void Generator::terminate(int error_code)
-{
-  BOOST_LOG_TRIVIAL(info) << std::string("Terminating. Error value: ") + std::to_string(error_code);
-
-  if (wait_for_key_on_exit) {
-    BOOST_LOG_TRIVIAL(info) << "Press any key to quit.";
-    getchar();
-  }
-  std::exit(error_code);
 }

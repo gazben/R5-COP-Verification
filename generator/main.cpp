@@ -3,5 +3,5 @@
 int main(int argc, char* argv[]) {
   Generator gen(argc, argv);
   gen.run();
-  return gen.getErrorCode();
+  return monitor_generator::getErrorCode();
 }

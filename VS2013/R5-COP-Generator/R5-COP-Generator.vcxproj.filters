@@ -96,6 +96,9 @@
     <ClCompile Include="..\..\generator\syntx\ltl.cc">
       <Filter>syntx</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\generator\generator_framework.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\generator\ast_node.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="..\..\generator\syntx\ltl.h">
       <Filter>syntx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\generator\generator_framework.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

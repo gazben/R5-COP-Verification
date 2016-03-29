@@ -1,10 +1,13 @@
 #ifndef ast_optimizer_h__
 #define ast_optimizer_h__
 
+/* GLOBAL INCLUDES */
 #include <memory>
 
+/* LOCAL INCLUDES */
+#include "generator_framework.h"
 #include "syntx/parser.h"
-
+/* INCLUDES END */
 
 class AstOptimizer
 {

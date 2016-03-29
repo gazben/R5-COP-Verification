@@ -1,10 +1,15 @@
 #ifndef ast_node_h__
 #define ast_node_h__
 
+/* GLOBAL INCLUDES */
 #include <string>
 #include <memory>
 
+/* LOCAL INCLUDES */
+#include "generator_framework.h"
 #include "syntx/parser.h"
+/* INCLUDES END */
+
 
 /*
 Structure used for the Connection Normal form generation.

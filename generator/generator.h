@@ -10,17 +10,12 @@
 #include <iostream>
 #include <exception>
 #include <stdexcept>
-#include <boost/log/trivial.hpp>
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/log/trivial.hpp>
 
 /* LOCAL INCLUDES */
 #include "syntx/ltl.h"
-#include "syntx/parser.h"
-
 #include "block_generator.h"
-#include "connection_normalform_generator.h"
 #include "ast_optimizer.h"
 /* INCLUDES END */
 
@@ -41,8 +36,7 @@ public:
   std::string getExpressionInput();
   void setMonitorSourcePath(std::string monitor_source_path);
   void setMonitorDestinationPath(std::string monitor_destination_path);
-  int getErrorCode();
-  void setErrorCode(int error_code);
+
   std::shared_ptr<base_rule::node> getRoot();
   void setRoot(std::shared_ptr<base_rule::node> root);
   void parseProgramArguments(int argc, char* argv[]);
@@ -64,12 +58,6 @@ private:
   int string_replace_all(std::string& str, const std::string& from, const std::string& to);
   bool copyDir(boost::filesystem::path const & source, boost::filesystem::path const & destination);
 
-  static void terminate(int error_code);
-  void terminate();
-
   std::vector<std::string> program_arguments;
-
-  int error_code;
-  static bool wait_for_key_on_exit;
 };
 #endif
