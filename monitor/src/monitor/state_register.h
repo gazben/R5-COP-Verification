@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 /* LOCAL INCLUDES */
-#include "events.h"
+#include "gen_events.h"
 /* INCLUDES END */
 
 class StateRegister {
