@@ -101,7 +101,7 @@ namespace util {
       while (i_before > context.first && *i_before != '\n') { ++characters_before; --i_before; }
 
       size_t line_number = 1;
-      if (*i_before == '\n') {
+      if (characters_before != '\0' && *i_before == '\n') {
         std::string::const_iterator line_iterator = i_before;
         while (line_iterator > context.first) {
           if (*line_iterator == '\n') ++line_number;
