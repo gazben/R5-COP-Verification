@@ -206,7 +206,7 @@ std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_in
   
   try
   {
-    auto match_result = ltl().match(context, result_range, result_root);
+    bool match_result = ltl().match(context, result_range, result_root);  //doesn't always return the good value
     std::string match_error_string = base_rule::get_error_message(context);
 
     if (match_result && (match_error_string.empty() 
