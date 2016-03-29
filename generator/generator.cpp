@@ -209,7 +209,10 @@ std::shared_ptr<base_rule::node> Generator::parseInput(std::string expression_in
     auto match_result = ltl().match(context, result_range, result_root);
     std::string match_error_string = base_rule::get_error_message(context);
 
-    if (match_result == true && match_error_string.empty()) {
+    if (match_result && (match_error_string.empty() 
+      //bruteforce. On no error, the message contains two new line characters...
+      || (match_error_string.find("\n\n") != std::string::npos)  
+      )) {
       BOOST_LOG_TRIVIAL(info) << "Expression parsed!";
     }
     else {
@@ -288,7 +291,7 @@ int Generator::string_replace_all(std::string& str, const std::string& from, con
   while ((pos = str.find(from, pos)) != std::string::npos) {
     str.replace(pos, from.length(), to);
     pos += to.length();
-    replace_count = replace_count + 1;
+    replace_count++;
   }
 
   BOOST_LOG_TRIVIAL(info) << from << " replaced " + std::to_string(replace_count) + " times with " + to.substr(0, 20) + "...";
