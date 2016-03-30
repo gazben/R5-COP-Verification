@@ -340,12 +340,13 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
             std::get<0>(entry.second) = std::string((destination / current.filename()).string());
             BOOST_LOG_TRIVIAL(info) << entry.first + " found! Path: " << std::get<0>(entry.second);
             //content
-            std::ifstream file_in(std::get<0>(entry.second));
+            std::ifstream file_in(current.c_str());
             if (file_in.is_open())
-              BOOST_LOG_TRIVIAL(info) << std::get<0>(entry.second) + " is opened";
+              BOOST_LOG_TRIVIAL(info) << current.generic_string() + " is opened";
             else
               BOOST_LOG_TRIVIAL(fatal) << std::get<0>(entry.second) + " file opening failed";
             std::get<1>(entry.second) = std::string((std::istreambuf_iterator<char>(file_in)), std::istreambuf_iterator<char>());
+            file_in.close();
           }
         }
         //copy the files
