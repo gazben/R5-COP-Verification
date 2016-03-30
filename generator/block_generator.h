@@ -62,6 +62,7 @@ public:
   std::string getFunctionDeclarations();
   std::string getFunctions();
   std::string getConstructFunctions();
+  std::string getEventsWithCodes();
 
   AstNode* getAstRootNode() const;
 
@@ -70,6 +71,9 @@ private:
   ConnectionNormalFormGenerator generator;
   AstNode* ast_root_rode;
   int getHeight(AstNode* node);
+  void fillEventBlocks(AstNode* root);
+  std::vector<std::string> event_names;
+
 
   std::vector<std::string> nextStateInterfaceBuffer;
   std::vector<AstNode*> nextStateRootBuffer;

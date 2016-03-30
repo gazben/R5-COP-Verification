@@ -142,21 +142,6 @@ std::string AstNode::getFunctionString()
     result += "_prop->inputStates[" + std::to_string(current_interface_id) + "]";
     return result;
   }
-  else if (the_value == "1")
-  {
-    result += "_prop->isEventFired(EVENT_UP)";
-    return result;
-  }
-  else if (the_value == "2")
-  {
-    result += "_prop->isEventFired(EVENT_DOWN)";
-    return result;
-  }
-  else if (the_value == "3")
-  {
-    result += "_prop->isEventFired(EVENT_RIGHT)";
-    return result;
-  }
   else if (the_value == "True")
   {
     result += "TRUE";
@@ -168,7 +153,10 @@ std::string AstNode::getFunctionString()
     return result;
   }
   else
-    result += "VALUE";
+  {
+    result += "_prop->isEventFired("+ the_value +")";
+    return result;
+  }
 
   return result + "(" + ((left_children) ? getLeftChildren()->getFunctionString() : "") + ((right_children) ? (", " + getRightChildren()->getFunctionString()) : "") + ")";
 }

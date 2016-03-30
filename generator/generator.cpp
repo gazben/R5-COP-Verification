@@ -23,9 +23,9 @@ Generator::Generator()
   //add the wanted filenames for generation
   gen_files["gen_commands.h"] = std::make_tuple("", "");
   gen_files["gen_blocks.h"] = std::make_tuple("", "");
+  gen_files["gen_events.h"] = std::make_tuple("", "");
   gen_files["CMakeLists.txt"] = std::make_tuple("", "");
   gen_files["package.xml"] = std::make_tuple("", "");
-
 }
 
 Generator::Generator(int argc, char* argv[]) :Generator()
@@ -154,7 +154,7 @@ void Generator::generateMonitor()
   string_replace_all(std::get<1>(gen_files["CMakeLists.txt"]),
     "--monitor_name--",
     argument_variables["monitor-name"].as<std::string>()
-    );
+  );
 
   BOOST_LOG_TRIVIAL(info) << "Processing gen_blocks.h...";
   string_replace_all(std::get<1>(gen_files["gen_blocks.h"]),
@@ -178,6 +178,12 @@ void Generator::generateMonitor()
   string_replace_all(std::get<1>(gen_files["gen_commands.h"]),
     "--false_command--", 
     argument_variables["false-command"].as<std::string>()
+  );
+
+  BOOST_LOG_TRIVIAL(info) << "Processing gen_events.h...";
+  string_replace_all(std::get<1>(gen_files["gen_events.h"]),
+    "//--EVENTS--",
+    block_generator.getEventsWithCodes()
   );
 
   //write out the files

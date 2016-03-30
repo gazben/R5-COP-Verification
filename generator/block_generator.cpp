@@ -47,6 +47,56 @@ int BlockGenerator::getHeight(AstNode* node)
     return(maxHeight);
 }
 
+std::string BlockGenerator::getEventsWithCodes()
+{
+  fillEventBlocks(ast_root_rode);
+  std::sort(event_names.begin(), event_names.end());
+  auto last = std::unique(event_names.begin(), event_names.end());
+  event_names.erase(last, event_names.end());
+
+  std::string result;
+  unsigned long long int actual_code = 2; //1 is reserved for stop
+
+  int max_event_count = 62;
+  if (event_names.size() > max_event_count) {
+    BOOST_LOG_TRIVIAL(fatal) << "Maximum event count reached (max: " 
+      + std::to_string(max_event_count) + " current: " + std::to_string(event_names.size()) + ")";
+    terminate();
+  } else if (!event_names.empty()) {
+    for (auto event_entry : event_names) {
+      BOOST_LOG_TRIVIAL(info) << "event \"" + event_entry + "\" entry generated with value " + std::to_string(actual_code);
+      result += "const StateRegisterType " + event_entry + " = " + std::to_string(actual_code) + ";\n";
+      actual_code = actual_code << 1;
+    }
+  } else {
+    BOOST_LOG_TRIVIAL(warning) << "Event container is empty. No event codes are generated";
+  }
+
+  return result;
+}
+
+void BlockGenerator::fillEventBlocks(AstNode* root)
+{
+  if (root == nullptr) 
+    return;   
+
+  if (root->getRightChildren() == nullptr && root->getLeftChildren() == nullptr) {
+    if (root->the_value != "True" && root->the_value != "False") {
+      //remove the leading and the trailing ' characters. Ex.: 'event1' => event1
+      auto& event_name = root->the_value.erase(0,1);    
+      event_name.erase(event_name.size() - 1, 1);
+      //save the event name
+      event_names.push_back(event_name);
+    }
+    return;
+  }
+
+  fillEventBlocks(root->getLeftChildren());
+  fillEventBlocks(root->getRightChildren());  
+  
+  return;
+}
+
 void BlockGenerator::cutNextBlock(std::vector<AstNode*> blockRoots)
 {
   for (auto rootEntry : blockRoots)
