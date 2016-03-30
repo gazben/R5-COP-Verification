@@ -61,7 +61,7 @@ std::string BlockGenerator::getEventsWithCodes()
   if (event_names.size() > max_event_count) {
     BOOST_LOG_TRIVIAL(fatal) << "Maximum event count reached (max: " 
       + std::to_string(max_event_count) + " current: " + std::to_string(event_names.size()) + ")";
-    terminate();
+    monitor_generator::terminate();
   } else if (!event_names.empty()) {
     for (auto event_entry : event_names) {
       BOOST_LOG_TRIVIAL(info) << "event \"" + event_entry + "\" entry generated with value " + std::to_string(actual_code);
