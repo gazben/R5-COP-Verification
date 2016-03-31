@@ -97,9 +97,6 @@ std::string AstNode::toString(AstNode* node)
   std::string text;
   switch (node->the_type)
   {
-  case base_rule::node::type::value:
-    text = node->the_value;
-    break;
   case base_rule::node::type::alternation:
     text = "a";
     break;
@@ -115,8 +112,18 @@ std::string AstNode::toString(AstNode* node)
   case base_rule::node::type::repetition_or_epsilon:
     text = "R";
     break;
+  case base_rule::node::type::value:
   case base_rule::node::type::named_rule:
-    text = node->the_value;
+    if (node->getRightChildren() == nullptr && node->getLeftChildren() == nullptr) {
+      if (node->the_value[0] == '\'' && node->the_value[node->the_value.size()-1] == '\'') {
+        auto& event_name = node->the_value.erase(0, 1);
+        text = event_name.erase(event_name.size() - 1, 1);
+      }
+    } 
+    else 
+    {
+      text = node->the_value;
+    }
     break;
   }
   return text + toString(node->left_children) + toString(node->right_children);
