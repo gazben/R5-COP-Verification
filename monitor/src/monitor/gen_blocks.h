@@ -1,6 +1,7 @@
 #ifndef gen_blocks_h__
 #define gen_blocks_h__
 
+#include "property.h"
 
 //Declarations
 //--DECLARATIONS--
