@@ -5,6 +5,11 @@ void BlockGenerator::setAstRootNode(AstNode* rootNode)
   ast_root_rode = rootNode;
 }
 
+std::vector<std::string> BlockGenerator::getEventNames()
+{
+  return event_names;
+}
+
 AstNode* BlockGenerator::getAstRootNode() const
 {
   return ast_root_rode;

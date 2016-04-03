@@ -67,6 +67,9 @@ public:
   AstNode* getAstRootNode() const;
 
   void setAstRootNode(AstNode* rootNode);
+
+  std::vector<std::string> getEventNames();
+
 private:
   ConnectionNormalFormGenerator generator;
   AstNode* ast_root_rode;
