@@ -88,7 +88,8 @@ void BlockGenerator::fillEventBlocks(AstNode* root)
   if (root->getRightChildren() == nullptr && root->getLeftChildren() == nullptr) {
     if (root->the_value != "True" && root->the_value != "False") {
       //remove the leading and the trailing ' characters. Ex.: 'event1' => event1
-      auto& event_name = root->the_value.erase(0,1);    
+      auto event_name = root->the_value;    
+      event_name.erase(0,1);    
       event_name.erase(event_name.size() - 1, 1);
       //save the event name
       event_names.push_back(event_name);

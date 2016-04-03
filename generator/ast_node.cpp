@@ -116,8 +116,10 @@ std::string AstNode::toString(AstNode* node)
   case base_rule::node::type::named_rule:
     if (node->getRightChildren() == nullptr && node->getLeftChildren() == nullptr) {
       if (node->the_value[0] == '\'' && node->the_value[node->the_value.size()-1] == '\'') {
-        auto& event_name = node->the_value.erase(0, 1);
-        text = event_name.erase(event_name.size() - 1, 1);
+        auto event_name = node->the_value;
+        event_name.erase(0, 1);
+        event_name.erase(event_name.size() - 1, 1);
+        text = event_name;
       }
     } 
     else 
