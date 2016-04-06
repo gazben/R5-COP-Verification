@@ -1,21 +1,22 @@
-#ifndef event_name_event_h__
+#ifndef --event_name--_event_h__
 #define --event_name--_event_h__
 
 #include <string>
 
-#include "..\monitor.h"
+#include "../monitor.h"
 
 
 class --event_name--_event : public EventInterface {
 public: 
   --event_name--_event() {
-    topic_name = ""; 
+    topic_name = "";
+    node_handler.subscribe(topic_name, 1000, &messageRecieved);
   }
 
 
   static void messageRecieved(/*  */ msg) {
     ROS_INFO_STREAM("");
-    StateRegisterType event;
+    StateRegisterType event = 0;
 
     if (msg.linear.z > 0) {
       tempStateReg = EVENT_END;
