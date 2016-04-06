@@ -247,14 +247,14 @@ std::string BlockGenerator::getConstructFunctions()
 }
 
 std::string block::getConstructDeclaration() {
-  return "Property* construct_block" + std::to_string(block_id) + "(Property* root_node);";
+  return "inline Property* construct_block" + std::to_string(block_id) + "(Property* root_node);";
 }
 
 std::string block::getConstructBody()
 {
   std::string constructBlockString;
 
-  constructBlockString += "Property* construct_block" + std::to_string(block_id) + "(Property* root_node)";
+  constructBlockString += "inline Property* construct_block" + std::to_string(block_id) + "(Property* root_node)";
   constructBlockString += "{ \n";
 
   std::vector<std::string> evalFunctions;
@@ -285,7 +285,7 @@ std::vector<std::string> block::getBlockRootEvalFunctionDeclarations()
 
   for (auto& blockEntry : block_roots)
   {
-    result.push_back("trilean EVAL_" + std::get<0>(blockEntry) + "(Property* property)");
+    result.push_back("inline trilean EVAL_" + std::get<0>(blockEntry) + "(Property* property)");
   }
   return result;
 }
