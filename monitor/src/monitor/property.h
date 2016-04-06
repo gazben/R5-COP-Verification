@@ -22,9 +22,6 @@
 /* INCLUDES END */
 
 
-/* FUNCTION TYPE DEFINITIONS */
-using namespace std;
-
 class Property {
 protected:
   static Property* current_block;
@@ -38,8 +35,8 @@ public:
   Property();
   ~Property();
 
-  vector<trilean> input_states;
-  vector<trilean> output_states;
+  std::vector<trilean> input_states;
+  std::vector<trilean> output_states;
   Property* root_node;
   Property* children_node;
 

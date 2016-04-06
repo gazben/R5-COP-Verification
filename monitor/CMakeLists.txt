@@ -15,20 +15,29 @@ add_executable(
   src/mission_cntrl_groovy.cpp
 )
 
+#add all generated or user added events
+file(GLOB event_src
+        "src/monitor/events/*.h"
+        "src/monitor/events/*.cpp"
+    )
 
 add_executable(
   --monitor_name--
-  src/main.cpp
-  src/monitor_test.cpp
-  src/monitor/events.h
-  src/monitor/output_state.h
-  src/monitor/output_state.cpp
-  src/monitor/property.h
-  src/monitor/property.cpp
-  src/monitor/state_register.h
-  src/monitor/state_register.cpp
-  src/monitor/gen_blocks.h
-  src/monitor/gen_commands.h
+    src/main.cpp
+#static code
+    src/monitor/output_state.h
+    src/monitor/output_state.cpp
+    src/monitor/property.h
+    src/monitor/monitor.h
+    src/monitor/property.cpp
+    src/monitor/state_register.h
+    src/monitor/state_register.cpp
+#events
+    ${event_src}
+#generated code
+    src/monitor/gen_blocks.h
+    src/monitor/gen_commands.h
+    src/monitor/gen_events.h
 )
 
 target_link_libraries(mission_cntrl_groovy ${catkin_LIBRARIES})
