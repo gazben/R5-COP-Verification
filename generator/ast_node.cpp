@@ -148,7 +148,7 @@ std::string AstNode::getFunctionString()
     result += "NOT_3";
   else if (the_value == "Next")
   {
-    result += "_prop->inputStates[" + std::to_string(current_interface_id) + "]";
+    result += "property->input_states[" + std::to_string(current_interface_id) + "]";
     return result;
   }
   else if (the_value == "True")
@@ -163,7 +163,11 @@ std::string AstNode::getFunctionString()
   }
   else
   {
-    result += "_prop->isEventFired("+ the_value +")";
+    if (the_value[0] == '\'' && the_value[the_value.size() - 1] == '\'') {
+      the_value.erase(0, 1);
+      the_value.erase(the_value.size() - 1, 1);
+    }
+    result += "property->isEventFired("+ the_value +")";
     return result;
   }
 

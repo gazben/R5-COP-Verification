@@ -247,14 +247,14 @@ std::string BlockGenerator::getConstructFunctions()
 }
 
 std::string block::getConstructDeclaration() {
-  return "Property* construct_block" + std::to_string(block_id) + "(Property* _rootNode);";
+  return "Property* construct_block" + std::to_string(block_id) + "(Property* root_node);";
 }
 
 std::string block::getConstructBody()
 {
   std::string constructBlockString;
 
-  constructBlockString += "Property* construct_block" + std::to_string(block_id) + "(Property* _rootNode)";
+  constructBlockString += "Property* construct_block" + std::to_string(block_id) + "(Property* root_node)";
   constructBlockString += "{ \n";
 
   std::vector<std::string> evalFunctions;
@@ -265,15 +265,15 @@ std::string block::getConstructBody()
 
   for (auto& evalEntry : evalFunctions)
   {
-    constructBlockString += "_rootNode->evalFunctions.push_back(" + evalEntry + "); \n";
+    constructBlockString += "root_node->eval_functions.push_back(" + evalEntry + "); \n";
   }
 
-  constructBlockString += "_rootNode->constructChildrenNodeFunc = construct_block" +
+  constructBlockString += "root_node->construct_children_node_func = construct_block" +
     ((BlockGenerator::isNextBlockIdenticalToPrev(getPreviousStateInterfaceString(), getNextStateInterfaceString())) ? (std::to_string(block_id)) : (std::to_string(block_id + 1))) +
     ";\n";
-  constructBlockString += "_rootNode->outputStates.resize(" + std::to_string(block_roots.size()) + ");" + "\n";
-  constructBlockString += "_rootNode->inputStates.resize(" + std::to_string(next_state_roots.size()) + ");" + "\n";
-  constructBlockString += "return _rootNode;\n}\n";
+  constructBlockString += "root_node->output_states.resize(" + std::to_string(block_roots.size()) + ");" + "\n";
+  constructBlockString += "root_node->input_states.resize(" + std::to_string(next_state_roots.size()) + ");" + "\n";
+  constructBlockString += "return root_node;\n}\n";
 
   return constructBlockString;
 }
@@ -285,7 +285,7 @@ std::vector<std::string> block::getBlockRootEvalFunctionDeclarations()
 
   for (auto& blockEntry : block_roots)
   {
-    result.push_back("trilean EVAL_" + std::get<0>(blockEntry) + "(Property* _prop)");
+    result.push_back("trilean EVAL_" + std::get<0>(blockEntry) + "(Property* property)");
   }
   return result;
 }
