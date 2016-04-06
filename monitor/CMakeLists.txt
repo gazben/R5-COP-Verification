@@ -38,7 +38,7 @@ add_executable(
     src/monitor/gen_blocks.h
     src/monitor/gen_commands.h
     src/monitor/gen_events.h
-)
+        src/monitor/monitor.cpp)
 
 target_link_libraries(mission_cntrl_groovy ${catkin_LIBRARIES})
 target_link_libraries(--monitor_name-- ${catkin_LIBRARIES})

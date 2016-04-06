@@ -5,11 +5,11 @@
 
 //True command
 #ifndef DEBUG_NO_ROS
-std::string true_command = "--true_command--";
-std::string false_command = "--false_command--";
+const std::string true_command = "--true_command--";
+const std::string false_command = "--false_command--";
 #else
-std::string true_command = "echo result TRUE";
-std::string false_command = "echo result FALSE";
+const std::string true_command = "echo result TRUE";
+const std::string false_command = "echo result FALSE";
 #endif
 //False command
 
