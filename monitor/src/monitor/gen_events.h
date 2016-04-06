@@ -6,7 +6,6 @@ typedef unsigned long long int StateRegisterType;
 //dedicated end event
 const StateRegisterType EVENT_END = 1;
 
-
 //--EVENTS--
 
 #ifdef DEBUG_NO_ROS
