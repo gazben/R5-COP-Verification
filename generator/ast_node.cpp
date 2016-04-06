@@ -148,7 +148,7 @@ std::string AstNode::getFunctionString()
     result += "NOT_3";
   else if (the_value == "Next")
   {
-    result += "_prop->inputStates[" + std::to_string(current_interface_id) + "]";
+    result += "property->input_states[" + std::to_string(current_interface_id) + "]";
     return result;
   }
   else if (the_value == "True")
