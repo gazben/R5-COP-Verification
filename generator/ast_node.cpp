@@ -163,7 +163,11 @@ std::string AstNode::getFunctionString()
   }
   else
   {
-    result += "_prop->isEventFired("+ the_value +")";
+    if (the_value[0] == '\'' && the_value[the_value.size() - 1] == '\'') {
+      the_value.erase(0, 1);
+      the_value.erase(the_value.size() - 1, 1);
+    }
+    result += "property->isEventFired("+ the_value +")";
     return result;
   }
 
