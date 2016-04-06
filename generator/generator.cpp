@@ -21,11 +21,12 @@ Generator::Generator()
     ;
 
   //add the wanted filenames for generation
-  gen_files["gen_commands.h"] = std::make_tuple("", "");
-  gen_files["gen_blocks.h"] = std::make_tuple("", "");
-  gen_files["gen_events.h"] = std::make_tuple("", "");
-  gen_files["CMakeLists.txt"] = std::make_tuple("", "");
-  gen_files["package.xml"] = std::make_tuple("", "");
+  gen_files["gen_commands.h"] = std::make_tuple("", "", true);
+  gen_files["gen_blocks.h"] = std::make_tuple("", "", true);
+  gen_files["gen_events.h"] = std::make_tuple("", "", true);
+  gen_files["gen_event.h"] = std::make_tuple("", "", false);  //do not copy, just read it
+  gen_files["CMakeLists.txt"] = std::make_tuple("", "", true);
+  gen_files["package.xml"] = std::make_tuple("", "", true);
 }
 
 Generator::Generator(int argc, char* argv[]) :Generator()
@@ -186,15 +187,43 @@ void Generator::generateMonitor()
     block_generator.getEventsWithCodes()
   );
 
+  //generate event files
+  BOOST_LOG_TRIVIAL(info) << "Generating event handler skeletons from gen_event.h...";
+  for (auto& event_name : block_generator.getEventNames())
+  {
+    std::string event_file_name = std::get<0>(gen_files["gen_event.h"]);
+    string_replace_all(event_file_name, "gen_event", event_name);
+    std::ofstream event_file_out(event_file_name);
+    
+    if (event_file_out.is_open()) {
+      BOOST_LOG_TRIVIAL(info) << event_file_name + " opened for writing";
+      std::string event_file_content = std::get<1>(gen_files["gen_event.h"]);
+      string_replace_all(event_file_content, "--event_name--", event_name);
+      event_file_out << event_file_content;
+      event_file_out.close();
+    }
+    else {
+      BOOST_LOG_TRIVIAL(error) << event_file_name + " opening failed";
+    }
+
+  }
+
   //write out the files
   for (auto& entry : gen_files) {
-    std::ofstream file_out(std::get<0>(entry.second));
-    if (file_out.is_open())
-      BOOST_LOG_TRIVIAL(info) << std::get<0>(entry.second) + " file opened for writing";
-    else
-      BOOST_LOG_TRIVIAL(fatal) << "property.h file opening for writing failed";
-    file_out.write(std::get<1>(entry.second).c_str(), std::get<1>(entry.second).size());
-    file_out.close();
+    if(std::get<2>(entry.second)){
+      std::ofstream file_out(std::get<0>(entry.second));
+      if (file_out.is_open())
+        BOOST_LOG_TRIVIAL(info) << std::get<0>(entry.second) + " file opened for generation";
+      else
+        BOOST_LOG_TRIVIAL(fatal) << "property.h file opening for generation";
+      file_out.write(std::get<1>(entry.second).c_str(), std::get<1>(entry.second).size());
+      file_out.close();
+    }
+    else 
+    {
+      BOOST_LOG_TRIVIAL(info) << entry.first + " file skipped during generation";
+    }
+
   }
 }
 
@@ -350,7 +379,11 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
           }
         }
         //copy the files
-        fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
+        if (gen_files.count(current.filename().generic_string()) == 0 || ((gen_files.count(current.filename().generic_string()) > 0 ) && (std::get<2>(gen_files[current.filename().generic_string()]) == true))){
+          fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
+          BOOST_LOG_TRIVIAL(info) << current.filename().generic_string() + " copied";
+        }
+
       }
     }
     catch (fs::filesystem_error const & e)
