@@ -1,11 +1,6 @@
-#ifndef subscriber_h__
-#define subscriber_h__
-
 #include <string>
 
-#ifndef DEBUG_NO_ROS
-#include <geometry_msgs/Twist.h>
-#endif
+#include "../monitor.h"
 
 /*
  * This is a skeleton of an event handler.
@@ -14,59 +9,63 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-//  Event hadling code 
-ros::NodeHandle node_handler;
+//  Event hadling code
+ros::NodeHandle* node_handler = nullptr;
 
-void messageRecieved(geometry_msgs::Twist msg) {
-  ROS_INFO_STREAM("");
+void messageRecieved(const geometry_msgs::Twist& msg) {
+  ROS_INFO_STREAM("we are here");
   StateRegisterType event = 0;
 
   if (msg.linear.z > 0) {
-    if (msg.linear.z > 0) {
-      event |= EVENT_END;
-      ROS_INFO_STREAM("END");
-    }
-
-    if (msg.linear.y > 0) {
-      event |= EVENT_UP;
-      ROS_INFO_STREAM("UP");
-    }
-
-    if (msg.linear.y < 0) {
-      event |= EVENT_DOWN;
-      ROS_INFO_STREAM("DOWN");
-    }
-
-    if (msg.linear.x > 0) {
-      event |= EVENT_DOWN;
-      ROS_INFO_STREAM("LEFT");
-    }
-
-    if (msg.linear.x < 0) {
-      event |= EVENT_RIGHT;
-      ROS_INFO_STREAM("RIGHT");
-    }
-
-    Monitor::evaluate(event);
+    event |= event_r;
+    ROS_INFO_STREAM("END");
   }
+
+  if (msg.linear.y > 0) {
+    event |= event_r;
+    ROS_INFO_STREAM("UP");
+  }
+
+  if (msg.linear.y < 0) {
+    event |= event_r;
+    ROS_INFO_STREAM("DOWN");
+  }
+
+  if (msg.linear.x > 0) {
+    event |= event_r;
+    ROS_INFO_STREAM("LEFT");
+  }
+
+  if (msg.linear.x < 0) {
+    event |= event_r;
+    ROS_INFO_STREAM("RIGHT");
+  }
+
+  Monitor::evaluate(event);
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 // Init
-void subscriber_init() {
+void Monitor::subscriber_init() {
+  ROS_INFO_STREAM("SUBSRIBER INIT...");
+  node_handler = new ros::NodeHandle();
   //Init code comes here
   //Runs before subscriber_subsribe()
+}
+
+void Monitor::subscriber_deinit(){
+  ROS_INFO_STREAM("SUBSRIBER DEINIT...");
+  delete node_handler;
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 // Subscribe
-void subscriber_subsribe() {
-  node_handler.subscribe("turtle1/command_velocity", 1000, &messageRecieved);
+void Monitor::subscriber_subsribe() {
+  ROS_INFO_STREAM("SUBSRIBER SUBSCRIBE...");
+  node_handler.subscribe("turtle1/cmd_vel", 1000, &messageRecieved);
 }
-
-#endif
 
 //Handler example:
 /*

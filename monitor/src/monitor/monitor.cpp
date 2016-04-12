@@ -8,6 +8,7 @@ void Monitor::run(int argc, char **argv) {
     subscriber_init();
     subscriber_subsribe();
     ros::spin();  //the point of no return
+    subscriber_deinit();
 }
 
 
