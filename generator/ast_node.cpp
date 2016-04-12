@@ -163,12 +163,18 @@ std::string AstNode::getFunctionString()
   }
   else
   {
-    if (the_value[0] == '\'' && the_value[the_value.size() - 1] == '\'') {
-      the_value.erase(0, 1);
-      the_value.erase(the_value.size() - 1, 1);
+    if (the_type != base_rule::node::type::repetition) {
+      if (the_value[0] == '\'' && the_value[the_value.size() - 1] == '\'') {
+        the_value.erase(0, 1);
+        the_value.erase(the_value.size() - 1, 1);
+      }
+      result += "property->isEventFired(" + the_value + ")";
+      if (the_value == "")
+      {
+        result += "0";
+      }
+      return result;
     }
-    result += "property->isEventFired("+ the_value +")";
-    return result;
   }
 
   return result + "(" + ((left_children) ? getLeftChildren()->getFunctionString() : "") + ((right_children) ? (", " + getRightChildren()->getFunctionString()) : "") + ")";
