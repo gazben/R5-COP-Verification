@@ -168,7 +168,15 @@ std::string AstNode::getFunctionString()
         the_value.erase(0, 1);
         the_value.erase(the_value.size() - 1, 1);
       }
+<<<<<<< HEAD
       result += "property->isEventFired("+ the_value +")";
+=======
+      result += "property->isEventFired(" + the_value + ")";
+      if (the_value == "")
+      {
+        result += "0";
+      }
+>>>>>>> master
       return result;
     }
   }
