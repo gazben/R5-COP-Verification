@@ -1,10 +1,11 @@
 #ifndef monitor_h__
 #define monitor_h__
 
-#include <vector>
 #include <string>
 
+#include "gen_events.h"
 #include "gen_blocks.h"
+#include "events/subsriber.h"
 
 /* INCLUDES END */
 #ifndef DEBUG_NO_ROS
@@ -23,27 +24,14 @@ namespace geometry_msgs {
 }
 #endif
 
-//Keep track of all registered event handlers
-class EventInterface {
-private:
-    static std::vector<EventInterface*> event_handlers;
-protected:
-    std::string topic_name;
-    static ros::NodeHandle node_handler;
-public:
-    EventInterface(){
-        event_handlers.push_back(this);
-    }
-    const std::string getTopicName();
-};
-
 //Class that will do the evaluation
 class Monitor {
 private:
-    static Property* property1; //root property pointer
+  static Property* property1; //root property pointer
 public:
-    static trilean evaluate(StateRegisterType event);
-    static void run(int argc, char **argv);
+  static ros::NodeHandle& getNodeHandler();
+  static trilean evaluate(StateRegisterType event);
+  static void run(int argc, char **argv);
 };
 
 
