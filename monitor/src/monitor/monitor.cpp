@@ -1,16 +1,12 @@
 #include "monitor.h"
 
-//Monitor
-Property* Monitor::property1 = nullptr;
+Monitor* Monitor::instance = nullptr;
 
-void Monitor::run(int argc, char **argv) {
-    ros::init(argc, argv, "subscribe_to_vel");
-    subscriber_init();
-    subscriber_subsribe();
-    ros::spin();  //the point of no return
-    subscriber_deinit();
+void Monitor::run() {
+    getInstance()->subscriber_init();
+    ros::spin();
+
 }
-
 
 trilean Monitor::evaluate(StateRegisterType event) {
     StateRegister::stateRegister = event;
@@ -21,4 +17,20 @@ trilean Monitor::evaluate(StateRegisterType event) {
     }
 
     return FALSE;
+}
+
+Monitor* Monitor::getInstance(){
+    if (instance == nullptr){
+        instance = new Monitor();
+    }
+    return instance;
+}
+
+Monitor::Monitor(){
+    subscriber_deinit();
+    property1 = nullptr;
+}
+
+Monitor::~Monitor(){
+    delete instance;
 }
