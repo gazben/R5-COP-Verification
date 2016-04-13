@@ -20,6 +20,7 @@
 
 
 void messageRecieved(const geometry_msgs::Twist& msg){
+  ROS_INFO_STREAM("EVENT RECIEVED");
   StateRegisterType event = 0;
 
   if (msg.linear.z > 0) {
@@ -58,7 +59,8 @@ void subscriber_subsribe() {
 
   //TODO subscribe to publishers
 
-  nodeHandle.subscribe("turtle1/cmd_vel", 1000, &messageRecieved);
+  ros::Subscriber sub = nodeHandle.subscribe("turtle1/cmd_vel", 1000, &messageRecieved);
+  ros::spin();
 }
 
 

@@ -4,8 +4,6 @@ Monitor* Monitor::instance = nullptr;
 
 void Monitor::run() {
     getInstance()->subscriber_init();
-    ros::spin();
-
 }
 
 trilean Monitor::evaluate(StateRegisterType event) {
@@ -27,10 +25,11 @@ Monitor* Monitor::getInstance(){
 }
 
 Monitor::Monitor(){
-    subscriber_deinit();
+    subscriber_init();
     property1 = nullptr;
 }
 
 Monitor::~Monitor(){
+    subscriber_deinit();
     delete instance;
 }
