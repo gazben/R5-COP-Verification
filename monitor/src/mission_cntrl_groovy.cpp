@@ -35,11 +35,11 @@ void Turtle::signalCommands() {
         break;
       case 'l':
         ROS_INFO_STREAM("LEFT");
-        msg.linear.x = 1.0;
+        msg.linear.x = -1.0;
         break;
       case 'r':
         ROS_INFO_STREAM("RIGHT");
-        msg.linear.x = -1.0;
+        msg.linear.x = 1.0;
         break;
       case 'u':
         ROS_INFO_STREAM("UP");
