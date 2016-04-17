@@ -1,9 +1,8 @@
 #include "monitor.h"
 
-Monitor* Monitor::instance = nullptr;
-
 void Monitor::run() {
-    getInstance()->subscriber_init();
+    getInstance().subscriber_init();
+    getInstance().subscriber_subsribe();
 }
 
 trilean Monitor::evaluate(StateRegisterType event) {
@@ -14,22 +13,25 @@ trilean Monitor::evaluate(StateRegisterType event) {
         construct_block0(property1);
     }
 
-    return FALSE;
+    trilean result = property1->evaluate();
+    if(result == TRUE){
+        Monitor::getInstance().true_action();
+    }else if (result == FALSE){
+        Monitor::getInstance().false_action();
+    }
+
+    return result;
 }
 
-Monitor* Monitor::getInstance(){
-    if (instance == nullptr){
-        instance = new Monitor();
-    }
+Monitor& Monitor::getInstance(){
+    static Monitor instance;
     return instance;
 }
 
 Monitor::Monitor(){
-    subscriber_init();
     property1 = nullptr;
 }
 
 Monitor::~Monitor(){
     subscriber_deinit();
-    delete instance;
 }

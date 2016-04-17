@@ -29,16 +29,21 @@ namespace geometry_msgs {
 //Class that will do the evaluation
 class Monitor {
 private:
-    static Monitor* instance;
     Property* property1; //root property pointer
     Monitor();
     ~Monitor();
 public:
     trilean evaluate(StateRegisterType event);
     void run();
+    void subscriber_subsribe();
     void subscriber_init();
     void subscriber_deinit();
-    static Monitor* getInstance();
+    static Monitor& getInstance();
+    void true_action();
+    void false_action();
+
+    Monitor(Monitor const&) = delete;
+    void operator= (Monitor const&) = delete;
 };
 
 #endif // monitor_h__

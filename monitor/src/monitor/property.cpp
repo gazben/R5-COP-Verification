@@ -16,7 +16,7 @@ trilean Property::evaluate()
   //Initial block
   if (current_block == nullptr)
     current_block = this;
-  
+
   //Get the current state register for uninitialized block
   if (current_block->state_register_ptr == nullptr) {
     current_block->state_register_ptr = StateRegister::getStatePointer();
@@ -29,7 +29,8 @@ trilean Property::evaluate()
     current_block->freeChildrenNode();
 
     for (auto& entry : current_block->input_states) {
-      entry = trilean(OutputState::FALSE);
+      if (entry == UNKNOWN)
+        entry = FALSE;
     }
     level--;
   }
@@ -68,8 +69,8 @@ trilean Property::evaluate()
         ROS_INFO_STREAM("The system will use the smaller input. This can result in wrong result!");
       }
       for (unsigned int i = 0;
-      i < ((current_block->input_states.size() < current_block->children_node->output_states.size()) ? current_block->input_states.size() : current_block->children_node->output_states.size());
-        i++) {
+           i < ((current_block->input_states.size() < current_block->children_node->output_states.size()) ? current_block->input_states.size() : current_block->children_node->output_states.size());
+           i++) {
         current_block->input_states[i] = current_block->children_node->output_states[i];
       }
       current_block->freeChildrenNode();
@@ -85,14 +86,6 @@ trilean Property::evaluate()
       result = current_block->output_states[0];
       ROS_INFO_STREAM("Result: " + trilean::tostring(result));
       current_block->freeChildrenNode();
-      ROS_INFO_STREAM("Executing given command: " + ((result == TRUE) ? true_command : false_command));
-
-      if (result == TRUE) {
-        system(true_command.c_str());
-      }
-      if (result == FALSE) {
-        system(false_command.c_str());
-      }
     }
   }
   else {
@@ -130,10 +123,10 @@ Property::~Property()
 }
 
 Property::Property()
-  :children_node(nullptr),
-  root_node(nullptr),
-  state_register_ptr(nullptr),
-  construct_children_node_func(nullptr)
+        :children_node(nullptr),
+         root_node(nullptr),
+         state_register_ptr(nullptr),
+         construct_children_node_func(nullptr)
 {
   id = current_max_id;
   current_max_id++;
@@ -149,7 +142,7 @@ void Property::printBlock(Property *block) {
   std::string tempIn;
   ROS_INFO_STREAM("Out: " + tempOut);
   ROS_INFO_STREAM("ID: " + std::to_string(block->id) + " level: " + std::to_string(level)
-    + " Statereg: " + std::to_string(block->state_register_ptr->stateRegisterValue));
+                  + " Statereg: " + std::to_string(block->state_register_ptr->stateRegisterValue));
   for (trilean& entry : block->input_states) {
     tempIn += (entry == OutputState::FALSE) ? "F" : (entry == OutputState::TRUE) ? "T" : "U";
     tempIn += " ";

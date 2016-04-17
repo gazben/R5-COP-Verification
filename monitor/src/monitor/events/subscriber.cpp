@@ -34,14 +34,30 @@ void Monitor::subscriber_subsribe() {
 //////////////////////////////////////////////////////////////////////////
 // Init
 void Monitor::subscriber_init(){
+  ROS_INFO_STREAM("SUBSRIBER initializing");
   //TODO init custom classes/variables
 }
 
 //Called during monitor exit
 void Monitor::subscriber_deinit(){
-  ROS_INFO_STREAM("SUBSRIBER DEINIT...");
+  ROS_INFO_STREAM("SUBSRIBER deinitializing");
+  //TODO free all variables
 }
 
+//////////////////////////////////////////////////////////////////////////
+// Result handling
+
+void Monitor::true_action(){
+  ROS_INFO_STREAM("Executing given command: " + true_command);
+  system(true_command.c_str());
+  //TODO what should happen on TRUE result?
+}
+
+void Monitor::false_action(){
+  ROS_INFO_STREAM("Executing given command: " + false_command);
+  system(false_command.c_str());
+  //TODO what should happen on FALSE result?
+}
 
 //Handler example:
 /*
