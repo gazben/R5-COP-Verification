@@ -12,7 +12,7 @@ If any of the expressions down below are new to you, search them on http://wiki.
   * Boost 1.58 library
   * CMake
 
-###Getting all the stuff for the Generator (Linux)
+###Getting all the stuff for the generator
 
 [Download boost 1.58](http://www.boost.org/users/history/version_1_58_0.html)
 
@@ -33,17 +33,6 @@ If any of the expressions down below are new to you, search them on http://wiki.
   sudo ./bootstrap.sh --prefix=/usr/local
   sudo ./b2 install
   ```
-
-###Getting all the stuff for the Generator (Windows)
-- [cmake](https://cmake.org/download)
-- Download a C++11 compatible compiler and IDE:
- - IDE + Compiler: 
-    - [Visual Studio 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx)
-    - [CLion](https://www.jetbrains.com/clion/download)
- - Compiler:
-    - [min-gw](http://sourceforge.net/projects/mingw/files/Installer)
-    - [gcc/g++](https://gcc.gnu.org)
-
 
 Open up an admin command line
   ```
