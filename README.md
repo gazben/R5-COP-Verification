@@ -86,7 +86,9 @@ The generator can be controlled with command line arguments.
   ./monitor_generator --input-expression="G('event_r' => ('event_p' U 'event_d'))" --source-path="/home/user/Documents/monitor_generator/monitor" --output-path="/home/user/Documents/monitor_generator/generated" --monitor-name="monitor_test" --wait --true-command="echo The_result_is_TRUE!" --false-command="echo The_result_is_FALSE!"
   ```
 
-##Monitor
+
+##MONITOR
+
 
 ###Required Software
   * [Ubuntu 14.04](http://releases.ubuntu.com/14.04)
