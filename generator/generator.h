@@ -22,7 +22,7 @@
 //0. filename (key) - entry.first 
 //1. destination path - std::get<0>(entry.second)
 //2. file content - std::get<1>(entry.second)
-//3. copy file? (bool) - std::get<2>(entry.second)
+//3. override file? (bool) - std::get<2>(entry.second)
 using FilePathContentMap = std::map<std::string, std::tuple<std::string, std::string, bool>>;
 
 class Generator
