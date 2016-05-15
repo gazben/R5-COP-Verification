@@ -24,7 +24,7 @@ Generator::Generator()
   gen_files["gen_commands.h"] = std::make_tuple("", "", true);
   gen_files["gen_blocks.h"] = std::make_tuple("", "", true);
   gen_files["gen_events.h"] = std::make_tuple("", "", true);
-  gen_files["gen_event.h"] = std::make_tuple("", "", false);  //do not copy, just read it
+  gen_files["gen_events.h"] = std::make_tuple("", "", false);  //do not copy, just read it
   gen_files["CMakeLists.txt"] = std::make_tuple("", "", true);
   gen_files["package.xml"] = std::make_tuple("", "", true);
 }
