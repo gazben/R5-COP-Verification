@@ -8,27 +8,23 @@
 #include "gen_events.h"
 /* INCLUDES END */
 
-class StateRegister {
+class StateRegister{
 private:
-  static StateRegister * rootState;
-  StateRegisterType stateRegisterValue;
-  StateRegister * rightNode;
-  StateRegister * leftNode;
+  static StateRegister* root_state;
+  static StateRegister* insertState(StateRegisterType stateReg=state_register, StateRegister* root=root_state);
 
-  static StateRegister * insertState(StateRegisterType stateReg = stateRegister, StateRegister * root = rootState);
-
+  StateRegisterType state_register_value;
+  StateRegister* right_node;
+  StateRegister* left_node;  
 public:
-
   StateRegister();
   ~StateRegister();
 
-  //Global stateRegister
-  static StateRegisterType stateRegister;
+  static StateRegisterType state_register;
   static void clearEvents();
-  static bool isEventCurrentlyFired(StateRegisterType eventCode);
-  static void freeState(StateRegister *root = rootState);
-
-  static StateRegister * getStatePointer(StateRegisterType StateRegisterCopy = stateRegister);
+  static bool isEventCurrentlyFired(StateRegisterType event_code);
+  static void freeState(StateRegister* root=root_state);
+  static StateRegister* getStatePointer(StateRegisterType state_register_copy=state_register);
 
   friend class Property;
 };

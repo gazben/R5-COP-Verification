@@ -19,12 +19,9 @@ namespace geometry_msgs {
   };
 }
 #endif
-/* INCLUDES END */
 
-
-#include "gen_events.h"
 #include "gen_blocks.h"
-
+/* INCLUDES END */
 
 //Class that will do the evaluation
 class Monitor {

@@ -25,12 +25,12 @@
 class Property {
 protected:
     static Property* current_block;
-    StateRegister* state_register_ptr;
     static unsigned int current_max_id;
     static unsigned int level;
-    unsigned int id;
-    static const unsigned int max_depth;
     static bool evaluated;
+
+    unsigned int id;
+    StateRegister* state_register_ptr;
 public:
     Property();
     ~Property();
@@ -40,8 +40,8 @@ public:
     Property* root_node;
     Property* children_node;
 
-    std::function < class Property*(class Property*) > construct_children_node_func;
-    std::vector <std::function < trilean(class Property*) >> eval_functions;
+    std::function <class Property*(class Property*)> construct_children_func;
+    std::vector <std::function<trilean(class Property*)>> eval_functions;
     Property* constructChildrenBlock();
     trilean isEventFired(StateRegisterType);
     trilean evaluate();

@@ -8,7 +8,7 @@ bool Property::evaluated = false;
 
 trilean Property::isEventFired(StateRegisterType eventCode)
 {
-  return (state_register_ptr->stateRegisterValue & eventCode) ? TRUE : FALSE;
+  return (state_register_ptr->state_register_value & eventCode) ? TRUE : FALSE;
 }
 
 trilean Property::evaluate()
@@ -110,7 +110,7 @@ Property* Property::constructChildrenBlock()
 {
   Property* childrenBlockTemp = new Property();
   childrenBlockTemp->root_node = this;
-  children_node = construct_children_node_func(childrenBlockTemp);
+  children_node = construct_children_func(childrenBlockTemp);
   return childrenBlockTemp;
 }
 
@@ -126,7 +126,7 @@ Property::Property()
         :children_node(nullptr),
          root_node(nullptr),
          state_register_ptr(nullptr),
-         construct_children_node_func(nullptr)
+         construct_children_func(nullptr)
 {
   id = current_max_id;
   current_max_id++;
@@ -142,7 +142,7 @@ void Property::printBlock(Property *block) {
   std::string tempIn;
   ROS_INFO_STREAM("Out: " + tempOut);
   ROS_INFO_STREAM("ID: " + std::to_string(block->id) + " level: " + std::to_string(level)
-                  + " Statereg: " + std::to_string(block->state_register_ptr->stateRegisterValue));
+                  + " Statereg: " + std::to_string(block->state_register_ptr->state_register_value));
   for (trilean& entry : block->input_states) {
     tempIn += (entry == OutputState::FALSE) ? "F" : (entry == OutputState::TRUE) ? "T" : "U";
     tempIn += " ";

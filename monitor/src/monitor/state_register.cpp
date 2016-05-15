@@ -1,32 +1,32 @@
 #include "state_register.h"
 
 /*Static init*/
-StateRegisterType StateRegister::stateRegister = 0;
-StateRegister *StateRegister::rootState = nullptr;
+StateRegisterType StateRegister::state_register = 0;
+StateRegister *StateRegister::root_state = nullptr;
 
-StateRegister *StateRegister::getStatePointer(StateRegisterType StateRegisterCopy /*= stateRegister*/)
+StateRegister *StateRegister::getStatePointer(StateRegisterType state_register_copy /*= stateRegister*/)
 {
-  if (rootState == nullptr){
-    rootState = insertState();
-    return rootState;
+  if (root_state == nullptr){
+    root_state = insertState();
+    return root_state;
   }
 
-  StateRegister * temp = rootState;
+  StateRegister * temp = root_state;
 
-  while (temp != nullptr && temp->stateRegisterValue != StateRegisterCopy) {
-    if (StateRegisterCopy < temp->stateRegisterValue){
-      if (temp->leftNode == nullptr){
-        temp->leftNode = insertState(StateRegisterCopy);
-        return temp->leftNode;
+  while (temp != nullptr && temp->state_register_value != state_register_copy) {
+    if (state_register_copy < temp->state_register_value){
+      if (temp->left_node == nullptr){
+        temp->left_node = insertState(state_register_copy);
+        return temp->left_node;
       }
-      temp = temp->leftNode;
+      temp = temp->left_node;
     }
     else{
-      if (temp->rightNode == nullptr){
-        temp->rightNode = insertState(StateRegisterCopy);
-        return temp->rightNode;
+      if (temp->right_node == nullptr){
+        temp->right_node = insertState(state_register_copy);
+        return temp->right_node;
       }
-      temp = temp->rightNode;
+      temp = temp->right_node;
     }
   }
   return temp;
@@ -34,11 +34,11 @@ StateRegister *StateRegister::getStatePointer(StateRegisterType StateRegisterCop
 
 void StateRegister::freeState(StateRegister *root /*= rootState*/)
 {
-  if (rootState == nullptr)
+  if (root_state == nullptr)
     return;
 
-  delete root->leftNode;
-  delete root->rightNode;
+  delete root->left_node;
+  delete root->right_node;
   delete root;
 }
 
@@ -48,36 +48,36 @@ StateRegister::~StateRegister()
 
 StateRegister::StateRegister()
 {
-  leftNode = nullptr;
-  rightNode = nullptr;
-  stateRegisterValue = stateRegister;
+  left_node = nullptr;
+  right_node = nullptr;
+  state_register_value = state_register;
 }
 
 StateRegister *StateRegister::insertState(StateRegisterType stateReg /*= stateRegister*/, StateRegister * root /*= rootState*/)
 {
   if (root == nullptr) {
     StateRegister *temp = new StateRegister();
-    temp->leftNode = temp->rightNode = nullptr;
-    temp->stateRegisterValue = stateReg;
+    temp->left_node = temp->right_node = nullptr;
+    temp->state_register_value = stateReg;
     return temp;
   }
-  else if (stateReg < root->stateRegisterValue){
-    root->leftNode = insertState(stateReg, root->leftNode);
-    return root->leftNode;
+  else if (stateReg < root->state_register_value){
+    root->left_node = insertState(stateReg, root->left_node);
+    return root->left_node;
   }
-  else if (stateReg > root->stateRegisterValue){
-    root->rightNode = insertState(stateReg, root->rightNode);
-    return root->rightNode;
+  else if (stateReg > root->state_register_value){
+    root->right_node = insertState(stateReg, root->right_node);
+    return root->right_node;
   }
   else
     return root;
 }
 
 void StateRegister::clearEvents() {
-  stateRegister = 0;
+  state_register = 0;
 }
 
 bool StateRegister::isEventCurrentlyFired(StateRegisterType eventCode)
 {
-  return (stateRegister & eventCode) ? true : false;
+  return (state_register & eventCode) ? true : false;
 }
