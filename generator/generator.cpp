@@ -187,27 +187,6 @@ void Generator::generateMonitor()
     block_generator.getEventsWithCodes()
   );
 
-  //generate event files
-  BOOST_LOG_TRIVIAL(info) << "Generating event handler skeletons from gen_event.h...";
-  for (auto& event_name : block_generator.getEventNames())
-  {
-    std::string event_file_name = std::get<0>(gen_files["gen_event.h"]);
-    string_replace_all(event_file_name, "gen_event", event_name);
-    std::ofstream event_file_out(event_file_name);
-    
-    if (event_file_out.is_open()) {
-      BOOST_LOG_TRIVIAL(info) << event_file_name + " opened for writing";
-      std::string event_file_content = std::get<1>(gen_files["gen_event.h"]);
-      string_replace_all(event_file_content, "--event_name--", event_name);
-      event_file_out << event_file_content;
-      event_file_out.close();
-    }
-    else {
-      BOOST_LOG_TRIVIAL(error) << event_file_name + " opening failed";
-    }
-
-  }
-
   //write out the files
   for (auto& entry : gen_files) {
     if(std::get<2>(entry.second)){
