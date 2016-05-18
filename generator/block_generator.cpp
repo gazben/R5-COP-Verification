@@ -268,7 +268,7 @@ std::string block::getConstructBody()
     constructBlockString += "root_node->eval_functions.push_back(" + evalEntry + "); \n";
   }
 
-  constructBlockString += "root_node->construct_children_node_func = construct_block" +
+  constructBlockString += "root_node->construct_children_func = construct_block" +
     ((BlockGenerator::isNextBlockIdenticalToPrev(getPreviousStateInterfaceString(), getNextStateInterfaceString())) ? (std::to_string(block_id)) : (std::to_string(block_id + 1))) +
     ";\n";
   constructBlockString += "root_node->output_states.resize(" + std::to_string(block_roots.size()) + ");" + "\n";
