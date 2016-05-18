@@ -189,20 +189,13 @@ void Generator::generateMonitor()
 
   //write out the files
   for (auto& entry : gen_files) {
-    if(std::get<2>(entry.second)){
       std::ofstream file_out(std::get<0>(entry.second));
       if (file_out.is_open())
-        BOOST_LOG_TRIVIAL(info) << std::get<0>(entry.second) + " file opened for generation";
+        BOOST_LOG_TRIVIAL(info) << entry.first + " file opened for generation";
       else
-        BOOST_LOG_TRIVIAL(fatal) << "property.h file opening for generation";
+        BOOST_LOG_TRIVIAL(fatal) <<entry.first + " failed to open for writing";
       file_out.write(std::get<1>(entry.second).c_str(), std::get<1>(entry.second).size());
       file_out.close();
-    }
-    else 
-    {
-      BOOST_LOG_TRIVIAL(info) << entry.first + " file skipped during generation";
-    }
-
   }
 }
 
@@ -358,18 +351,14 @@ bool Generator::copyDir(boost::filesystem::path const & source, boost::filesyste
           }
         }
         //copy the files
-        if (gen_files.count(current.filename().generic_string()) == 0 || ((gen_files.count(current.filename().generic_string()) > 0 ))){
-          if (std::get<2>(gen_files[current.filename().generic_string()])) {
-            fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
-            BOOST_LOG_TRIVIAL(info) << current.filename().generic_string() + " copied with override";
-          }
-          else {
-            fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::none);
-            BOOST_LOG_TRIVIAL(info) << current.filename().generic_string() + " copied without override";
-          }
-
+        if ((gen_files.count(current.filename().generic_string()) > 0)
+            && (std::get<2>(gen_files[current.filename().generic_string()]) == false)) {
+              BOOST_LOG_TRIVIAL(info) << current.filename().generic_string() + " copied without override";
+              fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::none);
+        }else{
+          BOOST_LOG_TRIVIAL(info) << current.filename().generic_string() + " copied with override";
+          fs::copy_file(current, destination / current.filename(), boost::filesystem::copy_option::overwrite_if_exists);
         }
-
       }
     }
     catch (fs::filesystem_error const & e)
